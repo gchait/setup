@@ -1,3 +1,3 @@
 ```shell
-curl -sL guyc.at/fedora.sh | bash
+curl -sL guyc.at/fedora.sh | bash -ex
 ```
