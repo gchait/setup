@@ -29,6 +29,7 @@ mkdir -p "${HOME}/Projects"
 
 sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' | sudo tee /etc/docker/daemon.json
 sudo systemctl enable docker
 sudo usermod -aG docker "${USER}"
 
