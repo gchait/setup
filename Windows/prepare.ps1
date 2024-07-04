@@ -33,6 +33,12 @@ if (Test-Path "${HOME}\setup") {
     git clone https://github.com/gchait/setup.git "${HOME}\setup"
 }
 
+if (Test-Path "${HOME}\static") {
+    git -C "${HOME}\static" pull
+} else {
+    git clone https://github.com/gchait/static.git "${HOME}\static"
+}
+
 Copy-Item -Recurse -Force `
     -Path "${HOME}\setup\Windows\Home\*" `
     -Destination "${HOME}"
