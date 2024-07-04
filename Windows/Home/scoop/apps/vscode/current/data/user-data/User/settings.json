@@ -1,0 +1,40 @@
+{
+  "vs-kubernetes": {"vs-kubernetes.crd-code-completion": "disabled"},
+  "[jinja-html]": {"editor.defaultFormatter": "vscode.html-language-features"},
+  "[terraform]": {"editor.defaultFormatter": "hashicorp.terraform"},
+  "[terraform-vars]": {"editor.defaultFormatter": "hashicorp.terraform"},
+  "redhat.telemetry.enabled": false,
+
+  "window.menuBarVisibility": "toggle",
+  "extensions.ignoreRecommendations": true,
+
+  "git.autofetch": true,
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+
+  "files.autoSave": "onFocusChange",
+  "files.eol": "\n",
+
+  "workbench.startupEditor": "none",
+  "workbench.productIconTheme": "material-product-icons",
+  "workbench.iconTheme": "catppuccin-macchiato",
+  "workbench.colorTheme": "Panda Syntax",
+
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
+  "explorer.confirmPasteNative": false,
+
+  "editor.stickyScroll.enabled": false,
+  "editor.fontLigatures": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.fontFamily": "Hack Nerd Font Mono",
+
+  "terminal.integrated.fontFamily": "Hack Nerd Font Mono",
+  "terminal.integrated.defaultProfile.windows": "Bash",
+  "terminal.integrated.profiles.windows": {
+    "Bash": {
+      "path": "C:\\Users\\${env:USERNAME}\\scoop\\apps\\git\\current\\usr\\bin\\bash.exe",
+      "args": ["-li"]
+    }
+  }
+}
