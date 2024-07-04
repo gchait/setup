@@ -6,8 +6,8 @@ scoop install `
     wget grep fastfetch spotify vscode `
     windows-terminal ccleaner draw.io
 
-reg import "${HOME}\scoop\apps\vscode\current\install-context.reg" 2>&1
-reg import "${HOME}\scoop\apps\vscode\current\install-associations.reg" 2>&1
+reg import "${HOME}\scoop\apps\vscode\current\install-context.reg" *> ${null}
+reg import "${HOME}\scoop\apps\vscode\current\install-associations.reg" *> ${null}
 
 code `
     --install-extension ms-vscode-remote.remote-wsl `
