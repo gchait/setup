@@ -1,5 +1,4 @@
 sudo rm -rf /etc/yum.repos.d/*testing*
-
 sudo dnf update -y
 
 sudo dnf install -y \
@@ -27,3 +26,12 @@ sudo sed -i '/VARIANT/d' /etc/os-release
 
 cp -r ${HOME}/setup/Fedora/Home/.* "${HOME}"
 mkdir -p "${HOME}/Projects"
+
+sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo systemctl enable docker
+sudo usermod -aG docker "${USER}"
+
+sudo rpm --import https://yum.corretto.aws/corretto.key
+sudo curl -sLo /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
+sudo dnf install -y java-17-amazon-corretto-devel
