@@ -28,13 +28,5 @@
   "editor.fontLigatures": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.fontFamily": "Hack Nerd Font Mono",
-
-  "terminal.integrated.fontFamily": "Hack Nerd Font Mono",
-  "terminal.integrated.defaultProfile.windows": "Bash",
-  "terminal.integrated.profiles.windows": {
-    "Bash": {
-      "path": "C:\\Users\\${env:USERNAME}\\scoop\\apps\\git\\current\\usr\\bin\\bash.exe",
-      "args": ["-li"]
-    }
-  }
+  "terminal.integrated.fontFamily": "Hack Nerd Font Mono"
 }
