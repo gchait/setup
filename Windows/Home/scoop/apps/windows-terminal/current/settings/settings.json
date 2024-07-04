@@ -2,7 +2,7 @@
   "$help": "https://aka.ms/terminal-documentation",
   "$schema": "https://aka.ms/terminal-profiles-schema",
 
-  "copyOnSelect": true,
+  "copyOnSelect": false,
   "alwaysShowNotificationIcon": false,
   "useAcrylicInTabRow": false,
   "copyFormatting": "none",
@@ -17,16 +17,14 @@
       "bellStyle": "none",
       "closeOnExit": "always",
       "colorScheme": "Snazzy",
-      "font": {
-        "face": "Mononoki Nerd Font"
-      }
+      "font": {"face": "Mononoki Nerd Font"}
     },
     "list": [
       {
         "commandline": "C:\\Windows\\System32\\wsl.exe",
         "guid": "{9c6e5557-c8cb-4cdf-9c09-7e3c1c17649b}",
         "hidden": false,
-        "icon": "🚀",
+        "icon": "🐧",
         "name": "Fedora",
         "startingDirectory": "~"
       },
@@ -34,7 +32,7 @@
         "commandline": "%USERPROFILE%\\scoop\\apps\\git\\current\\usr\\bin\\bash.exe -li",
         "guid": "{9c6e5557-c8cb-4cdf-9c09-7e3c1c17649c}",
         "hidden": false,
-        "icon": "🚀",
+        "icon": "🪟",
         "name": "Git Bash",
         "startingDirectory": "%USERPROFILE%"
       },
@@ -59,6 +57,7 @@
   },
   "schemes": [
     {
+      "name": "Snazzy",
       "background": "#282A36",
       "black": "#282A36",
       "blue": "#57C7FF",
@@ -74,7 +73,6 @@
       "cyan": "#9AEDFE",
       "foreground": "#EFF0EB",
       "green": "#5AF78E",
-      "name": "Snazzy",
       "purple": "#FF6AC1",
       "red": "#FF5C57",
       "selectionBackground": "#3E404A",
