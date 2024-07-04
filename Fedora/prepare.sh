@@ -21,6 +21,9 @@ get_repo "${HOME}/.zsh/suggest" https://github.com/zsh-users/zsh-autosuggestions
 get_repo "${HOME}/.zsh/p10k" https://github.com/romkatv/powerlevel10k.git
 get_repo "${HOME}/setup" https://github.com/gchait/setup.git
 
+sudo cp "${HOME}/setup/Fedora/wsl.conf" /etc/
 sudo cp "${HOME}/setup/Fedora/dnf.conf" /etc/dnf/
+sudo sed -i '/VARIANT/d' /etc/os-release
+
 cp -r ${HOME}/setup/Fedora/Home/.* "${HOME}"
 mkdir -p "${HOME}/Projects"
