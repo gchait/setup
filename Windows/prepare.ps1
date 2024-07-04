@@ -1,6 +1,6 @@
-scoop install git
-scoop update -a
+scoop install git *> ${null}
 scoop bucket add extras *> ${null}
+scoop update -a
 
 scoop install `
     wget grep fastfetch spotify vscode `
