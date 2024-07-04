@@ -1,7 +1,4 @@
 scoop install git
-git clone https://github.com/gchait/setup.git "${HOME}\setup" *> ${null}
-git -C "${HOME}\setup" pull
-
 scoop update -a
 scoop bucket add extras *> ${null}
 
@@ -29,6 +26,12 @@ code `
     --install-extension tamasfe.even-better-toml `
     --install-extension tinkertrain.theme-panda `
     | Select-String -NotMatch -Pattern "already installed" | % { $_.Line }
+
+if (Test-Path "${HOME}\setup") {
+    git -C "${HOME}\setup" pull
+} else {
+    git clone https://github.com/gchait/setup.git "${HOME}\setup"
+}
 
 Copy-Item -Recurse -Force `
     -Path "${HOME}\setup\Windows\Home\*" `
