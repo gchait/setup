@@ -4,7 +4,7 @@ Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 ```
 
 ```powershell
-iwr -useb guyc.at/windows.ps1 | iex
+iwr -useb https://guyc.at/windows.ps1 | iex
 ```
 
 ```powershell
