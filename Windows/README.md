@@ -4,7 +4,7 @@ Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 ```
 
 ```powershell
-Invoke-RestMethod -Uri guyc.at/windows.ps1 | Invoke-Expression
+Invoke-RestMethod -Uri https://guyc.at/windows.ps1 | Invoke-Expression
 ```
 
 ```powershell
