@@ -1,6 +1,5 @@
-cd "${HOME}"
 scoop install git
-git clone https://github.com/setup/gchait.git *> ${null}
+git clone https://github.com/gchait/setup.git "${HOME}\setup" *> ${null}
 git -C "${HOME}\setup" pull
 
 scoop update -a
