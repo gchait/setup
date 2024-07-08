@@ -11,6 +11,7 @@
   "git.autofetch": true,
   "git.enableSmartCommit": true,
   "git.confirmSync": false,
+  "git.openRepositoryInParentFolders": "never",
 
   "files.autoSave": "onFocusChange",
   "files.eol": "\n",
@@ -28,5 +29,5 @@
   "editor.fontLigatures": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.fontFamily": "Hack Nerd Font Mono",
-  "terminal.integrated.fontFamily": "Hack Nerd Font Mono"
+  "terminal.integrated.fontFamily": "Hack Nerd Font Mono",
 }
