@@ -1,12 +1,18 @@
 {
-  "vs-kubernetes": {"vs-kubernetes.crd-code-completion": "disabled"},
-  "[jinja-html]": {"editor.defaultFormatter": "vscode.html-language-features"},
-  "[terraform]": {"editor.defaultFormatter": "hashicorp.terraform"},
-  "[terraform-vars]": {"editor.defaultFormatter": "hashicorp.terraform"},
-  "redhat.telemetry.enabled": false,
+  "workbench.productIconTheme": "material-product-icons",
+  "workbench.iconTheme": "catppuccin-macchiato",
+  "workbench.colorTheme": "Panda Syntax",
+  "editor.fontFamily": "Hack Nerd Font Mono",
+  "terminal.integrated.fontFamily": "Hack Nerd Font Mono",
 
-  "window.menuBarVisibility": "toggle",
   "extensions.ignoreRecommendations": true,
+  "workbench.startupEditor": "none",
+  "window.menuBarVisibility": "toggle",
+
+  "editor.stickyScroll.enabled": false,
+  "editor.fontLigatures": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
 
   "git.autofetch": true,
   "git.enableSmartCommit": true,
@@ -16,18 +22,23 @@
   "files.autoSave": "onFocusChange",
   "files.eol": "\n",
 
-  "workbench.startupEditor": "none",
-  "workbench.productIconTheme": "material-product-icons",
-  "workbench.iconTheme": "catppuccin-macchiato",
-  "workbench.colorTheme": "Panda Syntax",
-
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
   "explorer.confirmPasteNative": false,
 
-  "editor.stickyScroll.enabled": false,
-  "editor.fontLigatures": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.fontFamily": "Hack Nerd Font Mono",
-  "terminal.integrated.fontFamily": "Hack Nerd Font Mono",
+  "redhat.telemetry.enabled": false,
+  "vs-kubernetes": {
+    "vs-kubernetes.crd-code-completion": "disabled"
+  },
+  "[jinja-html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[terraform]": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "hashicorp.terraform"
+  },
+  "[terraform-vars]": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "hashicorp.terraform"
+  }
 }
