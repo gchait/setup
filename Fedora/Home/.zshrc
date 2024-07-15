@@ -16,6 +16,7 @@ export SAVEHIST="${HISTSIZE}"
 export EDITOR="vim"
 export PAGER="less"
 
+alias up="sudo dnf update -y && scoop update -a"
 alias ff="fastfetch -c paleofetch.jsonc"
 alias ls="eza -a --group-directories-first"
 alias ll="ls -l"
