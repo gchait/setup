@@ -1,22 +1,22 @@
 {
-  "workbench.productIconTheme": "material-product-icons",
-  "workbench.iconTheme": "catppuccin-macchiato",
-  "workbench.colorTheme": "Panda Syntax",
-  "editor.fontFamily": "Hack Nerd Font Mono",
-  "terminal.integrated.fontFamily": "Hack Nerd Font Mono",
+  "workbench.productIconTheme": "icons-carbon",
+  "workbench.iconTheme": "gruvbox-material-icon-theme",
+  "workbench.colorTheme": "Everforest Dark",
+  "editor.fontFamily": "IntoneMono NF",
 
   "extensions.ignoreRecommendations": true,
   "workbench.startupEditor": "none",
   "window.menuBarVisibility": "toggle",
 
   "editor.stickyScroll.enabled": false,
-  "editor.fontLigatures": true,
+  "editor.fontLigatures": false,
   "editor.formatOnSave": true,
+  "editor.fontSize": 16,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
 
+  "git.confirmSync": false,
   "git.autofetch": true,
   "git.enableSmartCommit": true,
-  "git.confirmSync": false,
   "git.openRepositoryInParentFolders": "never",
 
   "files.autoSave": "onFocusChange",

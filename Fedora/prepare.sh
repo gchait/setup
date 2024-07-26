@@ -2,9 +2,9 @@ sudo rm -rf /etc/yum.repos.d/*testing*
 sudo dnf update -y
 
 sudo dnf install -y \
-    tree vim python3-pip jq yq awscli2 iproute iputils \
+    tree vim python3-pip jq yq tar awscli2 iproute iputils \
     kubernetes-client just eza cronie figlet nc htop zsh \
-    asciinema lolcat gzip tar wget dnsutils ncurses git \
+    asciinema lolcat gzip wget cmatrix dnsutils ncurses git \
     fastfetch zip dnf-plugins-core dnf-utils findutils
 
 sudo chsh -s $(which zsh) "${USER}"
