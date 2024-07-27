@@ -4,6 +4,7 @@
   "workbench.colorTheme": "Everforest Dark",
   "editor.fontFamily": "IntoneMono NF",
 
+  "update.showReleaseNotes": false,
   "extensions.ignoreRecommendations": true,
   "workbench.startupEditor": "none",
   "window.menuBarVisibility": "toggle",
