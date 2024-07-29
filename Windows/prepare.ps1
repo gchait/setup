@@ -24,19 +24,13 @@ code `
     --install-extension redhat.vscode-yaml `
     --install-extension samuelcolvin.jinjahtml `
     --install-extension tamasfe.even-better-toml `
-    --install-extension sainnhe.everforest `
+    --install-extension sveggiani.vscode-field-lights `
     | Select-String -NotMatch -Pattern "already installed" | % { $_.Line }
 
 if (Test-Path "${HOME}\setup") {
     git -C "${HOME}\setup" pull
 } else {
     git clone https://github.com/gchait/setup.git "${HOME}\setup"
-}
-
-if (Test-Path "${HOME}\static") {
-    git -C "${HOME}\static" pull
-} else {
-    git clone https://github.com/gchait/static.git "${HOME}\static"
 }
 
 Copy-Item -Recurse -Force `

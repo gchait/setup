@@ -2,10 +2,10 @@ sudo rm -rf /etc/yum.repos.d/*testing*
 sudo dnf update -y
 
 sudo dnf install -y \
-    tree vim python3-pip jq yq tar awscli2 iproute iputils \
-    kubernetes-client just eza cronie figlet nc htop zsh \
-    asciinema lolcat gzip wget cmatrix dnsutils ncurses git \
-    fastfetch zip dnf-plugins-core dnf-utils findutils
+    tree java-21-openjdk python3-pip awscli2 zip findutils \
+    kubernetes-client just eza cronie figlet nc htop zsh jq yq \
+    asciinema lolcat gzip wget cmatrix dnsutils ncurses git tar \
+    fastfetch dnf-plugins-core dnf-utils vim iproute iputils
 
 sudo chsh -s $(which zsh) "${USER}"
 mkdir -p "${HOME}/.zsh" "${HOME}/Projects"
@@ -30,10 +30,6 @@ sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin d
 echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' | sudo tee /etc/docker/daemon.json
 sudo systemctl enable docker
 sudo usermod -aG docker "${USER}"
-
-sudo rpm --import https://yum.corretto.aws/corretto.key
-sudo curl -sLo /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
-sudo dnf install -y java-17-amazon-corretto-devel
 
 sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
 sudo dnf install -y terraform

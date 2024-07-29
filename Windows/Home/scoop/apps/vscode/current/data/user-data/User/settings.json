@@ -1,8 +1,8 @@
 {
   "workbench.productIconTheme": "icons-carbon",
   "workbench.iconTheme": "gruvbox-material-icon-theme",
-  "workbench.colorTheme": "Everforest Dark",
-  "editor.fontFamily": "IntoneMono NF",
+  "workbench.colorTheme": "Field Lights",
+  "editor.fontFamily": "Iosevka NF",
 
   "update.showReleaseNotes": false,
   "extensions.ignoreRecommendations": true,
