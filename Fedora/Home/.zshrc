@@ -13,6 +13,7 @@ export HISTFILE="${HOME}/.zsh_history"
 export HISTSIZE="4000"
 export SAVEHIST="${HISTSIZE}"
 
+export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
 export EDITOR="vim"
 export PAGER="less"
 
