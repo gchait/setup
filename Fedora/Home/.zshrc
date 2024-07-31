@@ -2,8 +2,16 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-function precmd () {
+precmd() {
   echo -ne "\033]0;${PWD##*/}\007"
+}
+
+awsp() {
+  if [ -z "${1}" ]; then
+    echo "${AWS_PROFILE}"
+  else
+    export AWS_PROFILE="${1}"
+  fi
 }
 
 fpath=("${HOME}/.zsh/complete/src" "${fpath[@]}")
@@ -17,11 +25,10 @@ export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
 export EDITOR="vim"
 export PAGER="less"
 
-alias up="sudo dnf update -y && scoop update -a"
-alias ff="fastfetch -c paleofetch.jsonc"
 alias ls="eza -a --group-directories-first"
-alias ll="ls -l"
 alias lt="ls -T --git-ignore"
+alias ll="ls -l"
+
 alias df="df -hT"
 alias du="du -sh"
 
@@ -30,6 +37,10 @@ alias d="docker"
 alias k="kubectl"
 alias c="code"
 alias g="git"
+
+alias up="sudo dnf update -y && scoop update -a"
+alias ff="fastfetch -c paleofetch.jsonc"
+alias asso="aws sso login > /dev/null"
 
 bindkey -e
 bindkey "^[[1;5C" forward-word
