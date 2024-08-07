@@ -25,6 +25,9 @@ code `
     --install-extension samuelcolvin.jinjahtml `
     --install-extension tamasfe.even-better-toml `
     --install-extension sveggiani.vscode-field-lights `
+    --install-extension vscjava.vscode-java-pack `
+    --install-extension richardwillis.vscode-gradle-extension-pack `
+    --install-extension vmware.vscode-boot-dev-pack `
     | Select-String -NotMatch -Pattern "already installed" | % { $_.Line }
 
 if (Test-Path "${HOME}\setup") {
