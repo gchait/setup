@@ -30,6 +30,7 @@
   "redhat.telemetry.enabled": false,
   "gradle.nestedProjects": true,
   "java.compile.nullAnalysis.mode": "automatic",
+  "java.configuration.updateBuildConfiguration": "automatic",
 
   "vs-kubernetes": {
     "vs-kubernetes.crd-code-completion": "disabled"
