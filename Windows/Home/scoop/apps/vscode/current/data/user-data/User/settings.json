@@ -28,7 +28,6 @@
   "explorer.confirmPasteNative": false,
 
   "redhat.telemetry.enabled": false,
-  "gradle.nestedProjects": true,
   "java.compile.nullAnalysis.mode": "automatic",
   "java.configuration.updateBuildConfiguration": "automatic",
 
