@@ -28,6 +28,7 @@ code `
     --install-extension vscjava.vscode-java-pack `
     --install-extension richardwillis.vscode-gradle-extension-pack `
     --install-extension vmware.vscode-boot-dev-pack `
+    --install-extension bierner.markdown-mermaid `
     | Select-String -NotMatch -Pattern "already installed" | % { $_.Line }
 
 if (Test-Path "${HOME}\setup") {
