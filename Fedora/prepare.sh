@@ -2,7 +2,7 @@ sudo rm -rf /etc/yum.repos.d/*testing*
 sudo dnf update -y
 
 sudo dnf install -y \
-    tree java-21-openjdk-headless python3-pip awscli2 findutils \
+    tree java-21-openjdk-devel python3-pip awscli2 findutils \
     kubernetes-client just eza cronie figlet nc htop zsh jq yq \
     asciinema lolcat gzip wget cmatrix dnsutils ncurses git tar \
     fastfetch dnf-plugins-core dnf-utils vim iproute zip iputils
