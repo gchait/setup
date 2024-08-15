@@ -7,7 +7,6 @@
   "update.showReleaseNotes": false,
   "extensions.ignoreRecommendations": true,
   "workbench.startupEditor": "none",
-  "telemetry.telemetryLevel": "off",
   "window.menuBarVisibility": "toggle",
 
   "editor.stickyScroll.enabled": false,
@@ -28,10 +27,9 @@
   "explorer.confirmDelete": false,
   "explorer.confirmPasteNative": false,
 
+  "telemetry.telemetryLevel": "off",
   "gitlens.telemetry.enabled": false,
   "redhat.telemetry.enabled": false,
-  "java.compile.nullAnalysis.mode": "automatic",
-  "java.configuration.updateBuildConfiguration": "automatic",
 
   "vs-kubernetes": {
     "vs-kubernetes.crd-code-completion": "disabled"
@@ -46,8 +44,5 @@
   "[terraform-vars]": {
     "editor.tabSize": 2,
     "editor.defaultFormatter": "hashicorp.terraform"
-  },
-  "[java]": {
-    "editor.defaultFormatter": "redhat.java"
   }
 }
