@@ -20,7 +20,7 @@ export HISTFILE="${HOME}/.zsh_history"
 export HISTSIZE="4000"
 export SAVEHIST="${HISTSIZE}"
 
-export DISPLAY="$(grep nameserver /etc/resolv.conf | awk '{print $2; exit;}'):0.0"
+export DISPLAY=$(ip r | grep "/20 dev eth0" | cut -d"/" -f1 | sed "s/.0$/.1:0.0/")
 export XCURSOR_SIZE="56"
 export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
 export EDITOR="vim"
