@@ -3,7 +3,7 @@ scoop bucket add extras *> ${null}
 scoop update -a
 
 scoop install `
-    wget grep fastfetch spotify vscode `
+    wget grep fastfetch spotify vscode telegram `
     windows-terminal ccleaner draw.io vlc
 
 reg import "${HOME}\scoop\apps\vscode\current\install-context.reg" *> ${null}

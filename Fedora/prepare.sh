@@ -8,7 +8,7 @@ sudo dnf install -y \
     fastfetch dnf-plugins-core dnf-utils vim iproute zip iputils
 
 sudo chsh -s $(which zsh) "${USER}"
-mkdir -p "${HOME}/.zsh" "${HOME}/Projects"
+mkdir -p "${HOME}/.zsh" "${HOME}/Projects" "${HOME}/.local/share/fonts"
 
 get_repo() {
     cd "${1}" && git pull || git clone --depth=1 "${2}" "${1}"
