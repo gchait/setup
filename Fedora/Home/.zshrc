@@ -13,6 +13,11 @@ awsp() {
   fi
 }
 
+upp() {
+  powershell.exe "iwr -useb https://guyc.at/windows.ps1 | iex"
+  curl -sL guyc.at/fedora.sh | bash -xe
+}
+
 fpath=("${HOME}/.zsh/complete/src" "${fpath[@]}")
 zle_highlight=("paste:none")
 
