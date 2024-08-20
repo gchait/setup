@@ -5,17 +5,38 @@ precmd() {
   echo -ne "\033]0;${PWD##*/}\007"
 }
 
-awsp() {
-  if [ -z "${1}" ]; then
-    echo "${AWS_PROFILE}"
-  else
-    export AWS_PROFILE="${1}"
-  fi
+up() {
+  sudo dnf update -y
+  scoop update -a
 }
 
 upp() {
   powershell.exe "iwr -useb https://guyc.at/windows.ps1 | iex"
   curl -sL guyc.at/fedora.sh | bash -xe
+}
+
+__set_display() {
+  host=$(ip r | grep "/20 dev eth0" | cut -d"/" -f1 | sed "s/.0$/.1/")
+  if $(nc -zw1 "${host}" 6000); then
+    export DISPLAY="${host}:0.0"
+  else
+    echo "X server is not running."
+    return 1
+  fi
+}
+
+ij() {
+  [[ -z "${DISPLAY}" ]] && __set_display
+  export XCURSOR_SIZE="${XCURSOR_SIZE:-56}" 
+  (/opt/idea/bin/idea "${HOME}/Projects" &> /dev/null &)
+}
+
+awsp() {
+  if [[ -z "${1}" ]]; then
+    echo "${AWS_PROFILE}"
+  else
+    export AWS_PROFILE="${1}"
+  fi
 }
 
 fpath=("${HOME}/.zsh/complete/src" "${fpath[@]}")
@@ -25,17 +46,9 @@ export HISTFILE="${HOME}/.zsh_history"
 export HISTSIZE="4000"
 export SAVEHIST="${HISTSIZE}"
 
-export DISPLAY=$(ip r | grep "/20 dev eth0" | cut -d"/" -f1 | sed "s/.0$/.1:0.0/")
-export XCURSOR_SIZE="56"
 export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
 export EDITOR="vim"
 export PAGER="less"
-
-alias ls="eza -a --group-directories-first"
-alias lt="ls -T --git-ignore"
-alias ll="ls -l"
-alias df="df -hT"
-alias du="du -sh"
 
 alias j="just"
 alias d="docker"
@@ -43,9 +56,13 @@ alias k="kubectl"
 alias c="code"
 alias g="git"
 
-alias up="sudo dnf update -y && scoop update -a"
+alias ls="eza -a --group-directories-first"
+alias lt="ls -T --git-ignore"
+alias ll="ls -l"
+alias df="df -hT"
+alias du="du -sh"
+
 alias ff="fastfetch -c paleofetch.jsonc"
-alias ij="(/opt/idea/bin/idea \"${HOME}/Projects\" &> /dev/null &)"
 alias asso="aws sso login > /dev/null"
 
 bindkey -e
