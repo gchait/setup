@@ -45,7 +45,7 @@ alias g="git"
 
 alias up="sudo dnf update -y && scoop update -a"
 alias ff="fastfetch -c paleofetch.jsonc"
-alias ij="(/opt/idea/bin/idea "${HOME}/Projects" &> /dev/null &)"
+alias ij="(/opt/idea/bin/idea \"${HOME}/Projects\" &> /dev/null &)"
 alias asso="aws sso login > /dev/null"
 
 bindkey -e
