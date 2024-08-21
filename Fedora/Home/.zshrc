@@ -39,6 +39,13 @@ awsp() {
   fi
 }
 
+ec2-ls() {
+  echo
+  aws ec2 describe-instances --filters "Name=instance-state-name,Values=running" \
+    --query 'Reservations[].Instances[].{id:InstanceId,ip:PrivateIpAddress,name:Tags[?Key==`Name`]|[0].Value}' \
+    --output text | grep --color=never "${1:-.}"
+}
+
 fpath=("${HOME}/.zsh/complete/src" "${fpath[@]}")
 zle_highlight=("paste:none")
 
