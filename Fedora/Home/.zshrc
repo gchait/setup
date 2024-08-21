@@ -41,9 +41,9 @@ awsp() {
 
 ec2-ls() {
   echo
-  aws ec2 describe-instances --filters "Name=instance-state-name,Values=running" \
-    --query 'Reservations[].Instances[].{id:InstanceId,ip:PrivateIpAddress,name:Tags[?Key==`Name`]|[0].Value}' \
-    --output text | grep --color=never "${1:-.}"
+  aws ec2 describe-instances --output text \
+    --filters "Name=tag:Name,Values=*${1:-*}*" "Name=instance-state-name,Values=running" \
+    --query 'Reservations[].Instances[].{id:InstanceId,ip:PrivateIpAddress,name:Tags[?Key==`Name`]|[0].Value}'
 }
 
 fpath=("${HOME}/.zsh/complete/src" "${fpath[@]}")
