@@ -16,7 +16,7 @@
       "opacity": 100,
       "bellStyle": "none",
       "closeOnExit": "always",
-      "colorScheme": "Ayu Mirage",
+      "colorScheme": "SpaceGray Eighties",
       "font": { "face": "Iosevka NF" }
     },
     "list": [
@@ -48,25 +48,27 @@
   },
   "schemes": [
     {
-      "background": "#1f2430",
-      "black": "#191e2a",
-      "blue": "#6dcbfa",
-      "brightBlack": "#686868",
-      "brightBlue": "#73d0ff",
-      "brightCyan": "#95e6cb",
-      "brightGreen": "#bae67e",
-      "brightPurple": "#d4bfff",
-      "brightRed": "#f28779",
+      "name": "SpaceGray Eighties",
+      "black": "#15171c",
+      "red": "#ec5f67",
+      "green": "#81a764",
+      "yellow": "#fec254",
+      "blue": "#5486c0",
+      "purple": "#bf83c1",
+      "cyan": "#57c2c1",
+      "white": "#efece7",
+      "brightBlack": "#555555",
+      "brightRed": "#ff6973",
+      "brightGreen": "#93d493",
+      "brightYellow": "#ffd256",
+      "brightBlue": "#4d84d1",
+      "brightPurple": "#ff55ff",
+      "brightCyan": "#83e9e4",
       "brightWhite": "#ffffff",
-      "brightYellow": "#ffd580",
-      "cyan": "#90e1c6",
-      "foreground": "#cbccc6",
-      "green": "#a6cc70",
-      "name": "Ayu Mirage",
-      "purple": "#cfbafa",
-      "red": "#ed8274",
-      "white": "#c7c7c7",
-      "yellow": "#fad07b"
+      "background": "#222222",
+      "foreground": "#bdbaae",
+      "selectionBackground": "#272e35",
+      "cursorColor": "#bbbbbb"
     }
   ]
 }
