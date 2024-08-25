@@ -17,6 +17,14 @@ wsl --update
 winget install 9NPCP8DRCHSN
 ```
 
+```powershell
+# As Admin
+irm https://christitus.com/win | iex
+# Tweaks --> Standard
+# Without `Disable Homegroup`
+# Run Tweaks
+```
+
 ### Fedora side
 
 ```shell
