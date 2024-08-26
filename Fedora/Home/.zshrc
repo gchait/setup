@@ -27,7 +27,7 @@ __set_display() {
 
 ij() {
   [[ -z "${DISPLAY}" ]] && __set_display
-  export XCURSOR_SIZE="${XCURSOR_SIZE:-56}" 
+  export XCURSOR_SIZE="${XCURSOR_SIZE:-48}" 
   (/opt/idea/bin/idea "${HOME}/Projects" &> /dev/null &)
 }
 
