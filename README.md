@@ -8,7 +8,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 ```
 
-##### Bootstrap host
+##### Bootstrap
 ```powershell
 iwr -useb https://guyc.at/windows.ps1 | iex
 ```
@@ -31,7 +31,7 @@ irm https://christitus.com/win | iex
 
 ### Fedora side
 
-##### Bootstrap VM
+##### Bootstrap
 ```shell
 curl -sL guyc.at/fedora.sh | bash -ex
 ```
@@ -41,8 +41,8 @@ curl -sL guyc.at/fedora.sh | bash -ex
 wsl.exe --shutdown
 ```
 
-### Launch Linux GUI programs from Windows
+### Launch Linux GUI apps from Windows
 - Start an X server, [X410](https://x410.dev/download/) is the best in my opinion.
 - Enable a listener in the WSL network.
-- `export DISPLAY=...`. My `ij` alias in `.zshrc` is set to do this.
-- Instead of calling `ij` from a WSL CLI, you can also make a shrotcut for `C:\Windows\System32\wsl.exe zsh -ic ij`.
+- `export DISPLAY=...`. My `ij` (IntelliJ IDEA) alias in `.zshrc` is set to do this.
+- You can also make a Windows shortcut for `C:\Windows\System32\wsl.exe zsh -ic ij`.
