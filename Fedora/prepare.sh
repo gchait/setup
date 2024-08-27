@@ -1,6 +1,6 @@
 sudo rm -rf /etc/yum.repos.d/*testing*
 sudo dnf update -y
-sudo dnf remove -y "*audio*" "*gstreamer*"
+sudo dnf remove -y "*pulseaudio*" "*pipewire*" "*wayland*" "*gstreamer*"
 
 sudo dnf install -y \
     tree java-21-openjdk-devel python3-pip awscli2 findutils \
