@@ -19,6 +19,7 @@ __set_display() {
   host=$(ip r | grep "/20 dev eth0" | cut -d"/" -f1 | sed "s/.0$/.1/")
   if $(nc -zw1 "${host}" 6000); then
     export DISPLAY="${host}:0.0"
+    export XCURSOR_SIZE="$(( $(xrandr | grep "0\.00\*" | awk '{print $1}' | cut -d"x" -f2) / 25 ))"
   else
     echo "X server is not running."
     return 1
@@ -27,7 +28,6 @@ __set_display() {
 
 ij() {
   [[ -z "${DISPLAY}" ]] && __set_display
-  export XCURSOR_SIZE="${XCURSOR_SIZE:-46}" 
   (/opt/idea/bin/idea "${HOME}/Projects" &> /dev/null &)
 }
 
