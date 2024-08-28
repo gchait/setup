@@ -1,5 +1,5 @@
 instant_prompt="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-[[ -r "${instant_prompt}" ]] && source "${instant_prompt}"
+[ -r "${instant_prompt}" ] && source "${instant_prompt}"
 
 precmd() {
   echo -ne "\033]0;${PWD##*/}\007"
@@ -27,12 +27,12 @@ __set_display() {
 }
 
 ij() {
-  [[ -z "${DISPLAY}" ]] && __set_display
+  [ -z "${DISPLAY}" ] && __set_display
   (/opt/idea/bin/idea "${HOME}/Projects" &> /dev/null &)
 }
 
 awsp() {
-  if [[ -z "${1}" ]]; then
+  if [ -z "${1}" ]; then
     echo "${AWS_PROFILE}"
   else
     export AWS_PROFILE="${1}"
@@ -87,5 +87,5 @@ source "${HOME}/.zsh/highlight/zsh-syntax-highlighting.zsh"
 source "${HOME}/.zsh/suggest/zsh-autosuggestions.zsh"
 source "${HOME}/.zsh/p10k/powerlevel10k.zsh-theme"
 
-[[ -r "${HOME}/.hidden_zshrc" ]] && source "${HOME}/.hidden_zshrc"
-[[ -r "${HOME}/.p10k.zsh" ]] && source "${HOME}/.p10k.zsh"
+[ -r "${HOME}/.hidden_zshrc" ] && source "${HOME}/.hidden_zshrc"
+[ -r "${HOME}/.p10k.zsh" ] && source "${HOME}/.p10k.zsh"
