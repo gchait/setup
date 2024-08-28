@@ -21,7 +21,7 @@ __set_display() {
     export DISPLAY="${host}:0.0"
     export XCURSOR_SIZE="$(( $(xrandr | grep "0\.00\*" | awk '{print $1}' | cut -d"x" -f2) / 26 ))"
   else
-    echo "X server is not running."
+    >&2 echo "X server is not running."
     return 1
   fi
 }
