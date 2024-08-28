@@ -9,8 +9,6 @@ sudo dnf install -y \
     fastfetch dnf-plugins-core dnf-utils vim iproute zip iputils python3.8
 
 sudo python3.8 -m ensurepip --altinstall 2> /dev/null
-sudo pipx ensurepath --global
-
 sudo chsh -s $(which zsh) "${USER}"
 mkdir -p "${HOME}/.zsh" "${HOME}/Projects" "${HOME}/.local/share/fonts"
 
