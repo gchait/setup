@@ -3,10 +3,13 @@ sudo dnf update -y
 sudo dnf remove -y "*pulseaudio*" "*pipewire*" "*wayland*" "*gstreamer*"
 
 sudo dnf install -y \
-    tree java-21-openjdk-devel awscli2 libXcursor adwaita-cursor-theme \
+    tree java-21-openjdk-devel awscli2 libXcursor adwaita-cursor-theme pipx \
     kubernetes-client just eza cronie figlet nc htop zsh jq yq python3-pip \
     asciinema lolcat gzip wget cmatrix dnsutils ncurses git tar findutils \
-    fastfetch dnf-plugins-core dnf-utils vim iproute zip iputils
+    fastfetch dnf-plugins-core dnf-utils vim iproute zip iputils python3.8
+
+sudo python3.8 -m ensurepip --altinstall 2> /dev/null
+sudo pipx ensurepath --global
 
 sudo chsh -s $(which zsh) "${USER}"
 mkdir -p "${HOME}/.zsh" "${HOME}/Projects" "${HOME}/.local/share/fonts"
