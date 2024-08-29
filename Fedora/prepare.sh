@@ -34,4 +34,4 @@ sudo systemctl enable docker
 sudo usermod -aG docker "${USER}"
 
 sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
-sudo dnf install -y terraform packer
+sudo dnf install -y terraform
