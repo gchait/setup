@@ -4,7 +4,7 @@ scoop update -a
 
 scoop install `
     wget grep fastfetch spotify vscode telegram `
-    windows-terminal ccleaner draw.io vlc
+    windows-terminal ccleaner draw.io vlc bruno
 
 reg import "${HOME}\scoop\apps\vscode\current\install-context.reg" *> ${null}
 reg import "${HOME}\scoop\apps\vscode\current\install-associations.reg" *> ${null}
