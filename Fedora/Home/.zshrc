@@ -27,11 +27,11 @@ upp() {
   curl -sL guyc.at/fedora.sh | bash -xe
 }
 
-__set_display() {
+__set_wsl_display() {
   host=$(ip r | grep "/20 dev eth0" | cut -d"/" -f1 | sed "s/.0$/.1/")
   if $(nc -zw1 "${host}" 6000); then
     export DISPLAY="${host}:0.0"
-    export XCURSOR_SIZE="$(( $(xrandr | grep "0\.00\*" | awk '{print $1}' | cut -d"x" -f2) / 27 ))"
+    export XCURSOR_SIZE="$(( $(xrandr | grep '0\.00\*' | awk '{print $1}' | cut -d'x' -f2) / 27 ))"
   else
     >&2 echo "X server is not running."
     return 1
@@ -39,7 +39,7 @@ __set_display() {
 }
 
 ij() {
-  [ "${IS_WSL}" = "1" ] && [ -z "${DISPLAY}" ] && __set_display
+  [ "${IS_WSL}" = "1" ] && [ -z "${DISPLAY}" ] && __set_wsl_display
   (/opt/idea/bin/idea "${HOME}/Projects" &> /dev/null &)
 }
 

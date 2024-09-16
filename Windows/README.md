@@ -1,5 +1,3 @@
-# My personal setup
-
 ### Windows side
 
 ##### Get Scoop

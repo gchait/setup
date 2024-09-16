@@ -1,13 +1,13 @@
 IS_WSL="$(uname -r | grep -qi wsl && echo 1 || echo 0)"
 DOCKER_JSON='{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}'
 
-get_repo() {
+__get_repo() {
     cd "${1}" && git pull || git clone --depth=1 "${2}" "${1}"
 }
 
 system_setup() {
     sudo dnf install -y dnf-plugins-core dnf-utils git
-    get_repo "${HOME}/setup" https://github.com/gchait/setup.git
+    __get_repo "${HOME}/setup" https://github.com/gchait/setup.git
     
     sudo cp "${HOME}/setup/Fedora/dnf.conf" /etc/dnf/
     sudo rm -rf /etc/yum.repos.d/*testing*
@@ -58,10 +58,10 @@ packages_setup() {
 }
 
 home_setup() {
-    get_repo "${HOME}/.zsh/complete" https://github.com/zsh-users/zsh-completions.git
-    get_repo "${HOME}/.zsh/highlight" https://github.com/zsh-users/zsh-syntax-highlighting.git
-    get_repo "${HOME}/.zsh/suggest" https://github.com/zsh-users/zsh-autosuggestions.git
-    get_repo "${HOME}/.zsh/p10k" https://github.com/romkatv/powerlevel10k.git
+    __get_repo "${HOME}/.zsh/complete" https://github.com/zsh-users/zsh-completions.git
+    __get_repo "${HOME}/.zsh/highlight" https://github.com/zsh-users/zsh-syntax-highlighting.git
+    __get_repo "${HOME}/.zsh/suggest" https://github.com/zsh-users/zsh-autosuggestions.git
+    __get_repo "${HOME}/.zsh/p10k" https://github.com/romkatv/powerlevel10k.git
     
     cp -r ${HOME}/setup/Fedora/Home/.* "${HOME}"
     mkdir -p "${HOME}/.zsh" "${HOME}/Projects" "${HOME}/.local/share/fonts"
