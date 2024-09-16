@@ -1,17 +1,29 @@
 instant_prompt="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 [ -r "${instant_prompt}" ] && source "${instant_prompt}"
 
+fpath=("${HOME}/.zsh/complete/src" "${fpath[@]}")
+zle_highlight=("paste:none")
+
+export HISTFILE="${HOME}/.zsh_history"
+export HISTSIZE="4000"
+export SAVEHIST="${HISTSIZE}"
+export EDITOR="vim"
+export PAGER="less"
+
+export IS_WSL="$(uname -r | grep -qi wsl && echo 1 || echo 0)"
+[ "${IS_WSL}" = "1" ] && export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
+
 precmd() {
   echo -ne "\033]0;${PWD##*/}\007"
 }
 
 up() {
   sudo dnf update -y
-  scoop update -a
+  [ "${IS_WSL}" = "1" ] && scoop update -a
 }
 
 upp() {
-  powershell.exe "iwr -useb https://guyc.at/windows.ps1 | iex"
+  [ "${IS_WSL}" = "1" ] && powershell.exe "iwr -useb https://guyc.at/windows.ps1 | iex"
   curl -sL guyc.at/fedora.sh | bash -xe
 }
 
@@ -19,7 +31,7 @@ __set_display() {
   host=$(ip r | grep "/20 dev eth0" | cut -d"/" -f1 | sed "s/.0$/.1/")
   if $(nc -zw1 "${host}" 6000); then
     export DISPLAY="${host}:0.0"
-    export XCURSOR_SIZE="$(( $(xrandr | grep "0\.00\*" | awk '{print $1}' | cut -d"x" -f2) / 26 ))"
+    export XCURSOR_SIZE="$(( $(xrandr | grep "0\.00\*" | awk '{print $1}' | cut -d"x" -f2) / 27 ))"
   else
     >&2 echo "X server is not running."
     return 1
@@ -27,7 +39,7 @@ __set_display() {
 }
 
 ij() {
-  [ -z "${DISPLAY}" ] && __set_display
+  [ "${IS_WSL}" = "1" ] && [ -z "${DISPLAY}" ] && __set_display
   (/opt/idea/bin/idea "${HOME}/Projects" &> /dev/null &)
 }
 
@@ -45,17 +57,6 @@ ec2-ls() {
     --filters "Name=tag:Name,Values=*${1:-*}*" "Name=instance-state-name,Values=running" \
     --query 'Reservations[].Instances[].{id:InstanceId,ip:PrivateIpAddress,name:Tags[?Key==`Name`]|[0].Value}'
 }
-
-fpath=("${HOME}/.zsh/complete/src" "${fpath[@]}")
-zle_highlight=("paste:none")
-
-export HISTFILE="${HOME}/.zsh_history"
-export HISTSIZE="4000"
-export SAVEHIST="${HISTSIZE}"
-
-export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
-export EDITOR="vim"
-export PAGER="less"
 
 alias j="just"
 alias d="docker"
