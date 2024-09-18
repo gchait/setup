@@ -27,23 +27,7 @@ wsl_specific_setup() {
 }
 
 workstation_specific_setup() {
-    echo "to do"
-    # code \
-    #     --install-extension JonathanHarty.gruvbox-material-icon-theme \
-    #     --install-extension antfu.icons-carbon \
-    #     --install-extension ionutvmi.spacegray-vscode \
-    #     --install-extension eamodio.gitlens \
-    #     --install-extension ecmel.vscode-html-css \
-    #     --install-extension esbenp.prettier-vscode \
-    #     --install-extension hashicorp.terraform \
-    #     --install-extension kokakiwi.vscode-just \
-    #     --install-extension ms-azuretools.vscode-docker \
-    #     --install-extension ms-kubernetes-tools.vscode-kubernetes-tools \
-    #     --install-extension ms-pyright.pyright \
-    #     --install-extension redhat.vscode-yaml \
-    #     --install-extension samuelcolvin.jinjahtml \
-    #     --install-extension tamasfe.even-better-toml \
-    #     --install-extension bierner.markdown-mermaid
+    echo "Not implemented"
 }
 
 packages_setup() {
