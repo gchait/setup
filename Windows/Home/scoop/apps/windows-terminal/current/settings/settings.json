@@ -1,0 +1,74 @@
+{
+  "$help": "https://aka.ms/terminal-documentation",
+  "$schema": "https://aka.ms/terminal-profiles-schema",
+
+  "copyOnSelect": false,
+  "alwaysShowNotificationIcon": false,
+  "useAcrylicInTabRow": false,
+  "copyFormatting": "none",
+  "tabWidthMode": "equal",
+  "newTabPosition": "afterCurrentTab",
+  "defaultProfile": "{9c6e5557-c8cb-4cdf-9c09-7e3c1c17649b}",
+
+  "profiles": {
+    "defaults": {
+      "useAcrylic": false,
+      "opacity": 100,
+      "bellStyle": "none",
+      "closeOnExit": "always",
+      "colorScheme": "SpaceGray Eighties",
+      "font": { "face": "Iosevka NF" }
+    },
+    "list": [
+      {
+        "hidden": false,
+        "commandline": "C:\\Windows\\System32\\wsl.exe",
+        "guid": "{9c6e5557-c8cb-4cdf-9c09-7e3c1c17649b}",
+        "icon": "🐧",
+        "name": "Fedora",
+        "startingDirectory": "~"
+      },
+      {
+        "hidden": true,
+        "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+        "name": "Windows PowerShell"
+      },
+      {
+        "hidden": true,
+        "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+        "name": "Command Prompt"
+      },
+      {
+        "hidden": true,
+        "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+        "name": "Azure Cloud Shell",
+        "source": "Windows.Terminal.Azure"
+      }
+    ]
+  },
+  "schemes": [
+    {
+      "name": "SpaceGray Eighties",
+      "black": "#15171c",
+      "red": "#ec5f67",
+      "green": "#81a764",
+      "yellow": "#fec254",
+      "blue": "#5486c0",
+      "purple": "#bf83c1",
+      "cyan": "#57c2c1",
+      "white": "#efece7",
+      "brightBlack": "#555555",
+      "brightRed": "#ff6973",
+      "brightGreen": "#93d493",
+      "brightYellow": "#ffd256",
+      "brightBlue": "#4d84d1",
+      "brightPurple": "#ff55ff",
+      "brightCyan": "#83e9e4",
+      "brightWhite": "#ffffff",
+      "background": "#222222",
+      "foreground": "#bdbaae",
+      "selectionBackground": "#272e35",
+      "cursorColor": "#bbbbbb"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+-Dremote.x11.workaround=false
+-Xmx4096m

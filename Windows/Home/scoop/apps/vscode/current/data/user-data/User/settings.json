@@ -1,0 +1,48 @@
+{
+  "workbench.productIconTheme": "icons-carbon",
+  "workbench.iconTheme": "gruvbox-material-icon-theme",
+  "workbench.colorTheme": "Spacegray Eighties Dark",
+  "editor.fontFamily": "Iosevka NF",
+
+  "update.showReleaseNotes": false,
+  "extensions.ignoreRecommendations": true,
+  "workbench.startupEditor": "none",
+  "window.menuBarVisibility": "toggle",
+
+  "editor.stickyScroll.enabled": false,
+  "editor.fontLigatures": false,
+  "editor.formatOnSave": true,
+  "editor.fontSize": 16,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  "git.enableSmartCommit": true,
+  "git.openRepositoryInParentFolders": "never",
+
+  "files.autoSave": "onFocusChange",
+  "files.eol": "\n",
+
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
+  "explorer.confirmPasteNative": false,
+
+  "telemetry.telemetryLevel": "off",
+  "gitlens.telemetry.enabled": false,
+  "redhat.telemetry.enabled": false,
+
+  "vs-kubernetes": {
+    "vs-kubernetes.crd-code-completion": "disabled"
+  },
+  "[jinja-html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[terraform]": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "hashicorp.terraform"
+  },
+  "[terraform-vars]": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "hashicorp.terraform"
+  }
+}
