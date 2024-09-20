@@ -4,14 +4,17 @@ instant_prompt="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.z
 fpath=("${HOME}/.zsh/complete/src" "${fpath[@]}")
 zle_highlight=("paste:none")
 
-export HISTFILE="${HOME}/.zsh_history"
-export HISTSIZE="4000"
-export SAVEHIST="${HISTSIZE}"
 export EDITOR="vim"
 export PAGER="less"
-
+export HISTSIZE="4000"
+export SAVEHIST="${HISTSIZE}"
+export HISTFILE="${HOME}/.zsh_history"
 export IS_WSL="$(uname -r | grep -qi wsl && echo 1 || echo 0)"
-[ "${IS_WSL}" = "1" ] && export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
+
+[ "${IS_WSL}" = "1" ] && export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe" && \
+  export PATH=$(echo "${HOME}/.local/bin:${PATH}" | sed -E "s|:[^:]+/games||g" | \
+  sed -E "s|:[^:]+/WindowsApps||" | sed -E "s|:[^:]+/System32/OpenSSH/||" | \
+  sed "s|/mnt/c/Windows:||" | sed -E "s|:[^:]+/System32/Wbem||")
 
 precmd() {
   echo -ne "\033]0;${PWD##*/}\007"
