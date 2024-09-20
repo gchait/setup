@@ -5,6 +5,7 @@
   "copyOnSelect": false,
   "alwaysShowNotificationIcon": false,
   "useAcrylicInTabRow": false,
+  "initialRows": 20,
   "copyFormatting": "none",
   "tabWidthMode": "equal",
   "newTabPosition": "afterCurrentTab",
