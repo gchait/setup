@@ -9,7 +9,7 @@ system_setup() {
     sudo rm -rf /etc/yum.repos.d/*testing*
     sudo dnf remove -y nano poetry cargo cronie > /dev/null
 
-    sudo dnf install -y dnf-plugins-core dnf-utils git
+    sudo dnf install -y dnf-plugins-core dnf-utils git | grep -v "already installed"
     __get_repo "${HOME}/setup" https://github.com/gchait/setup.git
     
     sudo cp "${HOME}/setup/Fedora/dnf.conf" /etc/dnf/
@@ -22,7 +22,7 @@ system_setup() {
 
 wsl_specific_setup() {
     sudo dnf remove -y "*pulseaudio*" "*pipewire*" "*wayland*" "*gstreamer*" > /dev/null
-    sudo dnf install -y libXcursor adwaita-cursor-theme
+    sudo dnf install -y libXcursor adwaita-cursor-theme | grep -v "already installed"
     sudo cp "${HOME}/setup/Fedora/wsl.conf" /etc/
     sudo sed -i "/VARIANT/d" /etc/os-release
 }
@@ -33,9 +33,10 @@ packages_setup() {
         kubernetes-client vim tar figlet nmap-ncat htop jq yq python3-pip \
         asciinema lolcat gzip wget cmatrix just dnsutils ncurses findutils \
         fastfetch eza iproute iputils asciiquarium terraform packer docker-ce \
-        docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+        docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin \
+        | grep -v "already installed"
 
-    pip install --no-warn-script-location pdm
+    pip install --no-warn-script-location pdm | grep -v "already satisfied"
     sudo python3.8 -m ensurepip --altinstall 2> /dev/null
     sudo chsh -s $(which zsh) "${USER}"
 }
