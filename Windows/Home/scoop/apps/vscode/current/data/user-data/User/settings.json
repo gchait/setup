@@ -2,7 +2,7 @@
   "workbench.productIconTheme": "icons-carbon",
   "workbench.iconTheme": "gruvbox-material-icon-theme",
   "workbench.colorTheme": "Spacegray Eighties Dark",
-  "editor.fontFamily": "Iosevka NF",
+  "editor.fontFamily": "JuliaMono",
 
   "update.showReleaseNotes": false,
   "extensions.ignoreRecommendations": true,
