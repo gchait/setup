@@ -1,7 +1,7 @@
 {
   "workbench.productIconTheme": "icons-carbon",
   "workbench.iconTheme": "gruvbox-material-icon-theme",
-  "workbench.colorTheme": "Spacegray Eighties Dark",
+  "workbench.colorTheme": "Rosé Pine",
   "editor.fontFamily": "JuliaMono",
 
   "update.showReleaseNotes": false,
@@ -10,9 +10,10 @@
   "window.menuBarVisibility": "toggle",
 
   "editor.stickyScroll.enabled": false,
-  "editor.fontLigatures": false,
+  "editor.fontLigatures": true,
   "editor.formatOnSave": true,
   "editor.fontSize": 16,
+  "editor.wordWrap": "on",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
 
   "git.confirmSync": false,
