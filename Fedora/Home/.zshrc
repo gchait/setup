@@ -67,6 +67,7 @@ alias k="kubectl"
 alias c="code"
 alias g="git"
 
+alias cat="bat --paging=never"
 alias ls="eza -a --group-directories-first"
 alias lt="ls -T --git-ignore"
 alias ll="ls -l"
