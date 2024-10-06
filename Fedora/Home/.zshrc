@@ -26,8 +26,8 @@ up() {
 }
 
 upp() {
-  [ "${IS_WSL}" = "1" ] && powershell.exe "iwr -useb https://guyc.at/windows.ps1 | iex"
   curl -sL guyc.at/fedora.sh | bash -xe
+  [ "${IS_WSL}" = "1" ] && powershell.exe "iwr -useb https://guyc.at/windows.ps1 | iex"
 }
 
 __set_wsl_display() {
