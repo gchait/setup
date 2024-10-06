@@ -12,7 +12,7 @@ reg import "${HOME}\scoop\apps\vscode\current\install-associations.reg" *> ${nul
 code --install-extension ms-vscode-remote.remote-wsl `
     --install-extension JonathanHarty.gruvbox-material-icon-theme `
     --install-extension antfu.icons-carbon `
-    --install-extension ionutvmi.spacegray-vscode `
+    --install-extension mvllow.rose-pine `
     --install-extension eamodio.gitlens `
     --install-extension ecmel.vscode-html-css `
     --install-extension esbenp.prettier-vscode `
