@@ -5,11 +5,13 @@
   "copyOnSelect": false,
   "alwaysShowNotificationIcon": false,
   "useAcrylicInTabRow": false,
-  "initialRows": 22,
+  "initialRows": 25,
+  "initialCols": 100,
   "copyFormatting": "none",
   "tabWidthMode": "equal",
   "newTabPosition": "afterCurrentTab",
   "defaultProfile": "{9c6e5557-c8cb-4cdf-9c09-7e3c1c17649b}",
+  "theme": "Rosé Pine",
 
   "profiles": {
     "defaults": {
@@ -17,7 +19,7 @@
       "opacity": 100,
       "bellStyle": "none",
       "closeOnExit": "always",
-      "colorScheme": "SpaceGray Eighties",
+      "colorScheme": "Rosé Pine",
       "font": { "face": "JuliaMono" }
     },
     "list": [
@@ -49,27 +51,44 @@
   },
   "schemes": [
     {
-      "name": "SpaceGray Eighties",
-      "black": "#15171c",
-      "red": "#ec5f67",
-      "green": "#81a764",
-      "yellow": "#fec254",
-      "blue": "#5486c0",
-      "purple": "#bf83c1",
-      "cyan": "#57c2c1",
-      "white": "#efece7",
-      "brightBlack": "#555555",
-      "brightRed": "#ff6973",
-      "brightGreen": "#93d493",
-      "brightYellow": "#ffd256",
-      "brightBlue": "#4d84d1",
-      "brightPurple": "#ff55ff",
-      "brightCyan": "#83e9e4",
-      "brightWhite": "#ffffff",
-      "background": "#222222",
-      "foreground": "#bdbaae",
-      "selectionBackground": "#272e35",
-      "cursorColor": "#bbbbbb"
+      "name": "Rosé Pine",
+      "cursorColor": "#555169",
+      "selectionBackground": "#2a2837",
+      "background": "#191724",
+      "foreground": "#e0def4",
+      "black": "#26233a",
+      "blue": "#9ccfd8",
+      "cyan": "#ebbcba",
+      "green": "#31748f",
+      "purple": "#c4a7e7",
+      "red": "#eb6f92",
+      "white": "#e0def4",
+      "yellow": "#f6c177",
+      "brightBlack": "#6e6a86",
+      "brightBlue": "#9ccfd8",
+      "brightCyan": "#ebbcba",
+      "brightGreen": "#31748f",
+      "brightPurple": "#c4a7e7",
+      "brightRed": "#eb6f92",
+      "brightWhite": "#e0def4",
+      "brightYellow": "#f6c177"
+    }
+  ],
+  "themes": [
+    {
+      "name": "Rosé Pine",
+      "tab": {
+        "background": "#1f1d2e",
+        "unfocusedBackground": "#26233a"
+      },
+      "tabRow": {
+        "background": "terminalBackground",
+        "unfocusedBackground": "#1f1d2e"
+      },
+      "window": {
+        "useMica": false,
+        "applicationTheme": "dark"
+      }
     }
   ]
 }

@@ -7,7 +7,6 @@ __get_repo() {
 
 system_setup() {
     sudo rm -rf /etc/yum.repos.d/*testing*
-    sudo dnf remove -y nano poetry cargo cronie > /dev/null
 
     sudo dnf install -y dnf-plugins-core dnf-utils git | grep -v "already installed"
     __get_repo "${HOME}/setup" https://github.com/gchait/setup.git
@@ -30,13 +29,13 @@ wsl_specific_setup() {
 packages_setup() {
     sudo dnf install -y \
         tree zsh java-21-openjdk-devel awscli2 zip make openssl python3.8 \
-        kubernetes-client vim tar figlet nmap-ncat htop jq yq python3-pip \
+        kubernetes-client vim tar figlet nmap-ncat htop bat jq yq python3-pip \
         asciinema lolcat gzip wget cmatrix just dnsutils ncurses findutils \
         fastfetch eza iproute iputils asciiquarium terraform packer docker-ce \
         docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin \
         | grep -v "already installed"
 
-    pip install --no-warn-script-location pdm | grep -v "already satisfied"
+    pip install --upgrade --no-warn-script-location pdm pdm-bump | grep -v "already satisfied"
     sudo python3.8 -m ensurepip --altinstall 2> /dev/null
     sudo chsh -s $(which zsh) "${USER}"
 }
