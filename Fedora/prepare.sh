@@ -28,7 +28,7 @@ wsl_specific_setup() {
 
 packages_setup() {
     sudo dnf install -y \
-        tree zsh java-21-openjdk-devel awscli2 zip make openssl python3.8 \
+        tree zsh java-21-openjdk-devel awscli2 zip make openssl python3.9 \
         kubernetes-client vim tar figlet nmap-ncat htop bat jq yq python3-pip \
         asciinema lolcat gzip wget cmatrix just dnsutils ncurses findutils \
         fastfetch eza iproute iputils asciiquarium terraform packer docker-ce \
@@ -36,7 +36,7 @@ packages_setup() {
         | grep -v "already installed"
 
     pip install --upgrade --no-warn-script-location pdm pdm-bump | grep -v "already satisfied"
-    sudo python3.8 -m ensurepip --altinstall 2> /dev/null
+    sudo python3.9 -m ensurepip --altinstall 2> /dev/null
     sudo chsh -s $(which zsh) "${USER}"
 }
 
