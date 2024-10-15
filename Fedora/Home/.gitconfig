@@ -3,3 +3,5 @@
 	email = "53366531+gchait@users.noreply.github.com"
 [core]
 	autocrlf = false
+[pull]
+	rebase = true
