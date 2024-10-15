@@ -78,8 +78,8 @@
     {
       "name": "Rosé Pine",
       "tab": {
-        "background": "#1f1d2e",
-        "unfocusedBackground": "#26233a"
+        "background": "#26233a",
+        "unfocusedBackground": "#1f1d2e"
       },
       "tabRow": {
         "background": "terminalBackground",
