@@ -19,6 +19,7 @@
       "opacity": 100,
       "bellStyle": "none",
       "closeOnExit": "always",
+      "cursorShape": "filledBox",
       "colorScheme": "Rosé Pine",
       "font": { "face": "JuliaMono" }
     },
