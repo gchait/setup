@@ -6,13 +6,13 @@
 
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+irm https://get.scoop.sh | iex
 ```
 
 ##### Bootstrap
 
 ```powershell
-iwr -useb https://guyc.at/windows.ps1 | iex
+irm https://guyc.at/windows.ps1 | iex
 ```
 
 ##### Get Fedora

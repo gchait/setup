@@ -27,7 +27,7 @@ up() {
 
 upp() {
   curl -sL guyc.at/fedora.sh | bash -xe
-  [ "${IS_WSL}" = "0" ] || powershell.exe "iwr -useb https://guyc.at/windows.ps1 | iex"
+  [ "${IS_WSL}" = "0" ] || powershell.exe "irm https://guyc.at/windows.ps1 | iex"
 }
 
 __set_wsl_display() {
