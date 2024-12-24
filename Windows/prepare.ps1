@@ -9,7 +9,8 @@ scoop install `
 reg import "${HOME}\scoop\apps\vscode\current\install-context.reg" *> ${null}
 reg import "${HOME}\scoop\apps\vscode\current\install-associations.reg" *> ${null}
 
-code --install-extension ms-vscode-remote.remote-wsl `
+code `
+    --install-extension ms-vscode-remote.remote-wsl `
     --install-extension JonathanHarty.gruvbox-material-icon-theme `
     --install-extension antfu.icons-carbon `
     --install-extension mvllow.rose-pine `

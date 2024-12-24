@@ -22,12 +22,12 @@ precmd() {
 
 up() {
   sudo dnf update -y
-  [ "${IS_WSL}" = "1" ] && scoop update -a
+  [ "${IS_WSL}" = "0" ] || scoop update -a
 }
 
 upp() {
   curl -sL guyc.at/fedora.sh | bash -xe
-  [ "${IS_WSL}" = "1" ] && powershell.exe "iwr -useb https://guyc.at/windows.ps1 | iex"
+  [ "${IS_WSL}" = "0" ] || powershell.exe "iwr -useb https://guyc.at/windows.ps1 | iex"
 }
 
 __set_wsl_display() {
