@@ -26,7 +26,7 @@ up() {
 }
 
 upp() {
-  curl -sL guyc.at/fedora.sh | bash -xe
+  curl -sL guyc.at/fedora.sh | bash -ex
   [ "${IS_WSL}" = "0" ] || powershell.exe "irm https://guyc.at/windows.ps1 | iex"
 }
 
