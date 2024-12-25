@@ -48,6 +48,9 @@ home_setup() {
     
     cp -r ${HOME}/setup/Fedora/Home/.* "${HOME}"
     mkdir -p "${HOME}/.zsh" "${HOME}/Projects" "${HOME}/.local/share/fonts"
+
+    cp ${HOME}/setup/Assets/JuliaMono/JuliaMono-* "${HOME}/.local/share/fonts/"
+    fc-cache -f
 }
 
 docker_setup() {
