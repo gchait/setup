@@ -11,10 +11,13 @@ export SAVEHIST="${HISTSIZE}"
 export HISTFILE="${HOME}/.zsh_history"
 export IS_WSL="$(uname -r | grep -qi wsl && echo 1 || echo 0)"
 
-[ "${IS_WSL}" = "1" ] && export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe" && \
-  export PATH=$(echo "${HOME}/.local/bin:${PATH}" | sed -E "s|:[^:]+/games||g" | \
-  sed -E "s|:[^:]+/WindowsApps||" | sed -E "s|:[^:]+/System32/OpenSSH/||" | \
-  sed "s|/mnt/c/Windows:||" | sed -E "s|:[^:]+/System32/Wbem||")
+if [ "${IS_WSL}" = "1" ]; then
+  export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
+  
+  export PATH=$(echo "${HOME}/.local/bin:${PATH}" | \
+    sed -E "s|:[^:]+/games||g" | sed -E "s|:[^:]+/WindowsApps||" | \
+    sed -E "s|:[^:]+/System32/OpenSSH/||" | sed -E "s|:[^:]+/System32/Wbem||")
+fi
 
 precmd() {
   echo -ne "\033]0;${PWD##*/}\007"
@@ -93,4 +96,4 @@ source "${HOME}/.zsh/suggest/zsh-autosuggestions.zsh"
 source "${HOME}/.zsh/p10k/powerlevel10k.zsh-theme"
 
 [ -r "${HOME}/.hidden_zshrc" ] && source "${HOME}/.hidden_zshrc"
-[ -r "${HOME}/.p10k.zsh" ] && source "${HOME}/.p10k.zsh"
+source "${HOME}/.p10k.zsh"
