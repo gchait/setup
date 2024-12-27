@@ -10,9 +10,12 @@
   "window.menuBarVisibility": "toggle",
 
   "editor.stickyScroll.enabled": false,
+  "editor.detectIndentation": false,
+  "editor.insertSpaces": true,
   "editor.fontLigatures": true,
   "editor.formatOnSave": true,
   "editor.fontSize": 16,
+  "editor.tabSize": 4,
   "editor.wordWrap": "on",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
 
@@ -35,8 +38,11 @@
   "vs-kubernetes": {
     "vs-kubernetes.crd-code-completion": "disabled"
   },
-  "[jinja-html]": {
-    "editor.defaultFormatter": "vscode.html-language-features"
+  "[shellscript]": {
+    "editor.tabSize": 2
+  },
+  "[powershell]": {
+    "editor.tabSize": 2
   },
   "[terraform]": {
     "editor.tabSize": 2,
@@ -45,5 +51,8 @@
   "[terraform-vars]": {
     "editor.tabSize": 2,
     "editor.defaultFormatter": "hashicorp.terraform"
+  },
+  "[jinja-html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
   }
 }
