@@ -51,7 +51,7 @@ ij() {
 
 explorer() {
   if [ "${IS_WSL}" = "1" ] && command -v explorer.exe &> /dev/null; then
-    (cd "${1:-$HOME}*" && explorer.exe .)
+    (cd "${1:-$HOME}" && explorer.exe .)
   fi
 }
 
