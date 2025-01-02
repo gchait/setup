@@ -46,7 +46,7 @@ __set_wsl_display() {
 
 ij() {
   [ "${IS_WSL}" = "1" ] && [ -z "${DISPLAY}" ] && __set_wsl_display
-  (/opt/idea/bin/idea "${HOME}/Projects" &> /dev/null &)
+  (/opt/idea/bin/idea "${1:-$HOME/Projects}" &> /dev/null &)
 }
 
 explorer() {
