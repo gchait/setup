@@ -1,3 +1,5 @@
+Set-PSDebug -Trace 1
+
 scoop install git *> ${null}
 scoop bucket add extras *> ${null}
 scoop update -a
