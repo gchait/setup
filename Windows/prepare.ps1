@@ -1,5 +1,3 @@
-Set-PSDebug -Trace 1
-
 scoop install git *> ${null}
 scoop bucket add extras *> ${null}
 scoop update -a
@@ -29,7 +27,7 @@ code `
   --install-extension samuelcolvin.jinjahtml `
   --install-extension tamasfe.even-better-toml `
   --install-extension bierner.markdown-mermaid `
-  *> ${null} | Select-String -NotMatch -Pattern "already installed" | % { $_.Line }
+  *> ${null}
 
 if (Test-Path "${HOME}\setup") {
   git -C "${HOME}\setup" pull
