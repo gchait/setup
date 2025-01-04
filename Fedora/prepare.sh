@@ -61,7 +61,7 @@ docker_setup() {
 }
 
 system_setup
-[ "${IS_WSL}" = "1" ] && wsl_specific_setup
+[ "${IS_WSL}" = "0" ] || wsl_specific_setup
 packages_setup
 home_setup
 docker ps &> /dev/null || docker_setup
