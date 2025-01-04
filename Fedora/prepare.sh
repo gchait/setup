@@ -30,7 +30,7 @@ wsl_specific_setup() {
 
 packages_setup() {
   sudo dnf install -y \
-    tree zsh java-21-openjdk-devel awscli2 zip make openssl python3.9 \
+    tree zsh java-21-openjdk-devel awscli2 zip make openssl gron python3.9 \
     kubernetes-client vim tar figlet nmap-ncat htop bat jq yq python3-pip \
     asciinema lolcat gzip wget cmatrix just dnsutils ncurses findutils \
     fastfetch eza iproute iputils asciiquarium terraform packer docker-ce \

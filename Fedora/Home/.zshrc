@@ -1,5 +1,7 @@
-local ins_prompt="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-[ -r "${instant_prompt}" ] && source "${ins_prompt}"
+(){
+  local ins_prompt="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+  [ -r "${ins_prompt}" ] && source "${ins_prompt}"
+}
 
 fpath=("${HOME}/.zsh/complete/src" "${fpath[@]}")
 zle_highlight=("paste:none")
@@ -100,6 +102,7 @@ alias du="du -sh"
 
 alias ff="fastfetch -c paleofetch.jsonc"
 alias asso="aws sso login > /dev/null"
+alias pwsh="powershell.exe"
 
 bindkey -e
 bindkey "^[[1;5C" forward-word
