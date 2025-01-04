@@ -48,7 +48,7 @@
     "vs-kubernetes.crd-code-completion": "disabled"
   },
 
-  "[json][jsonc][shellscript][powershell][terraform][terraform-vars]": {
+  "[json][jsonc][markdown][shellscript][powershell][terraform][terraform-vars]": {
     "editor.tabSize": 2
   },
   "[terraform][terraform-vars]": {
