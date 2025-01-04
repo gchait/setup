@@ -25,15 +25,18 @@ wsl_specific_setup() {
 }
 
 packages_setup() {
+  local java_ver="21"
+  local old_py_ver="3.9"
+
   sudo dnf install -y \
-    tree zsh java-21-openjdk-devel awscli2 zip make openssl gron python3.9 \
-    kubernetes-client vim tar figlet nmap-ncat htop bat jq yq python3-pip \
-    asciinema lolcat gzip wget cmatrix just dnsutils ncurses findutils \
-    fastfetch eza iproute iputils asciiquarium terraform packer docker-ce \
+    "java-${java_ver}-openjdk-devel" "python${old_py_ver}" awscli2 openssl zip \
+    kubernetes-client vim tar figlet nmap-ncat htop jq yq make python3-pip bat \
+    asciinema lolcat gzip wget cmatrix just tree zsh dnsutils ncurses findutils \
+    fastfetch eza iproute iputils asciiquarium terraform packer gron docker-ce \
     docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-  pip install -U --no-warn-script-location pdm pdm-bump
-  sudo python3.9 -m ensurepip --altinstall 2> /dev/null
+  pip install -U --user --no-warn-script-location pdm pdm-bump
+  sudo "python${old_py_ver}" -m ensurepip --altinstall 2> /dev/null
   sudo chsh -s "$(which zsh)" "${USER}"
 }
 
@@ -43,10 +46,11 @@ home_setup() {
   __get_repo "${HOME}/.zsh/suggest" https://github.com/zsh-users/zsh-autosuggestions.git
   __get_repo "${HOME}/.zsh/p10k" https://github.com/romkatv/powerlevel10k.git
 
-  cp -r "${HOME}"/setup/Fedora/Home/.* "${HOME}"
+  cp -r "${HOME}/setup/Fedora/Home/".* "${HOME}"
   mkdir -p "${HOME}/.zsh" "${HOME}/Projects" "${HOME}/.local/share/fonts"
 
-  fc-list | grep -q /JuliaMono- || { cp "${HOME}"/setup/Assets/JuliaMono/*.ttf \
+  local font="JuliaMono"
+  fc-list | grep -q "/${font}-" || { cp "${HOME}/setup/Assets/${font}/"*.ttf \
     "${HOME}/.local/share/fonts/"; fc-cache -f; }
 }
 
@@ -61,7 +65,7 @@ docker_setup() {
 
 {
   system_setup
-  uname -r | grep -qi wsl && wsl_specific_setup
+  uname -r | grep -qi wslm && wsl_specific_setup
   packages_setup
   home_setup
   docker ps &> /dev/null || docker_setup
