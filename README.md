@@ -28,7 +28,7 @@ winget install 9NPCP8DRCHSN
 ##### Bootstrap
 
 ```shell
-curl -sL guyc.at/fedora.sh | bash -ex
+curl -sL guyc.at/fedora.sh | bash -eux
 ```
 
 ##### Shutdown to migrate to Systemd

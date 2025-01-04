@@ -65,7 +65,7 @@ docker_setup() {
 
 {
   system_setup
-  uname -r | grep -qi wslm && wsl_specific_setup
+  uname -r | grep -qi wsl && wsl_specific_setup
   packages_setup
   home_setup
   docker ps &> /dev/null || docker_setup
