@@ -15,7 +15,7 @@ export IS_WSL=$(uname -r | grep -qi wsl && echo 1 || echo 0)
 
 if [ "${IS_WSL}" = "1" ]; then
   export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
-  
+
   export PATH=$(echo "${HOME}/.local/bin:${PATH}" | sed "s|/:|:|g" | \
     sed -E "s|:[^:]+/games||g" | sed -E "s|:[^:]+/WindowsApps||" | \
     sed -E "s|:[^:]+/System32/OpenSSH||" | sed -E "s|:[^:]+/System32/Wbem||")
@@ -62,7 +62,7 @@ __set_wsl_display() {
     export DISPLAY="${host}:0.0"
     export XCURSOR_SIZE=$(( $(xrandr | grep "0\.00\*" | \
       awk '{print $1}' | cut -d"x" -f2) / 27 ))
-  
+
   else
     >&2 echo "X server is not running."
     return 1

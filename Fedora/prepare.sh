@@ -1,7 +1,3 @@
-# shellcheck disable=SC2148
-IS_WSL=$(uname -r | grep -qi wsl && echo 1 || echo 0)
-DOCKER_JSON='{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}'
-
 __get_repo() {
   # shellcheck disable=SC2015
   cd "${1}" && git pull || git clone --depth=1 "${2}" "${1}"
@@ -12,10 +8,10 @@ system_setup() {
 
   sudo dnf install -y dnf-plugins-core dnf-utils git
   __get_repo "${HOME}/setup" https://github.com/gchait/setup.git
-  
+
   sudo cp "${HOME}/setup/Fedora/dnf.conf" /etc/dnf/
   sudo dnf update -y
-  
+
   sudo dnf config-manager \
     --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo \
     --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
@@ -46,7 +42,7 @@ home_setup() {
   __get_repo "${HOME}/.zsh/highlight" https://github.com/zsh-users/zsh-syntax-highlighting.git
   __get_repo "${HOME}/.zsh/suggest" https://github.com/zsh-users/zsh-autosuggestions.git
   __get_repo "${HOME}/.zsh/p10k" https://github.com/romkatv/powerlevel10k.git
-  
+
   cp -r "${HOME}"/setup/Fedora/Home/.* "${HOME}"
   mkdir -p "${HOME}/.zsh" "${HOME}/Projects" "${HOME}/.local/share/fonts"
 
@@ -55,7 +51,9 @@ home_setup() {
 }
 
 docker_setup() {
-  echo "${DOCKER_JSON}" | sudo tee /etc/docker/daemon.json
+  local json='{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}'
+  echo "${json}" | sudo tee /etc/docker/daemon.json
+
   sudo systemctl enable docker
   sudo systemctl start docker &> /dev/null || true
   sudo usermod -aG docker "${USER}"
@@ -63,8 +61,8 @@ docker_setup() {
 
 {
   system_setup
-  [ "${IS_WSL}" = "0" ] || wsl_specific_setup
+  uname -r | grep -qi wsl && wsl_specific_setup
   packages_setup
   home_setup
-  docker ps &> /dev/null || docker_setup
+  docker psbb &> /dev/null || docker_setup
 } | grep -Ev "already (installed|satisfied)"

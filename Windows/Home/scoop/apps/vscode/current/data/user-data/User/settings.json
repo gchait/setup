@@ -24,6 +24,7 @@
   "git.enableSmartCommit": true,
   "git.openRepositoryInParentFolders": "never",
 
+  "files.trimTrailingWhitespace": true,
   "files.autoSave": "onFocusChange",
   "files.eol": "\n",
 
