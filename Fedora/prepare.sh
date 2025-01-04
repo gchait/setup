@@ -1,7 +1,9 @@
+# shellcheck disable=SC2148
 IS_WSL=$(uname -r | grep -qi wsl && echo 1 || echo 0)
 DOCKER_JSON='{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}'
 
 __get_repo() {
+  # shellcheck disable=SC2015
   cd "${1}" && git pull || git clone --depth=1 "${2}" "${1}"
 }
 
@@ -37,7 +39,7 @@ packages_setup() {
 
   pip install -U --no-warn-script-location pdm pdm-bump | grep -v "already satisfied"
   sudo python3.9 -m ensurepip --altinstall 2> /dev/null
-  sudo chsh -s $(which zsh) "${USER}"
+  sudo chsh -s "$(which zsh)" "${USER}"
 }
 
 home_setup() {
@@ -46,10 +48,10 @@ home_setup() {
   __get_repo "${HOME}/.zsh/suggest" https://github.com/zsh-users/zsh-autosuggestions.git
   __get_repo "${HOME}/.zsh/p10k" https://github.com/romkatv/powerlevel10k.git
   
-  cp -r ${HOME}/setup/Fedora/Home/.* "${HOME}"
+  cp -r "${HOME}"/setup/Fedora/Home/.* "${HOME}"
   mkdir -p "${HOME}/.zsh" "${HOME}/Projects" "${HOME}/.local/share/fonts"
 
-  fc-list | grep -q /JuliaMono- || { cp ${HOME}/setup/Assets/JuliaMono/*.ttf \
+  fc-list | grep -q /JuliaMono- || { cp "${HOME}"/setup/Assets/JuliaMono/*.ttf \
     "${HOME}/.local/share/fonts/"; fc-cache -f; }
 }
 
