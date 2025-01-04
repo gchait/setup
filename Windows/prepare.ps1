@@ -29,7 +29,7 @@ code `
   --install-extension samuelcolvin.jinjahtml `
   --install-extension tamasfe.even-better-toml `
   --install-extension bierner.markdown-mermaid `
-  2> ${null} | Select-String -NotMatch -Pattern "already installed" | % { $_.Line }
+  *> ${null} | Select-String -NotMatch -Pattern "already installed" | % { $_.Line }
 
 if (Test-Path "${HOME}\setup") {
   git -C "${HOME}\setup" pull
