@@ -14,8 +14,8 @@
   "editor.insertSpaces": true,
   "editor.fontLigatures": true,
   "editor.formatOnSave": true,
-  "editor.fontSize": 16,
   "editor.tabSize": 4,
+  "editor.fontSize": 16,
   "editor.wordWrap": "on",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
 
@@ -35,21 +35,23 @@
   "gitlens.telemetry.enabled": false,
   "redhat.telemetry.enabled": false,
 
+  "shellcheck.customArgs": ["-s", "bash"],
+  "shellcheck.exclude": [
+    "SC1090",
+    "SC1091",
+    "SC2011",
+    "SC2038",
+    "SC2155",
+    "SC2164"
+  ],
   "vs-kubernetes": {
     "vs-kubernetes.crd-code-completion": "disabled"
   },
-  "[shellscript]": {
+
+  "[json][jsonc][shellscript][powershell][terraform][terraform-vars]": {
     "editor.tabSize": 2
   },
-  "[powershell]": {
-    "editor.tabSize": 2
-  },
-  "[terraform]": {
-    "editor.tabSize": 2,
-    "editor.defaultFormatter": "hashicorp.terraform"
-  },
-  "[terraform-vars]": {
-    "editor.tabSize": 2,
+  "[terraform][terraform-vars]": {
     "editor.defaultFormatter": "hashicorp.terraform"
   },
   "[jinja-html]": {
