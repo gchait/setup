@@ -13,32 +13,46 @@ export SAVEHIST="${HISTSIZE}"
 export HISTFILE="${HOME}/.zsh_history"
 export IS_WSL=$(uname -r | grep -qi wsl && echo 1 || echo 0)
 
+alias j="just"
+alias d="docker"
+alias k="kubectl"
+alias c="code"
+alias g="git"
+alias ls="eza -a --group-directories-first"
+alias lt="ls -T --git-ignore"
+alias ll="ls -l"
+alias df="df -hT"
+alias du="du -sh"
+alias ff="fastfetch -c paleofetch.jsonc"
+alias cat="bat --paging=never --style=plain"
+alias asso="aws sso login > /dev/null"
+
 if [ "${IS_WSL}" = "1" ]; then
   export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
 
   export PATH=$(echo "${HOME}/.local/bin:${PATH}" | sed "s|/:|:|g" | \
     sed -E "s|:[^:]+/games||g" | sed -E "s|:[^:]+/WindowsApps||" | \
     sed -E "s|:[^:]+/System32/OpenSSH||" | sed -E "s|:[^:]+/System32/Wbem||")
+
+  alias pwsh="powershell.exe"
+  alias ipco="ipconfig.exe"
+  alias wff="fastfetch.exe -c paleofetch.jsonc"
+
+  __set_wsl_display() {
+    local host=$(ip r | grep "/20 dev eth0" | \
+      cut -d"/" -f1 | sed "s/.0$/.1/")
+
+    if nc -zw1 "${host}" 6000; then
+      export DISPLAY="${host}:0.0"
+      export XCURSOR_SIZE=$(( $(xrandr | grep "0\.00\*" | \
+        awk '{print $1}' | cut -d"x" -f2) / 27 ))
+
+    else
+      >&2 echo "X server is not running."
+      return 1
+    fi
+  }
 fi
-
-alias j="just"
-alias d="docker"
-alias k="kubectl"
-alias c="code"
-alias g="git"
-
-alias cat="bat --paging=never --style=plain"
-alias ls="eza -a --group-directories-first"
-alias lt="ls -T --git-ignore"
-alias ll="ls -l"
-alias df="df -hT"
-alias du="du -sh"
-
-alias asso="aws sso login > /dev/null"
-alias ff="fastfetch -c paleofetch.jsonc"
-alias wff="fastfetch.exe -c paleofetch.jsonc"
-alias pwsh="powershell.exe"
-alias ipco="ipconfig.exe"
 
 precmd() {
   echo -ne "\033]0;${PWD##*/}\007"
@@ -52,21 +66,6 @@ up() {
 upp() {
   curl -sL guyc.at/fedora.sh | bash -ex
   [ "${IS_WSL}" = "0" ] || pwsh "irm https://guyc.at/windows.ps1 | iex"
-}
-
-__set_wsl_display() {
-  local host=$(ip r | grep "/20 dev eth0" | \
-    cut -d"/" -f1 | sed "s/.0$/.1/")
-
-  if nc -zw1 "${host}" 6000; then
-    export DISPLAY="${host}:0.0"
-    export XCURSOR_SIZE=$(( $(xrandr | grep "0\.00\*" | \
-      awk '{print $1}' | cut -d"x" -f2) / 27 ))
-
-  else
-    >&2 echo "X server is not running."
-    return 1
-  fi
 }
 
 ij() {
