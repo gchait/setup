@@ -64,5 +64,5 @@ docker_setup() {
   uname -r | grep -qi wsl && wsl_specific_setup
   packages_setup
   home_setup
-  docker psbb &> /dev/null || docker_setup
+  docker ps &> /dev/null || docker_setup
 } | grep -Ev "already (installed|satisfied)"
