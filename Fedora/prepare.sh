@@ -10,7 +10,7 @@ __get_repo() {
 system_setup() {
   sudo rm -rf /etc/yum.repos.d/*testing*
 
-  sudo dnf install -y dnf-plugins-core dnf-utils git | grep -v "already installed"
+  sudo dnf install -y dnf-plugins-core dnf-utils git
   __get_repo "${HOME}/setup" https://github.com/gchait/setup.git
   
   sudo cp "${HOME}/setup/Fedora/dnf.conf" /etc/dnf/
@@ -23,7 +23,7 @@ system_setup() {
 
 wsl_specific_setup() {
   sudo dnf remove -y "*pulseaudio*" "*pipewire*" "*wayland*" "*gstreamer*" > /dev/null
-  sudo dnf install -y libXcursor adwaita-cursor-theme | grep -v "already installed"
+  sudo dnf install -y libXcursor adwaita-cursor-theme
   sudo cp "${HOME}/setup/Fedora/wsl.conf" /etc/
   sudo sed -i "/VARIANT/d" /etc/os-release
 }
@@ -34,10 +34,9 @@ packages_setup() {
     kubernetes-client vim tar figlet nmap-ncat htop bat jq yq python3-pip \
     asciinema lolcat gzip wget cmatrix just dnsutils ncurses findutils \
     fastfetch eza iproute iputils asciiquarium terraform packer docker-ce \
-    docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin \
-    | grep -v "already installed"
+    docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-  pip install -U --no-warn-script-location pdm pdm-bump | grep -v "already satisfied"
+  pip install -U --no-warn-script-location pdm pdm-bump
   sudo python3.9 -m ensurepip --altinstall 2> /dev/null
   sudo chsh -s "$(which zsh)" "${USER}"
 }
@@ -62,8 +61,10 @@ docker_setup() {
   sudo usermod -aG docker "${USER}"
 }
 
-system_setup
-[ "${IS_WSL}" = "0" ] || wsl_specific_setup
-packages_setup
-home_setup
-docker ps &> /dev/null || docker_setup
+{
+  system_setup
+  [ "${IS_WSL}" = "0" ] || wsl_specific_setup
+  packages_setup
+  home_setup
+  docker ps &> /dev/null || docker_setup
+} | grep -Ev "already (installed|satisfied)"
