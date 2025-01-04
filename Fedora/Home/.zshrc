@@ -21,6 +21,25 @@ if [ "${IS_WSL}" = "1" ]; then
     sed -E "s|:[^:]+/System32/OpenSSH||" | sed -E "s|:[^:]+/System32/Wbem||")
 fi
 
+alias j="just"
+alias d="docker"
+alias k="kubectl"
+alias c="code"
+alias g="git"
+
+alias cat="bat --paging=never --style=plain"
+alias ls="eza -a --group-directories-first"
+alias lt="ls -T --git-ignore"
+alias ll="ls -l"
+alias df="df -hT"
+alias du="du -sh"
+
+alias asso="aws sso login > /dev/null"
+alias ff="fastfetch -c paleofetch.jsonc"
+alias wff="fastfetch.exe -c paleofetch.jsonc"
+alias pwsh="powershell.exe"
+alias ipco="ipconfig.exe"
+
 precmd() {
   echo -ne "\033]0;${PWD##*/}\007"
 }
@@ -32,7 +51,7 @@ up() {
 
 upp() {
   curl -sL guyc.at/fedora.sh | bash -ex
-  [ "${IS_WSL}" = "0" ] || powershell.exe "irm https://guyc.at/windows.ps1 | iex"
+  [ "${IS_WSL}" = "0" ] || pwsh "irm https://guyc.at/windows.ps1 | iex"
 }
 
 __set_wsl_display() {
@@ -63,7 +82,7 @@ ij() {
   fi
 }
 
-explorer() {
+expl() {
   if [ "${IS_WSL}" = "1" ] && command -v explorer.exe &> /dev/null; then
     (cd "${1:-$HOME}" && { explorer.exe . || true; })
   else
@@ -80,29 +99,12 @@ awsp() {
   fi
 }
 
-ec2-ls() {
+ec2() {
   echo
   aws ec2 describe-instances --output text \
     --filters "Name=tag:Name,Values=*${1:-*}*" "Name=instance-state-name,Values=running" \
     --query 'Reservations[].Instances[].{id:InstanceId,ip:PrivateIpAddress,name:Tags[?Key==`Name`]|[0].Value}'
 }
-
-alias j="just"
-alias d="docker"
-alias k="kubectl"
-alias c="code"
-alias g="git"
-
-alias cat="bat --paging=never --style=plain"
-alias ls="eza -a --group-directories-first"
-alias lt="ls -T --git-ignore"
-alias ll="ls -l"
-alias df="df -hT"
-alias du="du -sh"
-
-alias ff="fastfetch -c paleofetch.jsonc"
-alias asso="aws sso login > /dev/null"
-alias pwsh="powershell.exe"
 
 bindkey -e
 bindkey "^[[1;5C" forward-word
