@@ -1,5 +1,5 @@
-instant_prompt="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-[ -r "${instant_prompt}" ] && source "${instant_prompt}"
+local ins_prompt="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+[ -r "${instant_prompt}" ] && source "${ins_prompt}"
 
 fpath=("${HOME}/.zsh/complete/src" "${fpath[@]}")
 zle_highlight=("paste:none")
@@ -9,7 +9,7 @@ export PAGER="less"
 export HISTSIZE="4000"
 export SAVEHIST="${HISTSIZE}"
 export HISTFILE="${HOME}/.zsh_history"
-export IS_WSL="$(uname -r | grep -qi wsl && echo 1 || echo 0)"
+export IS_WSL=$(uname -r | grep -qi wsl && echo 1 || echo 0)
 
 if [ "${IS_WSL}" = "1" ]; then
   export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
@@ -34,10 +34,14 @@ upp() {
 }
 
 __set_wsl_display() {
-  host=$(ip r | grep "/20 dev eth0" | cut -d"/" -f1 | sed "s/.0$/.1/")
+  local host=$(ip r | grep "/20 dev eth0" | \
+    cut -d"/" -f1 | sed "s/.0$/.1/")
+
   if nc -zw1 "${host}" 6000; then
     export DISPLAY="${host}:0.0"
-    export XCURSOR_SIZE="$(( $(xrandr | grep '0\.00\*' | awk '{print $1}' | cut -d'x' -f2) / 27 ))"
+    export XCURSOR_SIZE=$(( $(xrandr | grep "0\.00\*" | \
+      awk '{print $1}' | cut -d"x" -f2) / 27 ))
+  
   else
     >&2 echo "X server is not running."
     return 1
@@ -45,13 +49,24 @@ __set_wsl_display() {
 }
 
 ij() {
-  [ "${IS_WSL}" = "1" ] && [ -z "${DISPLAY}" ] && __set_wsl_display
-  (/opt/idea/bin/idea "${1:-$HOME/Projects}" &> /dev/null &)
+  if [ "${IS_WSL}" = "1" ] && [ -z "${DISPLAY}" ]; then
+    __set_wsl_display || return "${?}"
+  fi
+
+  if [ -r /opt/idea/bin/idea ]; then
+    (/opt/idea/bin/idea "${1:-$HOME/Projects}" &> /dev/null &)
+  else
+    >&2 echo "IntelliJ not found."
+    return 2
+  fi
 }
 
 explorer() {
   if [ "${IS_WSL}" = "1" ] && command -v explorer.exe &> /dev/null; then
     (cd "${1:-$HOME}" && { explorer.exe . || true; })
+  else
+    >&2 echo "You are not running from Windows."
+    return 2
   fi
 }
 

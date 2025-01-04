@@ -1,4 +1,4 @@
-IS_WSL="$(uname -r | grep -qi wsl && echo 1 || echo 0)"
+IS_WSL=$(uname -r | grep -qi wsl && echo 1 || echo 0)
 DOCKER_JSON='{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}'
 
 __get_repo() {

@@ -21,6 +21,7 @@ code `
   --install-extension kokakiwi.vscode-just `
   --install-extension ms-azuretools.vscode-docker `
   --install-extension ms-kubernetes-tools.vscode-kubernetes-tools `
+  --install-extension timonwong.shellcheck `
   --install-extension ms-pyright.pyright `
   --install-extension redhat.vscode-yaml `
   --install-extension samuelcolvin.jinjahtml `
