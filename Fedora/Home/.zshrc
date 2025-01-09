@@ -25,7 +25,7 @@ alias df="df -hT"
 alias du="du -sh"
 alias ff="fastfetch -c paleofetch.jsonc"
 alias cat="bat --paging=never --style=plain"
-alias asso="aws sso login > /dev/null"
+alias asso="aws sso login | grep -E '^[A-Z]{4}-[A-Z]{4}$'"
 
 if [ "${IS_WSL}" = "1" ]; then
   export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
