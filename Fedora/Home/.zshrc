@@ -105,6 +105,18 @@ ec2() {
     --query 'Reservations[].Instances[].{id:InstanceId,ip:PrivateIpAddress,name:Tags[?Key==`Name`]|[0].Value}'
 }
 
+jwtd() {
+  if [ ! -t 0 ]; then
+    local input=$(cat /dev/stdin)
+  else
+    >&2 echo "Missing piped input."
+    return 2
+  fi
+
+  echo "${input}" | jq -Rrce 'split(".")[1] | . + "=" * (. | 4 - length % 4)' | \
+    openssl base64 -d -A | jq
+}
+
 bindkey -e
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
