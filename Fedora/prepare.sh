@@ -32,8 +32,8 @@ packages_setup() {
     "java-${java_ver}-openjdk-devel" "python${old_py_ver}" awscli2 openssl zip \
     kubernetes-client vim tar figlet nmap-ncat htop jq yq make python3-pip bat \
     asciinema lolcat gzip wget cmatrix just tree zsh dnsutils ncurses findutils \
-    fastfetch eza iproute iputils asciiquarium terraform packer gron docker-ce \
-    docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    fastfetch eza iproute iputils asciiquarium terraform packer gron moreutils-parallel \
+    docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
   pip install -U --user --no-warn-script-location pdm pdm-bump
   sudo "python${old_py_ver}" -m ensurepip --altinstall 2> /dev/null
