@@ -1,5 +1,3 @@
-## Extras
-
 ### Launch Linux GUI apps from Windows
 
 - Start an X server, [X410](https://x410.dev/download/) is the best in my opinion.

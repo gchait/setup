@@ -1,5 +1,3 @@
-## My Windows + WSL setup
-
 ### Windows side
 
 ##### Get Scoop
