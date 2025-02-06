@@ -1,4 +1,4 @@
-## My personal setup
+## My Windows + WSL setup
 
 ### Windows side
 

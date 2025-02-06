@@ -25,7 +25,6 @@ alias df="df -hT"
 alias du="du -sh"
 alias ff="fastfetch -c paleofetch.jsonc"
 alias cat="bat --paging=never --style=plain"
-alias asso="aws sso login | grep -E '^[A-Z]{4}-[A-Z]{4}$'"
 
 if [ "${IS_WSL}" = "1" ]; then
   export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
@@ -51,6 +50,10 @@ if [ "${IS_WSL}" = "1" ]; then
       >&2 echo "X server is not running."
       return 1
     fi
+  }
+
+  expl() {
+    (cd "${1:-$HOME}" && { explorer.exe . || true; })
   }
 fi
 
@@ -81,21 +84,16 @@ ij() {
   fi
 }
 
-expl() {
-  if [ "${IS_WSL}" = "1" ] && command -v explorer.exe &> /dev/null; then
-    (cd "${1:-$HOME}" && { explorer.exe . || true; })
-  else
-    >&2 echo "You are not running from Windows."
-    return 2
-  fi
-}
-
 awsp() {
   if [ -z "${1}" ]; then
     echo "${AWS_PROFILE}"
   else
     export AWS_PROFILE="${1}"
   fi
+}
+
+asso() {
+  aws sso login | grep -E --color=never '^[A-Z]{4}-[A-Z]{4}$'
 }
 
 ec2() {
