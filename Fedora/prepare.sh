@@ -47,7 +47,7 @@ home_setup() {
   __get_repo "${HOME}/.zsh/p10k" https://github.com/romkatv/powerlevel10k.git
 
   cp -r "${HOME}/setup/Fedora/Home/".* "${HOME}"
-  mkdir -p "${HOME}/.zsh" "${HOME}/Projects" "${HOME}/.local/share/fonts"
+  mkdir -p "${HOME}/Projects" "${HOME}/.local/share/fonts"
 
   local font="JuliaMono"
   fc-list | grep -q "/${font}-" || { cp "${HOME}/setup/Assets/${font}/"*.ttf \
