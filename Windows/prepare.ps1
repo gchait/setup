@@ -27,6 +27,8 @@ code `
   --install-extension samuelcolvin.jinjahtml `
   --install-extension tamasfe.even-better-toml `
   --install-extension bierner.markdown-mermaid `
+  --install-extension formulahendry.code-runner `
+  --install-extension szTheory.vscode-packer-powertools `
   *> ${null}
 
 if (Test-Path "${HOME}\setup") {
