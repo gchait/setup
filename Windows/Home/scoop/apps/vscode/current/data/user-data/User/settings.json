@@ -14,7 +14,7 @@
   "editor.insertSpaces": true,
   "editor.fontLigatures": true,
   "editor.formatOnSave": true,
-  "editor.tabSize": 4,
+  "editor.tabSize": 2,
   "editor.fontSize": 16,
   "editor.wordWrap": "on",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -49,11 +49,14 @@
     "vs-kubernetes.crd-code-completion": "disabled"
   },
 
-  "[json][jsonc][markdown][shellscript][powershell][terraform][terraform-vars]": {
-    "editor.tabSize": 2
+  "[python]": {
+    "editor.tabSize": 4
   },
   "[terraform][terraform-vars]": {
     "editor.defaultFormatter": "hashicorp.terraform"
+  },
+  "[packer]": {
+    "editor.defaultFormatter": "szTheory.vscode-packer-powertools"
   },
   "[jinja-html]": {
     "editor.defaultFormatter": "vscode.html-language-features"
