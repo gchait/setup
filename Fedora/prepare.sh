@@ -6,13 +6,13 @@ __get_repo() {
 system_setup() {
   sudo rm -rf /etc/yum.repos.d/*testing*
 
-  sudo dnf install -y dnf-plugins-core dnf-utils git
+  sudo dnf install -y python3-dnf dnf-plugins-core dnf-utils git
   __get_repo "${HOME}/setup" https://github.com/gchait/setup.git
 
   sudo cp "${HOME}/setup/Fedora/dnf.conf" /etc/dnf/
   sudo dnf update -y
 
-  sudo dnf config-manager \
+  sudo dnf4 config-manager \
     --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo \
     --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 }
