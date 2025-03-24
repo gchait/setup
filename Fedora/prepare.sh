@@ -5,7 +5,7 @@ __get_repo() {
 
 system_setup() {
   sudo rm -rf /etc/yum.repos.d/*testing*
-  dnf check-update -q
+  dnf check-update -q || true
 
   sudo dnf install -yq python3-dnf dnf-plugins-core dnf-utils git
   __get_repo "${HOME}/setup" https://github.com/gchait/setup.git
