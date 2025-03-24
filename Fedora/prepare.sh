@@ -35,7 +35,7 @@ packages_setup() {
     packer python3-pip tar terraform tree vim wget yq zip zsh
 
   pip install -U --user --no-warn-script-location pdm pdm-bump
-  sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
+  sudo "${alt_py}" -m ensurepip --altinstall
   sudo chsh -s "$(which zsh)" "${USER}"
 }
 
@@ -55,12 +55,12 @@ home_setup() {
 }
 
 docker_setup() {
-  docker ps 2> /dev/null || {
+  docker ps || {
     echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' | \
       sudo tee /etc/docker/daemon.json
 
     sudo systemctl enable docker
-    sudo systemctl start docker 2> /dev/null || true
+    sudo systemctl start docker || true
     sudo usermod -aG docker "${USER}"
   }
 }
@@ -70,4 +70,4 @@ docker_setup() {
   packages_setup
   home_setup
   docker_setup
-} > /dev/null
+} &> /dev/null
