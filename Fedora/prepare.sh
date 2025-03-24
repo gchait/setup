@@ -40,7 +40,7 @@ packages_setup() {
 
   pip install -U --user --no-warn-script-location pdm pdm-bump
   sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
-  sudo chsh -s "$(which zsh)" "${USER}"
+  sudo chsh -s "$(which zsh)" "${USER}" 2> /dev/null
 }
 
 home_setup() {
