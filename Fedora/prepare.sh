@@ -16,7 +16,7 @@ system_setup() {
   sudo sed -i "s/ (Container Image)//g" /etc/os-release
 
   sudo rm -rf /etc/yum.repos.d/*testing*
-  __get_pkg python3-dnf dnf-plugins-core dnf-utils git
+  (__get_pkg python3-dnf dnf-plugins-core dnf-utils git)
 
   __get_repo "${HOME}/setup" https://github.com/gchait/setup.git
   sudo cp -r "${HOME}/setup/Fedora/Etc/"* /etc
@@ -31,12 +31,12 @@ packages_setup() {
   local java="java-${JAVA_VER}-openjdk-devel"
   local alt_py="python${ALT_PY_VER}"
 
-  __get_pkg "${java}" "${alt_py}" libXcursor adwaita-cursor-theme \
+  (__get_pkg "${java}" "${alt_py}" libXcursor adwaita-cursor-theme \
     asciinema asciiquarium awscli2 bat cmatrix containerd.io dnsutils \
     docker-buildx-plugin docker-ce docker-ce-cli docker-compose-plugin \
     eza fastfetch figlet findutils gron gzip htop iproute iputils jq just \
     kubernetes-client lolcat make moreutils-parallel ncurses nmap-ncat openssl \
-    packer python3-pip tar terraform tree vim wget yq zip zsh
+    packer python3-pip tar terraform tree vim wget yq zip zsh)
 
   pip install -U --user --no-warn-script-location pdm pdm-bump
   sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
