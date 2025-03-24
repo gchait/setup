@@ -1,3 +1,8 @@
+FONT="JuliaMono"
+JAVA_VER="21"
+ALT_PY_VER="3.9"
+DOCKERD_CONF='{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}'
+
 __get_repo() {
   # shellcheck disable=SC2015
   cd "${1}" && git pull || git clone --depth=1 "${2}" "${1}"
@@ -5,11 +10,9 @@ __get_repo() {
 
 system_setup() {
   sudo rm -rf /etc/yum.repos.d/*testing*
-  dnf check-update -q || true
-
   sudo dnf install -yq python3-dnf dnf-plugins-core dnf-utils git
-  __get_repo "${HOME}/setup" https://github.com/gchait/setup.git
 
+  __get_repo "${HOME}/setup" https://github.com/gchait/setup.git
   sudo cp "${HOME}/setup/Fedora/dnf.conf" /etc/dnf/
   sudo dnf update -yq
 
@@ -21,24 +24,20 @@ system_setup() {
 wsl_specific_setup() {
   sudo dnf install -yq libXcursor adwaita-cursor-theme
   sudo cp "${HOME}/setup/Fedora/wsl.conf" /etc/
-
   sudo sed -i "/VARIANT/d" /etc/os-release
   sudo sed -i "s/ (Container Image)//g" /etc/os-release
 }
 
 packages_setup() {
-  local java_ver="21"
-  local old_py_ver="3.9"
-
   sudo dnf install -yq \
-    "java-${java_ver}-openjdk-devel" "python${old_py_ver}" awscli2 openssl zip eza \
+    "java-${JAVA_VER}-openjdk-devel" "python${ALT_PY_VER}" awscli2 openssl zip eza \
     kubernetes-client vim tar figlet nmap-ncat htop jq yq make python3-pip bat gron \
     asciinema lolcat gzip wget cmatrix just tree zsh dnsutils ncurses findutils \
     fastfetch iproute iputils asciiquarium terraform packer moreutils-parallel \
     docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
   pip install -U --user --no-warn-script-location pdm pdm-bump
-  sudo "python${old_py_ver}" -m ensurepip --altinstall 2> /dev/null
+  sudo "python${ALT_PY_VER}" -m ensurepip --altinstall 2> /dev/null
   sudo chsh -s "$(which zsh)" "${USER}"
 }
 
@@ -51,15 +50,14 @@ home_setup() {
   cp -r "${HOME}/setup/Fedora/Home/".* "${HOME}"
   mkdir -p "${HOME}/Projects" "${HOME}/.local/share/fonts"
 
-  local font="JuliaMono"
-  fc-list | grep -q "/${font}-" || { cp "${HOME}/setup/Assets/${font}/"*.ttf \
-    "${HOME}/.local/share/fonts/"; fc-cache -f; }
+  fc-list | grep -q "/${FONT}-" || {
+    cp "${HOME}/setup/Assets/${FONT}/"*.ttf "${HOME}/.local/share/fonts/"
+    fc-cache -f
+  }
 }
 
 docker_setup() {
-  local json='{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}'
-  echo "${json}" | sudo tee /etc/docker/daemon.json
-
+  echo "${DOCKERD_CONF}" | sudo tee /etc/docker/daemon.json
   sudo systemctl enable docker
   sudo systemctl start docker &> /dev/null || true
   sudo usermod -aG docker "${USER}"
@@ -71,4 +69,4 @@ docker_setup() {
   packages_setup
   home_setup
   docker ps &> /dev/null || docker_setup
-}
+} | grep -Ev "^$|(already (installed|satisfied))"
