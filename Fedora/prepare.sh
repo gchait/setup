@@ -1,7 +1,6 @@
 FONT="JuliaMono"
 JAVA_VER="21"
 ALT_PY_VER="3.9"
-DOCKERD_CONF='{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}'
 
 __get_repo() {
   # shellcheck disable=SC2015
@@ -9,11 +8,14 @@ __get_repo() {
 }
 
 system_setup() {
+  sudo sed -i "/VARIANT/d" /etc/os-release
+  sudo sed -i "s/ (Container Image)//g" /etc/os-release
+
   sudo rm -rf /etc/yum.repos.d/*testing*
   sudo dnf install -yq python3-dnf dnf-plugins-core dnf-utils git
 
   __get_repo "${HOME}/setup" https://github.com/gchait/setup.git
-  sudo cp "${HOME}/setup/Fedora/dnf.conf" /etc/dnf/
+  sudo cp -r "${HOME}/setup/Fedora/Etc/".* /etc
   sudo dnf update -yq
 
   sudo dnf4 config-manager -q \
@@ -21,23 +23,19 @@ system_setup() {
     --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 }
 
-wsl_specific_setup() {
-  sudo dnf install -yq libXcursor adwaita-cursor-theme
-  sudo cp "${HOME}/setup/Fedora/wsl.conf" /etc/
-  sudo sed -i "/VARIANT/d" /etc/os-release
-  sudo sed -i "s/ (Container Image)//g" /etc/os-release
-}
-
 packages_setup() {
-  sudo dnf install -yq \
-    "java-${JAVA_VER}-openjdk-devel" "python${ALT_PY_VER}" awscli2 openssl zip eza \
-    kubernetes-client vim tar figlet nmap-ncat htop jq yq make python3-pip bat gron \
-    asciinema lolcat gzip wget cmatrix just tree zsh dnsutils ncurses findutils \
-    fastfetch iproute iputils asciiquarium terraform packer moreutils-parallel \
-    docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  local java="java-${JAVA_VER}-openjdk-devel"
+  local alt_py="python${ALT_PY_VER}"
+
+  sudo dnf install -yq "${java}" "${alt_py}" libXcursor adwaita-cursor-theme \
+    asciinema asciiquarium awscli2 bat cmatrix containerd.io dnsutils \
+    docker-buildx-plugin docker-ce docker-ce-cli docker-compose-plugin \
+    eza fastfetch figlet findutils gron gzip htop iproute iputils jq just \
+    kubernetes-client lolcat make moreutils-parallel ncurses nmap-ncat openssl \
+    packer python3-pip tar terraform tree vim wget yq zip zsh
 
   pip install -U --user --no-warn-script-location pdm pdm-bump
-  sudo "python${ALT_PY_VER}" -m ensurepip --altinstall 2> /dev/null
+  sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
   sudo chsh -s "$(which zsh)" "${USER}"
 }
 
@@ -57,16 +55,19 @@ home_setup() {
 }
 
 docker_setup() {
-  echo "${DOCKERD_CONF}" | sudo tee /etc/docker/daemon.json
-  sudo systemctl enable docker
-  sudo systemctl start docker &> /dev/null || true
-  sudo usermod -aG docker "${USER}"
+  docker ps 2> /dev/null || {
+    echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' | \
+      sudo tee /etc/docker/daemon.json
+
+    sudo systemctl enable docker
+    sudo systemctl start docker 2> /dev/null || true
+    sudo usermod -aG docker "${USER}"
+  }
 }
 
 {
   system_setup
-  uname -r | grep -qi wsl && wsl_specific_setup
   packages_setup
   home_setup
-  docker ps &> /dev/null || docker_setup
-} | grep -Ev "^$|(already (installed|satisfied))"
+  docker_setup
+} > /dev/null
