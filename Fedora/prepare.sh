@@ -15,7 +15,7 @@ system_setup() {
   sudo dnf install -yq python3-dnf dnf-plugins-core dnf-utils git
 
   __get_repo "${HOME}/setup" https://github.com/gchait/setup.git
-  sudo cp -r "${HOME}/setup/Fedora/Etc/".* /etc
+  sudo cp -r "${HOME}/setup/Fedora/Etc/"* /etc
   sudo dnf update -yq
 
   sudo dnf4 config-manager -q \
