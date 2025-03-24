@@ -6,12 +6,14 @@
 fpath=("${HOME}/.zsh/complete/src" "${fpath[@]}")
 zle_highlight=("paste:none")
 
+IS_WSL=$(uname -r | grep -qi wsl && echo 1 || echo 0)
+[ "${IS_WSL}" = "1" ] && source "${HOME}/.wsl.zsh"
+
 export EDITOR="vim"
 export PAGER="less"
 export HISTSIZE="4000"
 export SAVEHIST="${HISTSIZE}"
 export HISTFILE="${HOME}/.zsh_history"
-export IS_WSL=$(uname -r | grep -qi wsl && echo 1 || echo 0)
 
 alias j="just"
 alias d="docker"
@@ -98,6 +100,4 @@ setopt hist_ignore_all_dups
 source "${HOME}/.zsh/highlight/zsh-syntax-highlighting.zsh"
 source "${HOME}/.zsh/suggest/zsh-autosuggestions.zsh"
 source "${HOME}/.zsh/p10k/powerlevel10k.zsh-theme"
-
-[ "${IS_WSL}" = "1" ] && source "${HOME}/.wsl.zsh"
 source "${HOME}/.p10k.zsh"
