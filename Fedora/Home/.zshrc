@@ -1,6 +1,6 @@
 (){
-  local ins_prompt="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-  [ -r "${ins_prompt}" ] && source "${ins_prompt}"
+  local pkip="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+  [ -r "${pkip}" ] && source "${pkip}"
 }
 
 fpath=("${HOME}/.zsh/complete/src" "${fpath[@]}")
@@ -26,43 +26,12 @@ alias du="du -sh"
 alias ff="fastfetch -c paleofetch.jsonc"
 alias cat="bat --paging=never --style=plain"
 
-if [ "${IS_WSL}" = "1" ]; then
-  export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
-
-  export PATH=$(echo "${HOME}/.local/bin:${PATH}" | sed "s|/:|:|g" | \
-    sed -E "s|:[^:]+/games||g" | sed -E "s|:[^:]+/WindowsApps||" | \
-    sed -E "s|:[^:]+/System32/OpenSSH||" | sed -E "s|:[^:]+/System32/Wbem||")
-
-  alias pwsh="powershell.exe"
-  alias ipco="ipconfig.exe"
-  alias wff="fastfetch.exe -c paleofetch.jsonc"
-
-  __set_wsl_display() {
-    local host=$(ip r | grep "/20 dev eth0" | \
-      cut -d"/" -f1 | sed "s/.0$/.1/")
-
-    if nc -zw1 "${host}" 6000; then
-      export DISPLAY="${host}:0.0"
-      export XCURSOR_SIZE=$(( $(xrandr | grep "0\.00\*" | \
-        awk '{print $1}' | cut -d"x" -f2) / 27 ))
-
-    else
-      >&2 echo "X server is not running."
-      return 1
-    fi
-  }
-
-  expl() {
-    (cd "${1:-$HOME}" && { explorer.exe . || true; })
-  }
-fi
-
 precmd() {
   echo -ne "\033]0;${PWD##*/}\007"
 }
 
 up() {
-  sudo dnf update -y
+  sudo dnf update -yq
   [ "${IS_WSL}" = "0" ] || scoop update -a
 }
 
@@ -130,5 +99,5 @@ source "${HOME}/.zsh/highlight/zsh-syntax-highlighting.zsh"
 source "${HOME}/.zsh/suggest/zsh-autosuggestions.zsh"
 source "${HOME}/.zsh/p10k/powerlevel10k.zsh-theme"
 
-[ -r "${HOME}/.hidden_zshrc" ] && source "${HOME}/.hidden_zshrc"
+[ "${IS_WSL}" = "1" ] && source "${HOME}/.wsl.zsh"
 source "${HOME}/.p10k.zsh"
