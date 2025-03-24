@@ -5,21 +5,21 @@ __get_repo() {
 
 system_setup() {
   sudo rm -rf /etc/yum.repos.d/*testing*
+  dnf check-update -q
 
-  sudo dnf install -y python3-dnf dnf-plugins-core dnf-utils git
+  sudo dnf install -yq python3-dnf dnf-plugins-core dnf-utils git
   __get_repo "${HOME}/setup" https://github.com/gchait/setup.git
 
   sudo cp "${HOME}/setup/Fedora/dnf.conf" /etc/dnf/
-  sudo dnf update -y
+  sudo dnf update -yq
 
-  sudo dnf4 config-manager \
+  sudo dnf4 config-manager -q \
     --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo \
     --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 }
 
 wsl_specific_setup() {
-  sudo dnf remove -y "*pulseaudio*" "*pipewire*" "*wayland*" "*gstreamer*" > /dev/null
-  sudo dnf install -y libXcursor adwaita-cursor-theme
+  sudo dnf install -yq libXcursor adwaita-cursor-theme
   sudo cp "${HOME}/setup/Fedora/wsl.conf" /etc/
 
   sudo sed -i "/VARIANT/d" /etc/os-release
@@ -30,11 +30,11 @@ packages_setup() {
   local java_ver="21"
   local old_py_ver="3.9"
 
-  sudo dnf install -y \
-    "java-${java_ver}-openjdk-devel" "python${old_py_ver}" awscli2 openssl zip \
-    kubernetes-client vim tar figlet nmap-ncat htop jq yq make python3-pip bat \
+  sudo dnf install -yq \
+    "java-${java_ver}-openjdk-devel" "python${old_py_ver}" awscli2 openssl zip eza \
+    kubernetes-client vim tar figlet nmap-ncat htop jq yq make python3-pip bat gron \
     asciinema lolcat gzip wget cmatrix just tree zsh dnsutils ncurses findutils \
-    fastfetch eza iproute iputils asciiquarium terraform packer gron moreutils-parallel \
+    fastfetch iproute iputils asciiquarium terraform packer moreutils-parallel \
     docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
   pip install -U --user --no-warn-script-location pdm pdm-bump
@@ -71,4 +71,4 @@ docker_setup() {
   packages_setup
   home_setup
   docker ps &> /dev/null || docker_setup
-} 2>&1 | grep -Ev "already (installed|satisfied)"
+} 2>&1 | grep . | grep -Ev "already (installed|satisfied)"
