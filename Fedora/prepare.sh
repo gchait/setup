@@ -21,7 +21,9 @@ wsl_specific_setup() {
   sudo dnf remove -y "*pulseaudio*" "*pipewire*" "*wayland*" "*gstreamer*" > /dev/null
   sudo dnf install -y libXcursor adwaita-cursor-theme
   sudo cp "${HOME}/setup/Fedora/wsl.conf" /etc/
+
   sudo sed -i "/VARIANT/d" /etc/os-release
+  sudo sed -i "s/ (Container Image)//g" /etc/os-release
 }
 
 packages_setup() {
@@ -69,4 +71,4 @@ docker_setup() {
   packages_setup
   home_setup
   docker ps &> /dev/null || docker_setup
-} | grep -Ev "already (installed|satisfied)"
+} 2>&1 | grep -Ev "already (installed|satisfied)"
