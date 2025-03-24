@@ -71,4 +71,4 @@ docker_setup() {
   packages_setup
   home_setup
   docker ps &> /dev/null || docker_setup
-} 2>&1 | grep . | grep -Ev "already (installed|satisfied)"
+}
