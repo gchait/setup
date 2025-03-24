@@ -7,12 +7,16 @@ __get_repo() {
   cd "${1}" && git pull || git clone --depth=1 "${2}" "${1}"
 }
 
+__get_pkg() {
+  sudo dnf install -yq "${@}" 2> /dev/null
+}
+
 system_setup() {
   sudo sed -i "/VARIANT/d" /etc/os-release
   sudo sed -i "s/ (Container Image)//g" /etc/os-release
 
   sudo rm -rf /etc/yum.repos.d/*testing*
-  sudo dnf install -yq python3-dnf dnf-plugins-core dnf-utils git
+  __get_pkg python3-dnf dnf-plugins-core dnf-utils git
 
   __get_repo "${HOME}/setup" https://github.com/gchait/setup.git
   sudo cp -r "${HOME}/setup/Fedora/Etc/"* /etc
@@ -27,7 +31,7 @@ packages_setup() {
   local java="java-${JAVA_VER}-openjdk-devel"
   local alt_py="python${ALT_PY_VER}"
 
-  sudo dnf install -yq "${java}" "${alt_py}" libXcursor adwaita-cursor-theme \
+  __get_pkg "${java}" "${alt_py}" libXcursor adwaita-cursor-theme \
     asciinema asciiquarium awscli2 bat cmatrix containerd.io dnsutils \
     docker-buildx-plugin docker-ce docker-ce-cli docker-compose-plugin \
     eza fastfetch figlet findutils gron gzip htop iproute iputils jq just \
@@ -35,7 +39,7 @@ packages_setup() {
     packer python3-pip tar terraform tree vim wget yq zip zsh
 
   pip install -U --user --no-warn-script-location pdm pdm-bump
-  sudo "${alt_py}" -m ensurepip --altinstall
+  sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
   sudo chsh -s "$(which zsh)" "${USER}"
 }
 
@@ -55,12 +59,12 @@ home_setup() {
 }
 
 docker_setup() {
-  docker ps || {
+  docker ps 2> /dev/null || {
     echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' | \
       sudo tee /etc/docker/daemon.json
 
     sudo systemctl enable docker
-    sudo systemctl start docker || true
+    sudo systemctl start docker 2> /dev/null || true
     sudo usermod -aG docker "${USER}"
   }
 }
@@ -70,4 +74,4 @@ docker_setup() {
   packages_setup
   home_setup
   docker_setup
-} &> /dev/null
+} > /dev/null
