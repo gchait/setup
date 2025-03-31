@@ -1,9 +1,10 @@
-export BROWSER="/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
+export BROWSER="/c/Program Files/Mozilla Firefox/firefox.exe"
 
 export PATH=$(echo "${HOME}/.local/bin:${PATH}" | sed "s|/:|:|g" | \
   sed -E "s|:[^:]+/games||g" | sed -E "s|:[^:]+/WindowsApps||" | \
   sed -E "s|:[^:]+/System32/OpenSSH||" | sed -E "s|:[^:]+/System32/Wbem||")
 
+alias wsl="wsl.exe"
 alias pwsh="powershell.exe"
 alias ipco="ipconfig.exe"
 alias wff="fastfetch.exe -c paleofetch.jsonc"
