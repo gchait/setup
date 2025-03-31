@@ -38,7 +38,7 @@ packages_setup() {
     kubernetes-client lolcat make moreutils-parallel ncurses nmap-ncat openssl \
     packer python3-pip tar terraform tree vim wget yq zip zsh
 
-  pip install -U --user --no-warn-script-location pdm pdm-bump mkdocs-material
+  pip install -U --user --no-warn-script-location pdm pdm-bump
   sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
   sudo chsh -s "$(which zsh)" "${USER}" 2> /dev/null
 }
