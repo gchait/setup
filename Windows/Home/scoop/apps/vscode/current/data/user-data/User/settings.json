@@ -45,6 +45,10 @@
     "SC2155",
     "SC2164"
   ],
+  "yaml.customTags": [
+    "tag:yaml.org,2002:python/name:pymdownx.superfences.fence_code_format",
+    "tag:yaml.org,2002:python/object/apply:pymdownx.slugs.slugify"
+  ],
   "vs-kubernetes": {
     "vs-kubernetes.crd-code-completion": "disabled"
   },
