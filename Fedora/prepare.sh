@@ -3,8 +3,7 @@ JAVA_VER="21"
 ALT_PY_VER="3.9"
 
 __get_repo() {
-  # shellcheck disable=SC2015
-  cd "${1}" && git pull || git clone --depth=1 "${2}" "${1}"
+  git -C "${1}" pull || git clone --depth=1 "${2}" "${1}"
 }
 
 __get_pkg() {
@@ -59,14 +58,20 @@ home_setup() {
 }
 
 docker_setup() {
-  docker ps 2> /dev/null || {
+  if docker ps 2> /dev/null; then
+    if ! docker builder inspect default | grep -q linux/arm; then
+      docker run --privileged --rm tonistiigi/binfmt --install all
+      docker rmi tonistiigi/binfmt
+    fi
+
+  else
     echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' | \
       sudo tee /etc/docker/daemon.json
 
     sudo systemctl enable docker
     sudo systemctl start docker 2> /dev/null || true
     sudo usermod -aG docker "${USER}"
-  }
+  fi
 }
 
 {

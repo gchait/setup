@@ -1,36 +1,49 @@
-### Windows side
+## Windows side
 
-##### Get Scoop
+#### Setup
 
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-irm https://get.scoop.sh | iex
-```
+- ```powershell
+  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+  irm https://get.scoop.sh | iex
+  ```
 
-##### Bootstrap
+- ```powershell
+  irm https://guyc.at/windows.ps1 | iex
+  ```
 
-```powershell
-irm https://guyc.at/windows.ps1 | iex
-```
-
-##### Get Fedora
+#### De-bloat
 
 ```powershell
-wsl --install --no-distribution
-wsl --update
-winget install 9NPCP8DRCHSN
+# As administrator
+irm https://christitus.com/win | iex
 ```
 
-### Fedora side
+#### Get Fedora
 
-##### Bootstrap
+- ```powershell
+  wsl --install --no-distribution
+  ```
+- Reboot.
+- Install [this](https://apps.microsoft.com/detail/9npcp8drchsn).
 
-```shell
-curl -sL guyc.at/fedora.sh | bash -eux
-```
+## Fedora side
 
-##### Shutdown to migrate to Systemd
+#### Setup
 
-```shell
-wsl.exe --shutdown
-```
+- Open the Fedora App to complete the installation.
+- ```shell
+  # Easy sudo
+  sudo visudo
+  ```
+- ```shell
+  curl -sL guyc.at/fedora.sh | bash -eux
+  ```
+- ```shell
+  # To migrate to Systemd
+  wsl.exe --shutdown
+  ```
+
+#### Optional: Support GUI apps
+
+- Start an X server, e.g. [X410](https://x410.dev/download/).
+- Enable a listener in the WSL network.
