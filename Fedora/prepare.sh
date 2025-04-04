@@ -35,7 +35,7 @@ packages_setup() {
     docker-buildx-plugin docker-ce docker-ce-cli docker-compose-plugin \
     eza fastfetch figlet findutils gron gzip htop iproute iputils jq just \
     kubernetes-client lolcat make moreutils-parallel ncurses nmap-ncat openssl \
-    packer python3-pip tar terraform tree vim wget yq zip zsh
+    packer python3-pip qemu-user-static tar terraform tree vim wget yq zip zsh
 
   pip install -U --user --no-warn-script-location pdm pdm-bump dep-logic
   sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
@@ -58,20 +58,14 @@ home_setup() {
 }
 
 docker_setup() {
-  if docker ps 2> /dev/null; then
-    if ! docker builder inspect default | grep -q linux/arm; then
-      docker run --privileged --rm tonistiigi/binfmt --install all
-      docker rmi tonistiigi/binfmt
-    fi
-
-  else
+  docker ps 2> /dev/null || {
     echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' | \
       sudo tee /etc/docker/daemon.json
 
     sudo systemctl enable docker
     sudo systemctl start docker 2> /dev/null || true
     sudo usermod -aG docker "${USER}"
-  fi
+  }
 }
 
 {
