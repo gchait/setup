@@ -1,9 +1,12 @@
-## Windows side
+### Windows side
 
 #### Setup
 
 - ```powershell
   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+  ```
+
+- ```powershell
   irm https://get.scoop.sh | iex
   ```
 
@@ -11,10 +14,9 @@
   irm https://guyc.at/windows.ps1 | iex
   ```
 
-#### De-bloat
+#### Debloat (as administrator)
 
 ```powershell
-# As administrator
 irm https://christitus.com/win | iex
 ```
 
@@ -23,25 +25,30 @@ irm https://christitus.com/win | iex
 - ```powershell
   wsl --install --no-distribution
   ```
+
 - Reboot.
+
 - Install [this](https://apps.microsoft.com/detail/9npcp8drchsn).
 
-## Fedora side
+### Fedora side
 
 #### Setup
 
 - Open the Fedora App to complete the installation.
+
 - ```shell
-  # Easy sudo
   sudo visudo
   ```
+
 - ```shell
   curl -sL guyc.at/fedora.sh | bash -eux
   ```
+
 - ```shell
-  # To migrate to Systemd
   wsl.exe --shutdown
   ```
+
+- Open Windows Terminal.
 
 #### Optional: Support GUI apps
 
