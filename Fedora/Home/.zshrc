@@ -39,7 +39,7 @@ up() {
 }
 
 upp() {
-  curl -sL guyc.at/fedora.sh | bash -eux
+  curl -sL guyc.at/fedora.sh | sh
   [ "${IS_WSL}" = "0" ] || pwsh "irm https://guyc.at/windows.ps1 | iex"
 }
 

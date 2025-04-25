@@ -41,7 +41,7 @@ irm https://christitus.com/win | iex
   ```
 
 - ```shell
-  curl -sL guyc.at/fedora.sh | bash -eux
+  curl -sL guyc.at/fedora.sh | sh
   ```
 
 - ```shell
