@@ -14,6 +14,8 @@
   irm https://guyc.at/windows.ps1 | iex
   ```
 
+- Install the [font](./Assets/JuliaMono/).
+
 #### Debloat (as administrator)
 
 ```powershell
