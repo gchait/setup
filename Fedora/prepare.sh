@@ -13,15 +13,15 @@ __get_pkg() {
 }
 
 system_setup() {
-  sudo sed -i "/VARIANT/d" /etc/os-release
-  sudo sed -i "s/ (Container Image)//g" /etc/os-release
-
   sudo rm -rf /etc/yum.repos.d/*testing*
   __get_pkg python3-dnf dnf-plugins-core dnf-utils git
 
   __get_repo "${HOME}/setup" https://github.com/gchait/setup.git
   sudo cp -r "${HOME}/setup/Fedora/Etc/"* /etc
   sudo dnf update -yq
+
+  sudo sed -i "/VARIANT/d" /etc/os-release
+  sudo sed -i "s/ (Container Image)//g" /etc/os-release
 
   sudo dnf4 config-manager -q \
     --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo \
