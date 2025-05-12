@@ -40,3 +40,10 @@ if (Test-Path "${HOME}\setup") {
 Copy-Item -Recurse -Force `
   -Path "${HOME}\setup\Windows\Home\*" `
   -Destination "${HOME}"
+
+Set-Content -Force -Path "${HOME}\.wslconfig" -Value $(@"
+[wsl2]
+guiApplications=false
+memory=$([math]::Floor([math]::Ceiling((Get-CimInstance `
+-ClassName Win32_ComputerSystem).TotalPhysicalMemory / 1GB) * 0.625))GB
+"@)
