@@ -5,3 +5,5 @@
 	autocrlf = false
 [pull]
 	rebase = true
+[credential]
+	helper = store
