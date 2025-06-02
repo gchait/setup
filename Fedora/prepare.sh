@@ -39,7 +39,7 @@ packages_setup() {
     iputils jq just kubernetes-client libXScrnSaver libXcomposite libXcursor libXdamage \
     libXext libXi libXrandr libXtst lolcat make mesa-libgbm moreutils-parallel ncurses \
     nmap-ncat openssl packer pango python3-pip qemu-user-static remove-retired-packages \
-    rpmconf tar terraform tree vim wget yq zip zsh
+    rpmconf tar terraform tree vim wget xrandr yq zip zsh
 
   pip install -U --user --no-warn-script-location pdm pdm-bump dep-logic boto3 black
   sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
