@@ -32,14 +32,14 @@ packages_setup() {
   local java="java-${JAVA_VER}-openjdk-devel"
   local alt_py="python${ALT_PY_VER}"
 
-  __get_pkg "${java}" "${alt_py}" adwaita-cursor-theme alsa-lib asciinema \
-    asciiquarium atk awscli2 bat cmatrix containerd.io cups-libs dnsutils \
-    docker-buildx-plugin docker-ce docker-ce-cli docker-compose-plugin eza \
-    fastfetch figlet findutils gron gtk3 gzip htop hugo iproute iputils jq \
-    just kubernetes-client libXScrnSaver libXcomposite libXcursor libXdamage \
-    libXext libXi libXrandr libXtst lolcat make mesa-libgbm moreutils-parallel \
-    ncurses nmap-ncat openssl packer pango python3-pip qemu-user-static tar \
-    terraform tree vim wget yq zip zsh
+  __get_pkg "${java}" "${alt_py}" adwaita-cursor-theme alsa-lib asciinema asciiquarium \
+    atk awscli2 bat clean-rpm-gpg-pubkey cmatrix containerd.io cups-libs dnsutils \
+    docker-buildx-plugin docker-ce docker-ce-cli docker-compose-plugin eza fastfetch \
+    figlet findutils gron gtk3 gzip htop hugo iproute iptables-legacy iptables-utils \
+    iputils jq just kubernetes-client libXScrnSaver libXcomposite libXcursor libXdamage \
+    libXext libXi libXrandr libXtst lolcat make mesa-libgbm moreutils-parallel ncurses \
+    nmap-ncat openssl packer pango python3-pip qemu-user-static remove-retired-packages \
+    rpmconf tar terraform tree vim wget yq zip zsh
 
   pip install -U --user --no-warn-script-location pdm pdm-bump dep-logic boto3 black
   sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
