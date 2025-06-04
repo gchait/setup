@@ -29,6 +29,7 @@ code `
   --install-extension bierner.markdown-mermaid `
   --install-extension formulahendry.code-runner `
   --install-extension szTheory.vscode-packer-powertools `
+  --install-extension vscjava.vscode-java-pack `
   *> ${null}
 
 if (Test-Path "${HOME}\setup") {
