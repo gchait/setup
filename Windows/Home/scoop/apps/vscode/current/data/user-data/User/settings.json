@@ -58,7 +58,7 @@
     "vs-kubernetes.crd-code-completion": "disabled"
   },
 
-  "[python][dockerfile][toml]": {
+  "[python][dockerfile][toml][java]": {
     "editor.tabSize": 4
   },
   "[terraform][terraform-vars]": {
