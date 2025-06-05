@@ -14,6 +14,7 @@ export PAGER="less"
 export HISTSIZE="4000"
 export SAVEHIST="${HISTSIZE}"
 export HISTFILE="${HOME}/.zsh_history"
+export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
 
 alias j="just"
 alias d="docker"
