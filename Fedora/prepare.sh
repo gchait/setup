@@ -41,7 +41,9 @@ packages_setup() {
     nmap-ncat openssl packer pango python3-pip qemu-user-static remove-retired-packages \
     rpmconf symlinks tar terraform tree vim wget xrandr yq zip zsh
 
-  pip install -U --user --no-warn-script-location pdm pdm-bump dep-logic boto3 black
+  pip install -U --user --no-warn-script-location \
+    pdm pdm-bump dep-logic boto3 black docker-squash
+  
   sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
   sudo chsh -s "$(which zsh)" "${USER}" 2> /dev/null
 }
