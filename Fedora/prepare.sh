@@ -32,7 +32,10 @@ packages_setup() {
   local java="java-${JAVA_VER}-openjdk-devel"
   local alt_py="python${ALT_PY_VER}"
 
-  __get_pkg "${java}" "${alt_py}" adwaita-cursor-theme alsa-lib asciinema asciiquarium \
+  __get_pkg "${java}" "${alt_py}" \
+    https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm \
+    https://github.com/lucagrulla/cw/releases/latest/download/cw_amd64.rpm \
+    adwaita-cursor-theme alsa-lib asciinema asciiquarium \
     atk awscli2 bat clean-rpm-gpg-pubkey cmatrix containerd.io cups-libs dnsutils \
     docker-buildx-plugin docker-ce docker-ce-cli docker-compose-plugin eza fastfetch \
     figlet findutils gron gtk3 gzip htop hugo iproute iptables-legacy iptables-utils \
