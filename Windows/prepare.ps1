@@ -33,6 +33,7 @@ code `
   *> ${null}
 
 if (Test-Path "${HOME}\setup") {
+  git -C "${HOME}\setup" reset --hard
   git -C "${HOME}\setup" pull
 } else {
   git clone https://github.com/gchait/setup.git "${HOME}\setup"
