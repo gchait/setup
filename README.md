@@ -30,7 +30,9 @@ irm https://christitus.com/win | iex
 
 - Reboot.
 
-- Install [this](https://apps.microsoft.com/detail/9npcp8drchsn).
+- Install Fedora (pick one):
+  - [Microsoft Store](https://apps.microsoft.com/detail/9npcp8drchsn)
+  - [MSIX](https://github.com/VSWSL/Fedora-WSL/releases/tag/v41.0.1.0)
 
 ### Fedora side
 
