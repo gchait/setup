@@ -30,6 +30,8 @@ code `
   --install-extension formulahendry.code-runner `
   --install-extension szTheory.vscode-packer-powertools `
   --install-extension vscjava.vscode-java-pack `
+  --install-extension vmware.vscode-boot-dev-pack `
+  --install-extension saoudrizwan.claude-dev `
   *> ${null}
 
 if (Test-Path "${HOME}\setup") {
