@@ -2,6 +2,7 @@ set -eux
 
 FONT="JuliaMono"
 JAVA_VER="21"
+ALT_JAVA_VER="17"
 ALT_PY_VER="3.9"
 
 __get_repo() {
@@ -30,9 +31,10 @@ system_setup() {
 
 packages_setup() {
   local java="java-${JAVA_VER}-openjdk-devel"
+  local alt_java="java-${ALT_JAVA_VER}-openjdk-devel"
   local alt_py="python${ALT_PY_VER}"
 
-  __get_pkg "${java}" "${alt_py}" \
+  __get_pkg "${java}" "${alt_java}" "${alt_py}" \
     https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm \
     https://github.com/lucagrulla/cw/releases/latest/download/cw_amd64.rpm \
     adwaita-cursor-theme alsa-lib alsa-lib-devel asciinema asciiquarium atk awscli2 bat \
@@ -53,10 +55,11 @@ packages_setup() {
 }
 
 home_setup() {
-  __get_repo "${HOME}/.zsh/complete" https://github.com/zsh-users/zsh-completions.git
-  __get_repo "${HOME}/.zsh/highlight" https://github.com/zsh-users/zsh-syntax-highlighting.git
-  __get_repo "${HOME}/.zsh/suggest" https://github.com/zsh-users/zsh-autosuggestions.git
-  __get_repo "${HOME}/.zsh/p10k" https://github.com/romkatv/powerlevel10k.git
+  __get_repo "${HOME}/.zsh/complete" https://github.com/zsh-users/zsh-completions.git &
+  __get_repo "${HOME}/.zsh/highlight" https://github.com/zsh-users/zsh-syntax-highlighting.git &
+  __get_repo "${HOME}/.zsh/suggest" https://github.com/zsh-users/zsh-autosuggestions.git &
+  __get_repo "${HOME}/.zsh/p10k" https://github.com/romkatv/powerlevel10k.git &
+  wait
 
   cp -r "${HOME}/setup/Fedora/Home/".* "${HOME}"
   mkdir -p "${HOME}/Projects" "${HOME}/.local/share/fonts"
