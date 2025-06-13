@@ -1,3 +1,6 @@
+CORE_DNF_PKGS=(dnf-plugins-core dnf-utils git python3-dnf)
+USER_PIP_PKGS=(black boto3 dep-logic docker-squash pdm pdm-bump)
+
 MORE_DNF_PKGS=(
   adwaita-cursor-theme alsa-lib alsa-lib-devel asciinema asciiquarium atk awscli2 bat \
   clean-rpm-gpg-pubkey cmatrix containerd.io cups-libs dnsutils docker-buildx-plugin \
@@ -12,11 +15,9 @@ MORE_DNF_PKGS=(
 
 JAVA_VER="21"
 ALT_JAVA_VER="17"
-
-USER_PIP_PKGS=(black boto3 dep-logic docker-squash pdm pdm-bump)
 ALT_PY_VER="3.9"
-
 FONT="JuliaMono"
+
 set -eux
 
 __get_gh_repo() {
@@ -25,7 +26,7 @@ __get_gh_repo() {
 
 system_setup() {
   sudo rm -rf /etc/yum.repos.d/*testing*
-  __get_pkg python3-dnf dnf-plugins-core dnf-utils git
+  sudo dnf install -yq "${CORE_DNF_PKGS[@]}" 2> /dev/null
 
   __get_gh_repo "${HOME}/setup" gchait/setup
   sudo cp -r "${HOME}/setup/Fedora/Etc/"* /etc
