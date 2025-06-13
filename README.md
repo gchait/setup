@@ -1,4 +1,4 @@
-\* Tested on Windows 10/11 with Fedora 41.
+\* Tested on Windows 10/11 (LTSC, Pro, Business) with Fedora 41.
 
 ## Windows side
 
@@ -20,9 +20,11 @@
 
 ### Debloat (as administrator)
 
-```powershell
-irm https://christitus.com/win | iex
-```
+- ```powershell
+  irm https://christitus.com/win | iex
+  ```
+
+- Go over all Tweaks and tick the desired ones, then Run Tweaks.
 
 ### Get Fedora
 
