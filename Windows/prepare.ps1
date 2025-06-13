@@ -12,7 +12,7 @@ reg import "${HOME}\scoop\apps\vscode\current\install-associations.reg" *> ${nul
 code `
   --install-extension antfu.icons-carbon `
   --install-extension bierner.markdown-mermaid `
-  --install-extension eamodio.gitlens
+  --install-extension eamodio.gitlens `
   --install-extension ecmel.vscode-html-css `
   --install-extension esbenp.prettier-vscode `
   --install-extension formulahendry.code-runner `
@@ -24,8 +24,8 @@ code `
   --install-extension ms-kubernetes-tools.vscode-kubernetes-tools `
   --install-extension ms-pyright.pyright `
   --install-extension ms-vscode-remote.remote-wsl `
-  --install-extension mvllow.rose-pine
-  --install-extension redhat.java
+  --install-extension mvllow.rose-pine `
+  --install-extension redhat.java `
   --install-extension redhat.vscode-yaml `
   --install-extension samuelcolvin.jinjahtml `
   --install-extension saoudrizwan.claude-dev `
