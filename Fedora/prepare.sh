@@ -1,16 +1,26 @@
-set -eux
+MORE_DNF_PKGS=(
+  adwaita-cursor-theme alsa-lib alsa-lib-devel asciinema asciiquarium atk awscli2 bat \
+  clean-rpm-gpg-pubkey cmatrix containerd.io cups-libs dnsutils docker-buildx-plugin \
+  docker-ce docker-ce-cli docker-compose-plugin eza fastfetch figlet findutils \
+  gdk-pixbuf2-devel gron gtk3 gtk3-devel gzip htop hugo iproute iptables-legacy \
+  iptables-utils iputils jq just kubernetes-client libXScrnSaver libXScrnSaver-devel \
+  libXcomposite libXcursor libXdamage libXext libXi libXrandr libXtst lolcat make maven \
+  mesa-libgbm moreutils-parallel ncurses nmap-ncat nss-devel openssl packer pango \
+  python3-pip qemu-user-static remove-retired-packages rpmconf symlinks tar terraform \
+  tree vim wget xrandr yq zip zsh
+)
 
-FONT="JuliaMono"
 JAVA_VER="21"
 ALT_JAVA_VER="17"
+
+USER_PIP_PKGS=(black boto3 dep-logic docker-squash pdm pdm-bump)
 ALT_PY_VER="3.9"
+
+FONT="JuliaMono"
+set -eux
 
 __get_gh_repo() {
   git -C "${1}" pull || git clone --depth=1 "https://github.com/${2}.git" "${1}"
-}
-
-__get_pkg() {
-  sudo dnf install -yq "${@}" 2> /dev/null
 }
 
 system_setup() {
@@ -34,22 +44,13 @@ packages_setup() {
   local alt_java="java-${ALT_JAVA_VER}-openjdk-devel"
   local alt_py="python${ALT_PY_VER}"
 
-  __get_pkg "${java}" "${alt_java}" "${alt_py}" \
+  sudo dnf install -yq \
+    "${java}" "${alt_java}" "${alt_py}" \
     https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm \
     https://github.com/lucagrulla/cw/releases/latest/download/cw_amd64.rpm \
-    adwaita-cursor-theme alsa-lib alsa-lib-devel asciinema asciiquarium atk awscli2 bat \
-    clean-rpm-gpg-pubkey cmatrix containerd.io cups-libs dnsutils docker-buildx-plugin \
-    docker-ce docker-ce-cli docker-compose-plugin eza fastfetch figlet findutils \
-    gdk-pixbuf2-devel gron gtk3 gtk3-devel gzip htop hugo iproute iptables-legacy \
-    iptables-utils iputils jq just kubernetes-client libXScrnSaver libXScrnSaver-devel \
-    libXcomposite libXcursor libXdamage libXext libXi libXrandr libXtst lolcat make maven \
-    mesa-libgbm moreutils-parallel ncurses nmap-ncat nss-devel openssl packer pango \
-    python3-pip qemu-user-static remove-retired-packages rpmconf symlinks tar terraform \
-    tree vim wget xrandr yq zip zsh
+    "${MORE_DNF_PKGS[@]}" 2> /dev/null
 
-  pip install -U --user --no-warn-script-location \
-    pdm pdm-bump dep-logic boto3 black docker-squash
-
+  pip install -U --user --no-warn-script-location "${USER_PIP_PKGS[@]}"
   sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
   sudo chsh -s "$(which zsh)" "${USER}" 2> /dev/null
 }
