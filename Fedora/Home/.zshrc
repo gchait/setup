@@ -35,13 +35,15 @@ precmd() {
 }
 
 up() {
-  sudo dnf update -yq
-  [ "${IS_WSL}" = "0" ] || scoop update -a
+  sudo dnf update -yq &
+  [ "${IS_WSL}" = "0" ] || scoop update -a &
+  wait
 }
 
 upp() {
-  curl -sL guyc.at/fedora.sh | sh
-  [ "${IS_WSL}" = "0" ] || pwsh "irm https://guyc.at/windows.ps1 | iex"
+  curl -sL guyc.at/fedora.sh | sh &
+  [ "${IS_WSL}" = "0" ] || pwsh "irm https://guyc.at/windows.ps1 | iex" &
+  wait
 }
 
 ij() {

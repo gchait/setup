@@ -5,8 +5,8 @@ JAVA_VER="21"
 ALT_JAVA_VER="17"
 ALT_PY_VER="3.9"
 
-__get_repo() {
-  git -C "${1}" pull || git clone --depth=1 "${2}" "${1}"
+__get_gh_repo() {
+  git -C "${1}" pull || git clone --depth=1 "https://github.com/${2}.git" "${1}"
 }
 
 __get_pkg() {
@@ -17,7 +17,7 @@ system_setup() {
   sudo rm -rf /etc/yum.repos.d/*testing*
   __get_pkg python3-dnf dnf-plugins-core dnf-utils git
 
-  __get_repo "${HOME}/setup" https://github.com/gchait/setup.git
+  __get_gh_repo "${HOME}/setup" gchait/setup
   sudo cp -r "${HOME}/setup/Fedora/Etc/"* /etc
   sudo dnf update -yq
 
@@ -55,10 +55,10 @@ packages_setup() {
 }
 
 home_setup() {
-  __get_repo "${HOME}/.zsh/complete" https://github.com/zsh-users/zsh-completions.git &
-  __get_repo "${HOME}/.zsh/highlight" https://github.com/zsh-users/zsh-syntax-highlighting.git &
-  __get_repo "${HOME}/.zsh/suggest" https://github.com/zsh-users/zsh-autosuggestions.git &
-  __get_repo "${HOME}/.zsh/p10k" https://github.com/romkatv/powerlevel10k.git &
+  __get_gh_repo "${HOME}/.zsh/complete" zsh-users/zsh-completions &
+  __get_gh_repo "${HOME}/.zsh/highlight" zsh-users/zsh-syntax-highlighting &
+  __get_gh_repo "${HOME}/.zsh/suggest" zsh-users/zsh-autosuggestions &
+  __get_gh_repo "${HOME}/.zsh/p10k" romkatv/powerlevel10k &
   wait
 
   cp -r "${HOME}/setup/Fedora/Home/".* "${HOME}"
