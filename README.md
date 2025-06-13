@@ -42,7 +42,7 @@
 
 ### Setup
 
-- Open the Fedora App to complete the installation.
+- Open the Fedora App and complete the installation.
 
 - ```shell
   sudo visudo
