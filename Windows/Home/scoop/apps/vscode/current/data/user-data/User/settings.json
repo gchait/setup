@@ -8,6 +8,7 @@
   "extensions.ignoreRecommendations": true,
   "workbench.startupEditor": "none",
   "window.menuBarVisibility": "toggle",
+  "remote.autoForwardPortsSource": "hybrid",
 
   "editor.stickyScroll.enabled": false,
   "editor.detectIndentation": false,
