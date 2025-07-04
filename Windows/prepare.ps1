@@ -80,17 +80,17 @@ function Home-Setup {
 
 function Font-Setup {
   New-Item -ItemType Directory -Force -Path `
-    "${LOCALAPPDATA}\Microsoft\Windows\Fonts" *> ${null}
+    "${env:LOCALAPPDATA}\Microsoft\Windows\Fonts" *> ${null}
 
   Get-ChildItem -Path "${HOME}\setup\Assets\${FONT}" -Filter "*.ttf" | ForEach-Object {
     Copy-Item -Force `
       -Path $($_.FullName) `
-      -Destination "${LOCALAPPDATA}\Microsoft\Windows\Fonts\$($_.Name)"
+      -Destination "${env:LOCALAPPDATA}\Microsoft\Windows\Fonts\$($_.Name)"
 
     Set-ItemProperty -Force `
       -Path "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" `
       -Name "$([System.IO.Path]::GetFileNameWithoutExtension($_.Name) -replace '-', ' ') (TrueType)" `
-      -Value "${LOCALAPPDATA}\Microsoft\Windows\Fonts\$($_.Name)"
+      -Value "${env:LOCALAPPDATA}\Microsoft\Windows\Fonts\$($_.Name)"
   }
 }
 
