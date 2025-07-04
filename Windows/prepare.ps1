@@ -1,6 +1,13 @@
 $SCOOP_PKGS = @(
-  "wget", "grep", "fastfetch", "vscode", "telegram",
-  "windows-terminal", "ccleaner", "vlc", "bruno"
+  "bruno",
+  "ccleaner",
+  "fastfetch",
+  "grep",
+  "telegram",
+  "vlc",
+  "vscode",
+  "wget",
+  "windows-terminal"
 )
 
 $VSCODE_EXTENSIONS = @(
@@ -46,7 +53,7 @@ function Scoop-Setup {
   scoop install git *> ${null}
   scoop bucket add extras *> ${null}
   scoop update -a
-  scoop install @{SCOOP_PKGS}
+  scoop install @SCOOP_PKGS
 }
 
 function VSCode-Setup {
