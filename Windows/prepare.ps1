@@ -1,53 +1,58 @@
+$SCOOP_PKGS = @(
+  "wget", "grep", "fastfetch", "vscode", "telegram",
+  "windows-terminal", "ccleaner", "vlc", "bruno"
+)
+
+$VSCODE_EXTENSIONS = @(
+  "antfu.icons-carbon",
+  "bierner.markdown-mermaid",
+  "eamodio.gitlens",
+  "ecmel.vscode-html-css",
+  "esbenp.prettier-vscode",
+  "formulahendry.code-runner",
+  "hashicorp.terraform",
+  "jonathanharty.gruvbox-material-icon-theme",
+  "kokakiwi.vscode-just",
+  "ms-azuretools.vscode-containers",
+  "ms-azuretools.vscode-docker",
+  "ms-kubernetes-tools.vscode-kubernetes-tools",
+  "ms-pyright.pyright",
+  "ms-vscode-remote.remote-wsl",
+  "mvllow.rose-pine",
+  "redhat.java",
+  "redhat.vscode-yaml",
+  "samuelcolvin.jinjahtml",
+  "saoudrizwan.claude-dev",
+  "sztheory.vscode-packer-powertools",
+  "tamasfe.even-better-toml",
+  "timonwong.shellcheck",
+  "visualstudioexptteam.intellicode-api-usage-examples",
+  "visualstudioexptteam.vscodeintellicode",
+  "vmware.vscode-boot-dev-pack",
+  "vmware.vscode-spring-boot",
+  "vscjava.vscode-gradle",
+  "vscjava.vscode-java-debug",
+  "vscjava.vscode-java-dependency",
+  "vscjava.vscode-java-pack",
+  "vscjava.vscode-java-test",
+  "vscjava.vscode-maven",
+  "vscjava.vscode-spring-boot-dashboard",
+  "vscjava.vscode-spring-initializr"
+)
+
+$FONT = "JuliaMono"
+
 function Scoop-Setup {
   scoop install git *> ${null}
   scoop bucket add extras *> ${null}
   scoop update -a
-
-  scoop install `
-    wget grep fastfetch vscode telegram `
-    windows-terminal ccleaner vlc bruno
+  scoop install @{SCOOP_PKGS}
 }
 
 function VSCode-Setup {
   reg import "${HOME}\scoop\apps\vscode\current\install-context.reg" *> ${null}
   reg import "${HOME}\scoop\apps\vscode\current\install-associations.reg" *> ${null}
-
-  code `
-    --install-extension antfu.icons-carbon `
-    --install-extension bierner.markdown-mermaid `
-    --install-extension eamodio.gitlens `
-    --install-extension ecmel.vscode-html-css `
-    --install-extension esbenp.prettier-vscode `
-    --install-extension formulahendry.code-runner `
-    --install-extension hashicorp.terraform `
-    --install-extension jonathanharty.gruvbox-material-icon-theme `
-    --install-extension kokakiwi.vscode-just `
-    --install-extension ms-azuretools.vscode-containers `
-    --install-extension ms-azuretools.vscode-docker `
-    --install-extension ms-kubernetes-tools.vscode-kubernetes-tools `
-    --install-extension ms-pyright.pyright `
-    --install-extension ms-vscode-remote.remote-wsl `
-    --install-extension mvllow.rose-pine `
-    --install-extension redhat.java `
-    --install-extension redhat.vscode-yaml `
-    --install-extension samuelcolvin.jinjahtml `
-    --install-extension saoudrizwan.claude-dev `
-    --install-extension sztheory.vscode-packer-powertools `
-    --install-extension tamasfe.even-better-toml `
-    --install-extension timonwong.shellcheck `
-    --install-extension visualstudioexptteam.intellicode-api-usage-examples `
-    --install-extension visualstudioexptteam.vscodeintellicode `
-    --install-extension vmware.vscode-boot-dev-pack `
-    --install-extension vmware.vscode-spring-boot `
-    --install-extension vscjava.vscode-gradle `
-    --install-extension vscjava.vscode-java-debug `
-    --install-extension vscjava.vscode-java-dependency `
-    --install-extension vscjava.vscode-java-pack `
-    --install-extension vscjava.vscode-java-test `
-    --install-extension vscjava.vscode-maven `
-    --install-extension vscjava.vscode-spring-boot-dashboard `
-    --install-extension vscjava.vscode-spring-initializr `
-    *> ${null}
+  code @(${VSCODE_EXTENSIONS} | ForEach-Object { '--install-extension', ${_} }) *> ${null}
 }
 
 function Home-Setup {
@@ -67,9 +72,9 @@ function Font-Setup {
   New-Item -ItemType Directory -Force -Path `
     "${LOCALAPPDATA}\Microsoft\Windows\Fonts" *> ${null}
 
-  Get-ChildItem -Path "${HOME}\setup\Assets\JuliaMono" -Filter "*.ttf" | ForEach-Object {
+  Get-ChildItem -Path "${HOME}\setup\Assets\${FONT}" -Filter "*.ttf" | ForEach-Object {
     Copy-Item -Force `
-      -Path $_.FullName `
+      -Path $($_.FullName) `
       -Destination "${LOCALAPPDATA}\Microsoft\Windows\Fonts\$($_.Name)"
 
     Set-ItemProperty -Force `
@@ -80,12 +85,12 @@ function Font-Setup {
 }
 
 function WSL-Setup {
-  Set-Content -Force -Path "${HOME}\.wslconfig" -Value $(@"
+  Set-Content -Force -Path "${HOME}\.wslconfig" -Value @"
 [wsl2]
 guiApplications=false
 memory=$([math]::Floor([math]::Ceiling((Get-CimInstance `
   -ClassName Win32_ComputerSystem).TotalPhysicalMemory / 1GB) * 0.625))GB
-"@)
+"@
 }
 
 Scoop-Setup
