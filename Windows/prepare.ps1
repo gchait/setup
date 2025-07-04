@@ -53,7 +53,6 @@ $WSL_MEMORY = "$([math]::Floor([math]::Ceiling((Get-CimInstance `
   -ClassName Win32_ComputerSystem).TotalPhysicalMemory / 1GB) * 0.625))GB"
 
 Set-StrictMode -Version Latest
-Set-PSDebug -Trace 1
 
 function Scoop-Setup {
   scoop install git *> ${null}
