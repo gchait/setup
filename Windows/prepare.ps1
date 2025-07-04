@@ -49,6 +49,9 @@ $VSCODE_EXTENSIONS = @(
 
 $FONT = "JuliaMono"
 
+$WSL_MEMORY = "$([math]::Floor([math]::Ceiling((Get-CimInstance `
+  -ClassName Win32_ComputerSystem).TotalPhysicalMemory / 1GB) * 0.625))GB"
+
 function Scoop-Setup {
   scoop install git *> ${null}
   scoop bucket add extras *> ${null}
@@ -95,8 +98,7 @@ function WSL-Setup {
   Set-Content -Force -Path "${HOME}\.wslconfig" -Value @"
 [wsl2]
 guiApplications=false
-memory=$([math]::Floor([math]::Ceiling((Get-CimInstance `
-  -ClassName Win32_ComputerSystem).TotalPhysicalMemory / 1GB) * 0.625))GB
+memory=${WSL_MEMORY}
 "@
 }
 
