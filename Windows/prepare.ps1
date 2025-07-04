@@ -63,3 +63,19 @@ guiApplications=false
 memory=$([math]::Floor([math]::Ceiling((Get-CimInstance `
   -ClassName Win32_ComputerSystem).TotalPhysicalMemory / 1GB) * 0.625))GB
 "@)
+
+New-Item -ItemType Directory -Force -Path `
+  "$env:LOCALAPPDATA\Microsoft\Windows\Fonts" *> $null
+
+Get-ChildItem -Path "${HOME}\setup\Assets\JuliaMono" -Filter "*.ttf" | ForEach-Object {
+  Copy-Item -Force `
+    -Path $_.FullName `
+    -Destination "$env:LOCALAPPDATA\Microsoft\Windows\Fonts\$($_.Name)"
+
+  $fontName = [System.IO.Path]::GetFileNameWithoutExtension($_.Name) -replace '-', ' '
+
+  Set-ItemProperty -Force `
+    -Path "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" `
+    -Name "$fontName (TrueType)" `
+    -Value "$env:LOCALAPPDATA\Microsoft\Windows\Fonts\$($_.Name)"
+}
