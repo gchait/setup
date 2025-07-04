@@ -65,17 +65,15 @@ memory=$([math]::Floor([math]::Ceiling((Get-CimInstance `
 "@)
 
 New-Item -ItemType Directory -Force -Path `
-  "$env:LOCALAPPDATA\Microsoft\Windows\Fonts" *> $null
+  "${LOCALAPPDATA}\Microsoft\Windows\Fonts" *> ${null}
 
 Get-ChildItem -Path "${HOME}\setup\Assets\JuliaMono" -Filter "*.ttf" | ForEach-Object {
   Copy-Item -Force `
     -Path $_.FullName `
-    -Destination "$env:LOCALAPPDATA\Microsoft\Windows\Fonts\$($_.Name)"
-
-  $fontName = [System.IO.Path]::GetFileNameWithoutExtension($_.Name) -replace '-', ' '
+    -Destination "${LOCALAPPDATA}\Microsoft\Windows\Fonts\$($_.Name)"
 
   Set-ItemProperty -Force `
     -Path "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" `
-    -Name "$fontName (TrueType)" `
-    -Value "$env:LOCALAPPDATA\Microsoft\Windows\Fonts\$($_.Name)"
+    -Name "$([System.IO.Path]::GetFileNameWithoutExtension($_.Name) -replace '-', ' ') (TrueType)" `
+    -Value "${LOCALAPPDATA}\Microsoft\Windows\Fonts\$($_.Name)"
 }
