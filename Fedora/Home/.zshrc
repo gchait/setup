@@ -36,6 +36,7 @@ precmd() {
 
 __dual_run() {
   if [ "${IS_WSL}" != "0" ]; then
+    set +m
     local win_log=$(mktemp)
     pwsh "${1}" &> "${win_log}" &
     local win_pid="${!}"
@@ -47,6 +48,7 @@ __dual_run() {
     wait "${win_pid}"
     cat "${win_log}"
     rm "${win_log}"
+    set -m
   fi
 }
 
