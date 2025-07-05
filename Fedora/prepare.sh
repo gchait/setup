@@ -76,8 +76,8 @@ home_setup() {
   }
 
   if [ ! -f "${user_csv}" ]; then
-    read -rp "Enter your Git user name: " git_user_name
-    read -rp "Enter your Git user email: " git_user_email
+    read -rp "Enter your Git user name: " git_user_name < /dev/tty
+    read -rp "Enter your Git user email: " git_user_email < /dev/tty
     echo "${git_user_name},${git_user_email}" > "${user_csv}"
   else
     IFS="," read -r git_user_name git_user_email < "${user_csv}"
