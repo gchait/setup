@@ -57,7 +57,7 @@ packages_setup() {
 }
 
 home_setup() {
-  local user_csv="${HOME}/setup/user.csv"
+  local user_csv="${HOME}/setup/.user.csv"
   local gitconfig_path="${HOME}/.gitconfig"
   local gitconfig_tpl_path="${HOME}/setup/Fedora/.gitconfig.tpl"
 
