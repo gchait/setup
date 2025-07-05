@@ -1,6 +1,6 @@
 [user]
-	name = "Guy Chait"
-	email = "53366531+gchait@users.noreply.github.com"
+	name = "{{GIT_USER_NAME}}"
+	email = "{{GIT_USER_EMAIL}}"
 [core]
 	autocrlf = false
 [pull]

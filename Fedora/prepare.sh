@@ -57,6 +57,10 @@ packages_setup() {
 }
 
 home_setup() {
+  local user_csv="${HOME}/setup/user.csv"
+  local gitconfig_path="${HOME}/.gitconfig"
+  local gitconfig_tpl_path="${HOME}/setup/Fedora/.gitconfig.tpl"
+
   __get_gh_repo "${HOME}/.zsh/complete" zsh-users/zsh-completions &
   __get_gh_repo "${HOME}/.zsh/highlight" zsh-users/zsh-syntax-highlighting &
   __get_gh_repo "${HOME}/.zsh/suggest" zsh-users/zsh-autosuggestions &
@@ -70,6 +74,18 @@ home_setup() {
     cp "${HOME}/setup/Assets/${FONT}/"*.ttf "${HOME}/.local/share/fonts/"
     fc-cache -f
   }
+
+  if [ ! -f "${user_csv}" ]; then
+    read -rp "Enter your Git user name: " git_user_name
+    read -rp "Enter your Git user email: " git_user_email
+    echo "${git_user_name},${git_user_email}" > "${user_csv}"
+  else
+    IFS="," read -r git_user_name git_user_email < "${user_csv}"
+  fi
+
+  sed -e "s/{{GIT_USER_NAME}}/${git_user_name}/" \
+    -e "s/{{GIT_USER_EMAIL}}/${git_user_email}/" \
+    "${gitconfig_tpl_path}" > "${gitconfig_path}"
 }
 
 docker_setup() {
