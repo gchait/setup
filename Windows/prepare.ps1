@@ -47,6 +47,7 @@ $VSCODE_EXTENSIONS = @(
   "vscjava.vscode-spring-initializr"
 )
 
+$FONTS_DIR = "${env:LOCALAPPDATA}\Microsoft\Windows\Fonts"
 $FONT = "JuliaMono"
 
 $WSL_MEMORY = "$([math]::Floor([math]::Ceiling((Get-CimInstance `
@@ -78,29 +79,7 @@ function Home-Setup {
   Copy-Item -Recurse -Force `
     -Path "${HOME}\setup\Windows\Home\*" `
     -Destination "${HOME}"
-}
 
-function Font-Setup {
-  New-Item -ItemType Directory -Force -Path `
-    "${env:LOCALAPPDATA}\Microsoft\Windows\Fonts" *> ${null}
-
-  Get-ChildItem -Path "${HOME}\setup\Assets\${FONT}" -Filter "*.ttf" | ForEach-Object {
-    if (-not (Test-Path "${env:LOCALAPPDATA}\Microsoft\Windows\Fonts\$($_.Name)")) {
-      Copy-Item -Force `
-        -Path $($_.FullName) `
-        -Destination "${env:LOCALAPPDATA}\Microsoft\Windows\Fonts\$($_.Name)"
-    }
-
-    if (Test-Path "${env:LOCALAPPDATA}\Microsoft\Windows\Fonts\$($_.Name)") {
-      Set-ItemProperty -Force `
-        -Path "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" `
-        -Name "$([System.IO.Path]::GetFileNameWithoutExtension($_.Name) -replace '-', ' ') (TrueType)" `
-        -Value "${env:LOCALAPPDATA}\Microsoft\Windows\Fonts\$($_.Name)"
-    }
-  }
-}
-
-function WSL-Setup {
   Set-Content -Force -Path "${HOME}\.wslconfig" -Value @"
 [wsl2]
 guiApplications=false
@@ -108,8 +87,24 @@ memory=${WSL_MEMORY}
 "@
 }
 
+function Font-Setup {
+  New-Item -ItemType Directory -Force -Path "${FONTS_DIR}" *> ${null}
+
+  Get-ChildItem -Path "${HOME}\setup\Assets\${FONT}" -Filter "*.ttf" | ForEach-Object {
+    if (-not (Test-Path "${FONTS_DIR}\$($_.Name)")) {
+      Copy-Item -Force -Path $($_.FullName) -Destination "${FONTS_DIR}\$($_.Name)"
+    }
+
+    if (Test-Path "${FONTS_DIR}\$($_.Name)") {
+      Set-ItemProperty -Force `
+        -Path "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" `
+        -Name "$([System.IO.Path]::GetFileNameWithoutExtension($_.Name) -replace '-', ' ') (TrueType)" `
+        -Value "${FONTS_DIR}\$($_.Name)"
+    }
+  }
+}
+
 Scoop-Setup
 VSCode-Setup
 Home-Setup
 Font-Setup
-WSL-Setup
