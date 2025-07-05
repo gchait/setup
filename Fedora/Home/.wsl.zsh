@@ -1,4 +1,13 @@
-export BROWSER="/c/Program Files/Mozilla Firefox/firefox.exe"
+(){
+  local firefox="/c/Program Files/Mozilla Firefox/firefox.exe"
+  local chrome="/c/Program Files/Google/Chrome/Application/chrome.exe"
+
+  if [ -f "${firefox}" ]; then
+    export BROWSER="${firefox}"
+  elif [ -f "${chrome}" ]; then
+    export BROWSER="${chrome}"
+  fi
+}
 
 export PATH=$(echo "${HOME}/.local/bin:${PATH}" | sed "s|/:|:|g" | \
   sed -E "s|:[^:]+/games||g" | sed -E "s|:[^:]+/WindowsApps||" | \
