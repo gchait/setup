@@ -34,16 +34,35 @@ precmd() {
   echo -ne "\033]0;${PWD##*/}\007"
 }
 
+__dual_run() {
+  local win_cmd="${1}"
+  local linux_cmd="${2}"
+
+  if [ "${IS_WSL}" != "0" ]; then
+    local win_log=$(mktemp)
+    pwsh "${win_cmd}" &> "${win_log}" &
+    local win_pid="${!}"
+  fi
+
+  eval "${linux_cmd}"
+
+  if [ -n "${win_pid}" ]; then
+    wait "${win_pid}"
+    cat "${win_log}"
+    rm "${win_log}"
+  fi
+}
+
 up() {
-  [ "${IS_WSL}" = "0" ] || scoop update -a &
-  sudo dnf update -yq
-  wait
+  __dual_run \
+    "scoop update -a" \
+    "sudo dnf update -yq"
 }
 
 upp() {
-  [ "${IS_WSL}" = "0" ] || pwsh "irm https://guyc.at/windows.ps1 | iex" &
-  sh <(curl -sL guyc.at/fedora.sh)
-  wait
+  __dual_run \
+    "irm https://guyc.at/windows.ps1 | iex" \
+    "sh <(curl -sL guyc.at/fedora.sh)"
 }
 
 ij() {
