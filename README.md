@@ -47,7 +47,7 @@
   ```
 
 - ```shell
-  curl -sL guyc.at/fedora.sh | sh
+  sh <(curl -sL guyc.at/fedora.sh)
   ```
 
 - ```shell

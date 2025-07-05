@@ -41,7 +41,7 @@ up() {
 }
 
 upp() {
-  curl -sL guyc.at/fedora.sh | sh &
+  sh <(curl -sL guyc.at/fedora.sh) &
   [ "${IS_WSL}" = "0" ] || pwsh "irm https://guyc.at/windows.ps1 | iex" &
   wait
 }
