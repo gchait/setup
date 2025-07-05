@@ -35,16 +35,13 @@ precmd() {
 }
 
 __dual_run() {
-  local win_cmd="${1}"
-  local linux_cmd="${2}"
-
   if [ "${IS_WSL}" != "0" ]; then
     local win_log=$(mktemp)
-    pwsh "${win_cmd}" &> "${win_log}" &
+    pwsh "${1}" &> "${win_log}" &
     local win_pid="${!}"
   fi
 
-  eval "${linux_cmd}"
+  eval "${2}"
 
   if [ -n "${win_pid}" ]; then
     wait "${win_pid}"
