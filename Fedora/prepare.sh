@@ -1,5 +1,5 @@
 CORE_DNF_PKGS=(dnf-plugins-core dnf-utils git python3-dnf)
-USER_PIP_PKGS=(black boto3 dep-logic docker-squash pdm pdm-bump)
+USER_PIP_PKGS=(black boto3 construct dep-logic docker-squash pandas pdm pdm-bump pyyaml)
 
 MORE_DNF_PKGS=(
   adwaita-cursor-theme alsa-lib alsa-lib-devel asciinema asciiquarium atk awscli2 bat
