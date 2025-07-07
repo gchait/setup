@@ -3,7 +3,6 @@ $SCOOP_PKGS = @(
   "ccleaner",
   "fastfetch",
   "grep",
-  "telegram",
   "vlc",
   "vscode",
   "wget",
