@@ -1,4 +1,6 @@
 $SCOOP_PKGS = @(
+  "7zip",
+  "cacert",
   "fastfetch",
   "grep",
   "vscode",
