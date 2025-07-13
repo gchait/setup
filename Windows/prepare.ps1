@@ -1,9 +1,6 @@
 $SCOOP_PKGS = @(
-  "bruno",
-  "ccleaner",
   "fastfetch",
   "grep",
-  "vlc",
   "vscode",
   "wget",
   "windows-terminal"
