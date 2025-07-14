@@ -35,8 +35,20 @@ precmd() {
 }
 
 __dual_run() {
-  { [ "${IS_WSL}" = "1" ] && [ -r "${1}" ]; } && pwsh -c - < "${1}" & || pwsh -c "${1}" &
-  [ -r "${2}" ] && sh < "${2}" & || sh -c "${2}" &
+  if [ "${IS_WSL}" = "1" ]; then
+    if [ -r "${1}" ]; then
+      pwsh -c - < "${1}" &
+    else
+      pwsh -c "${1}" &
+    fi
+  fi
+
+  if [ -r "${2}" ]; then
+    sh < "${2}" &
+  else
+    sh -c "${2}" &
+  fi
+
   wait
 }
 
