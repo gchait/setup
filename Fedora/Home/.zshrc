@@ -35,21 +35,9 @@ precmd() {
 }
 
 __dual_run() {
-  if [ "${IS_WSL}" != "0" ]; then
-    set +m
-    local win_log=$(mktemp)
-    pwsh "${1}" &> "${win_log}" &
-    local win_pid="${!}"
-  fi
-
-  eval "${2}"
-
-  if [ -n "${win_pid}" ]; then
-    wait "${win_pid}"
-    cat "${win_log}"
-    rm "${win_log}"
-    set -m
-  fi
+  [ -r "${1}" ] && pwsh -c - < "${1}" & || pwsh -c "${1}" &
+  [ -r "${2}" ] && sh < "${2}" & || sh -c "${2}" &
+  wait
 }
 
 up() {
@@ -60,8 +48,8 @@ up() {
 
 upp() {
   __dual_run \
-    "irm https://guyc.at/windows.ps1 | iex" \
-    "sh <(curl -sL guyc.at/fedora.sh)"
+    "${HOME}/setup/Windows/prepare.ps1" \
+    "${HOME}/setup/Fedora/prepare.sh"
 }
 
 ij() {
