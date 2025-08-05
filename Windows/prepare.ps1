@@ -1,5 +1,4 @@
 $SCOOP_PKGS = @(
-  "7zip",
   "cacert",
   "fastfetch",
   "grep",
@@ -54,6 +53,7 @@ $WSL_MEMORY = "$([math]::Floor([math]::Ceiling((Get-CimInstance `
 Set-StrictMode -Version Latest
 
 function Scoop-Setup {
+  scoop config use_external_7zip true
   scoop install git *> ${null}
   scoop bucket add extras *> ${null}
   scoop update -a
