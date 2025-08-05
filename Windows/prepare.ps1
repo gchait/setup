@@ -1,3 +1,9 @@
+$WINGET_PKGS = @(
+  "7zip.7zip",
+  "VideoLAN.VLC",
+  "Telegram.TelegramDesktop"
+)
+
 $SCOOP_PKGS = @(
   "cacert",
   "fastfetch",
@@ -52,6 +58,15 @@ $WSL_MEMORY = "$([math]::Floor([math]::Ceiling((Get-CimInstance `
 
 Set-StrictMode -Version Latest
 
+function WinGet-Setup {
+  foreach (${pkg} in $WINGET_PKGS) {
+    winget install --silent --exact `
+      --accept-package-agreements `
+      --accept-source-agreements `
+      --id ${pkg}
+  }
+}
+
 function Scoop-Setup {
   scoop config use_external_7zip true
   scoop install git *> ${null}
@@ -100,6 +115,7 @@ function Font-Setup {
   }
 }
 
+WinGet-Setup
 Scoop-Setup
 VSCode-Setup
 Home-Setup
