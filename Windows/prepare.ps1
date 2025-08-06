@@ -63,12 +63,12 @@ function WinGet-Setup {
     winget install --silent --exact `
       --accept-package-agreements `
       --accept-source-agreements `
-      --id ${pkg}
+      --id ${pkg} *> ${null}
   }
 }
 
 function Scoop-Setup {
-  scoop config use_external_7zip true
+  scoop config use_external_7zip true *> ${null}
   scoop install git *> ${null}
   scoop bucket add extras *> ${null}
   scoop update -a
