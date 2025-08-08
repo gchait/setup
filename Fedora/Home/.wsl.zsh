@@ -18,6 +18,10 @@ alias ipco="ipconfig.exe"
 alias pwsh="powershell.exe -NoLogo -NoProfile"
 alias wff="fastfetch.exe -c paleofetch.jsonc"
 
+__scoop_update_expr() {
+  echo -n '$env:PATH="C:\Program Files\7-Zip;${env:PATH}"; scoop update -a'
+}
+
 __set_wsl_display() {
   local host=$(ip r | grep "/20 dev eth0" | \
     cut -d"/" -f1 | sed "s/.0$/.1/")
