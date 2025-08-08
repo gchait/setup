@@ -54,7 +54,7 @@ __dual_run() {
 
 up() {
   __dual_run \
-    "scoop update -a" \
+    '$env:PATH="C:\Program Files\7-Zip;${env:PATH}"; scoop update -a' \
     "sudo dnf update -yq"
 }
 

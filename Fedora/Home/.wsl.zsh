@@ -14,8 +14,8 @@ export PATH=$(echo "${HOME}/.local/bin:${PATH}" | sed "s|/:|:|g" | \
   sed -E "s|:[^:]+/System32/OpenSSH||" | sed -E "s|:[^:]+/System32/Wbem||")
 
 alias wsl="wsl.exe"
-alias pwsh="powershell.exe"
 alias ipco="ipconfig.exe"
+alias pwsh="powershell.exe -NoLogo -NoProfile"
 alias wff="fastfetch.exe -c paleofetch.jsonc"
 
 __set_wsl_display() {
