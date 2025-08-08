@@ -68,11 +68,14 @@ function WinGet-Setup {
 }
 
 function Scoop-Setup {
-  scoop config use_external_7zip true *> ${null}
-  scoop install git *> ${null}
-  scoop bucket add extras *> ${null}
-  scoop update -a
-  scoop install @SCOOP_PKGS
+  & {
+    $env:PATH = "C:\Program Files\7-Zip;${env:PATH}"
+    scoop config use_external_7zip true *> ${null}
+    scoop install git *> ${null}
+    scoop bucket add extras *> ${null}
+    scoop update -a
+    scoop install @SCOOP_PKGS
+  }
 }
 
 function VSCode-Setup {
