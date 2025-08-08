@@ -59,7 +59,7 @@ $WSL_MEMORY = "$([math]::Floor([math]::Ceiling((Get-CimInstance `
 Set-StrictMode -Version Latest
 
 function WinGet-Setup {
-  foreach (${pkg} in $WINGET_PKGS) {
+  foreach (${pkg} in ${WINGET_PKGS}) {
     winget install --silent --exact `
       --accept-package-agreements `
       --accept-source-agreements `
