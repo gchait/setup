@@ -54,7 +54,7 @@ __dual_run() {
 
 up() {
   __dual_run \
-    $(__scoop_update_expr) \
+    "$(__scoop_update_expr)" \
     "sudo dnf update -yq"
 }
 
