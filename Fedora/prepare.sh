@@ -4,13 +4,13 @@ USER_PIP_PKGS=(black boto3 construct dep-logic docker-squash pandas pdm pdm-bump
 MORE_DNF_PKGS=(
   adwaita-cursor-theme alsa-lib alsa-lib-devel asciinema asciiquarium atk awscli2 bat
   clean-rpm-gpg-pubkey cmatrix containerd.io cups-libs dnsutils docker-buildx-plugin
-  docker-ce docker-ce-cli docker-compose-plugin eza fastfetch figlet findutils
+  docker-ce docker-ce-cli docker-compose-plugin eza fastfetch fd-find figlet findutils
   gdk-pixbuf2-devel gron gtk3 gtk3-devel gzip helm htop hugo iproute iptables-legacy
   iptables-utils iputils jq just kubernetes-client libXScrnSaver libXScrnSaver-devel
   libXcomposite libXcursor libXdamage libXext libXi libXrandr libXtst lolcat make maven
   mesa-libgbm moreutils-parallel ncurses nmap-ncat nss-devel openssl packer pango
-  python3-pip qemu-user-static remove-retired-packages rpmconf symlinks tar terraform
-  tree vim wget xrandr yq zip zsh
+  python3-pip qemu-user-static remove-retired-packages ripgrep rpmconf symlinks tar
+  terraform tree vim wget xrandr yq zip zsh
 )
 
 JAVA_VER="21"
