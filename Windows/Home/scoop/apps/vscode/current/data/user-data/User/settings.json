@@ -19,6 +19,7 @@
   "editor.fontSize": 16,
   "editor.wordWrap": "on",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.bracketSpacing": false,
 
   "git.confirmSync": false,
   "git.autofetch": true,
