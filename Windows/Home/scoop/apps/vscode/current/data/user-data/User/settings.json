@@ -1,14 +1,15 @@
 {
+  "update.showReleaseNotes": false,
+  "extensions.ignoreRecommendations": true,
+  "telemetry.telemetryLevel": "off",
+  "window.menuBarVisibility": "toggle",
+  "remote.autoForwardPortsSource": "hybrid",
+
   "workbench.productIconTheme": "icons-carbon",
   "workbench.iconTheme": "gruvbox-material-icon-theme",
   "workbench.colorTheme": "Rosé Pine",
-  "editor.fontFamily": "JuliaMono",
-
-  "update.showReleaseNotes": false,
-  "extensions.ignoreRecommendations": true,
   "workbench.startupEditor": "none",
-  "window.menuBarVisibility": "toggle",
-  "remote.autoForwardPortsSource": "hybrid",
+  "workbench.secondarySideBar.defaultVisibility": "hidden",
 
   "editor.stickyScroll.enabled": false,
   "editor.detectIndentation": false,
@@ -18,13 +19,8 @@
   "editor.tabSize": 2,
   "editor.fontSize": 16,
   "editor.wordWrap": "on",
+  "editor.fontFamily": "JuliaMono",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "prettier.bracketSpacing": false,
-
-  "git.confirmSync": false,
-  "git.autofetch": true,
-  "git.enableSmartCommit": true,
-  "git.openRepositoryInParentFolders": "never",
 
   "files.trimTrailingWhitespace": true,
   "files.autoSave": "onFocusChange",
@@ -34,9 +30,14 @@
   "explorer.confirmDelete": false,
   "explorer.confirmPasteNative": false,
 
-  "telemetry.telemetryLevel": "off",
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  "git.enableSmartCommit": true,
+  "git.openRepositoryInParentFolders": "never",
+
   "gitlens.telemetry.enabled": false,
   "redhat.telemetry.enabled": false,
+  "prettier.bracketSpacing": false,
 
   "shellcheck.customArgs": ["-s", "bash"],
   "shellcheck.exclude": [
@@ -59,7 +60,6 @@
   "vs-kubernetes": {
     "vs-kubernetes.crd-code-completion": "disabled"
   },
-
   "[python][dockerfile][toml][java][gradle-kotlin-dsl]": {
     "editor.tabSize": 4
   },
