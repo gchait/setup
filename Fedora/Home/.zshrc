@@ -90,7 +90,7 @@ asso() {
 }
 
 ec2() {
-  echo
+  >&2 echo
   aws ec2 describe-instances --output text \
     --filters "Name=tag:Name,Values=*${1:-*}*" "Name=instance-state-name,Values=running" \
     --query 'Reservations[].Instances[].{id:InstanceId,ip:PrivateIpAddress,name:Tags[?Key==`Name`]|[0].Value}'
