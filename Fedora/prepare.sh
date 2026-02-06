@@ -5,7 +5,7 @@ MORE_DNF_PKGS=(
   adwaita-cursor-theme alsa-lib alsa-lib-devel asciinema asciiquarium atk awscli2 bat
   clean-rpm-gpg-pubkey cmatrix containerd.io cups-libs dnsutils docker-buildx-plugin
   docker-ce docker-ce-cli docker-compose-plugin eza fastfetch fd-find figlet findutils
-  gdk-pixbuf2-devel gron gtk3 gtk3-devel gzip helm htop hugo iproute iptables-legacy
+  gdk-pixbuf2-devel golang gron gtk3 gtk3-devel gzip helm htop hugo iproute iptables-legacy
   iptables-utils iputils jq just kubernetes-client libXScrnSaver libXScrnSaver-devel
   libXcomposite libXcursor libXdamage libXext libXi libXrandr libXtst lolcat make maven
   mesa-libgbm moreutils-parallel ncurses nmap-ncat nss-devel openssl packer pango
