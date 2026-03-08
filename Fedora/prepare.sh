@@ -9,7 +9,7 @@ MORE_DNF_PKGS=(
   iptables-utils iputils jq just kubernetes-client libXScrnSaver libXScrnSaver-devel
   libXcomposite libXcursor libXdamage libXext libXi libXrandr libXtst lolcat make maven
   mesa-libgbm moreutils-parallel ncurses nmap-ncat nss-devel openssl packer pango
-  python3-pip qemu-user-static remove-retired-packages ripgrep rpmconf symlinks tar
+  python3-pip qemu-user-static remove-retired-packages ripgrep rpmconf shfmt symlinks tar
   terraform tree vim wget xrandr yq zip zsh
 )
 
@@ -90,7 +90,7 @@ home_setup() {
 
 docker_setup() {
   docker ps 2> /dev/null || {
-    echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' | \
+    echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' |
       sudo tee /etc/docker/daemon.json
 
     sudo systemctl enable docker
