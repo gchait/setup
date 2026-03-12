@@ -49,7 +49,7 @@ packages_setup() {
 
   # shellcheck disable=SC2046
   yay -Rns --noconfirm $(yay -Qdtq) 2> /dev/null || true
-  yay -S --needed --noconfirm "${PKGS[@]}"
+  yay -S --needed --noconfirm "${PKGS[@]}" 2> /dev/null
 }
 
 home_setup() {
