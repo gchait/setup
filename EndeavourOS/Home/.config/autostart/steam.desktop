@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Steam
+Exec=/usr/bin/steam -silent %U
+Icon=steam
+PrefersNonDefaultGPU=true
+X-KDE-RunOnDiscreteGpu=true
