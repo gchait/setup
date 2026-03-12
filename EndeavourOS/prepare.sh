@@ -60,15 +60,20 @@ home_setup() {
   __get_gh_repo "${HOME}/.zsh/p10k" romkatv/powerlevel10k
 
   cp -r "${HOME}/Projects/setup/EndeavourOS/Home/".* "${HOME}"
-  mkdir -p "${HOME}/Projects" "${HOME}/.local/share/fonts" "${HOME}/.config/autostart"
+  mkdir -p "${HOME}/Projects" "${HOME}/.local/share/fonts"
 
   fc-list | grep -q "/${FONT}-" || {
     cp "${HOME}/Projects/setup/Assets/${FONT}/"*.ttf "${HOME}/.local/share/fonts/"
     fc-cache -f
   }
 
-  [ -f "${user_csv}" ] || { printf "Create %s with 'Name,email' before running\n" "${user_csv}" >&2; exit 1; }
-  IFS="," read -r git_user_name git_user_email < "${user_csv}"
+  if [ ! -f "${user_csv}" ]; then
+    read -rp "Enter your Git user name: " git_user_name
+    read -rp "Enter your Git user email: " git_user_email
+    echo "${git_user_name},${git_user_email}" > "${user_csv}"
+  else
+    IFS="," read -r git_user_name git_user_email < "${user_csv}"
+  fi
 
   sed -e "s/{{GIT_USER_NAME}}/${git_user_name}/" \
     -e "s/{{GIT_USER_EMAIL}}/${git_user_email}/" \
