@@ -75,7 +75,7 @@ ij() {
     __set_wsl_display || return "${?}"
   fi
 
-  if [ -r /opt/idea/bin/idea ]; then
+  if [ -x /opt/idea/bin/idea ]; then
     (/opt/idea/bin/idea "${1:-$HOME/Projects}" &> /dev/null &)
   else
     >&2 echo "IntelliJ not found."

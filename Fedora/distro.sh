@@ -45,7 +45,7 @@ packages_setup() {
 
   pip install -U --user --no-warn-script-location "${USER_PIP_PKGS[@]}"
   sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
-  sudo chsh -s "$(which zsh)" "${USER}" 2> /dev/null
+  [ "$(getent passwd "${USER}" | cut -d: -f7)" = "$(which zsh)" ] || sudo chsh -s "$(which zsh)" "${USER}"
 }
 
 {

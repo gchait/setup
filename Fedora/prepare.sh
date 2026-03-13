@@ -47,8 +47,7 @@ docker_setup() {
     echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' |
       sudo tee /etc/docker/daemon.json
 
-    sudo systemctl enable docker
-    sudo systemctl start docker 2> /dev/null || true
+    sudo systemctl enable --now docker
     sudo usermod -aG docker "${USER}"
   }
 }
@@ -117,7 +116,7 @@ packages_setup() {
 
   pip install -U --user --no-warn-script-location "${USER_PIP_PKGS[@]}"
   sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
-  sudo chsh -s "$(which zsh)" "${USER}" 2> /dev/null
+  [ "$(getent passwd "${USER}" | cut -d: -f7)" = "$(which zsh)" ] || sudo chsh -s "$(which zsh)" "${USER}"
 }
 
 {

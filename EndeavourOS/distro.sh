@@ -11,7 +11,6 @@ SETUP_DIR="${HOME}/Projects/setup"
 DISTRO_NAME="EndeavourOS"
 
 system_setup() {
-  mkdir -p "${HOME}/Projects"
   __get_gh_repo "${SETUP_DIR}" gchait/setup
   sudo cp -r "${SETUP_DIR}/${DISTRO_NAME}/Etc/"* /etc
 
@@ -49,7 +48,7 @@ home_setup() {
 
   cp -r "${SETUP_DIR}/Shared/Home/".p10k.zsh "${HOME}"
   cp -r "${SETUP_DIR}/${DISTRO_NAME}/Home/".* "${HOME}"
-  mkdir -p "${HOME}/Projects" "${HOME}/.local/share/fonts"
+  mkdir -p "${HOME}/.local/share/fonts"
 
   __install_fonts "${SETUP_DIR}"
   __setup_git_config \

@@ -59,7 +59,7 @@ packages_setup() {
   rm /tmp/ssm.deb
 
   pip install -U --user --no-warn-script-location "${USER_PIP_PKGS[@]}"
-  sudo chsh -s "$(which zsh)" "${USER}" 2> /dev/null
+  [ "$(getent passwd "${USER}" | cut -d: -f7)" = "$(which zsh)" ] || sudo chsh -s "$(which zsh)" "${USER}"
 }
 
 {
