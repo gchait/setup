@@ -104,9 +104,8 @@ function Home-Setup
     -Path "${HOME}\setup\Windows\Home\*" `
     -Destination "${HOME}"
 
-  Set-Content -Force -Path "${HOME}\.wslconfig" `
-    -Value ((Get-Content -Path "${HOME}\setup\Windows\.wslconfig.tpl" -Raw) `
-           -replace "{{WSL_MEMORY}}", "${WSL_MEMORY}").TrimEnd()
+  Set-Content -Force -Path "${HOME}\.wslconfig" -Value ((Get-Content -Path `
+    "${HOME}\setup\Windows\.wslconfig.tpl" -Raw) -replace "{{WSL_MEMORY}}", "${WSL_MEMORY}").TrimEnd()
 }
 
 function Font-Setup
