@@ -1,4 +1,4 @@
-(){
+() {
   local pkip="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
   [ -r "${pkip}" ] && source "${pkip}"
 }
@@ -7,7 +7,7 @@ zle_highlight=("paste:none")
 
 export EDITOR="vim"
 export PAGER="less"
-export HISTSIZE="4000"
+export HISTSIZE="5000"
 export SAVEHIST="${HISTSIZE}"
 export HISTFILE="${HOME}/.zsh_history"
 export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
