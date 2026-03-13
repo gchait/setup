@@ -4,13 +4,11 @@
   "telemetry.telemetryLevel": "off",
   "window.menuBarVisibility": "toggle",
   "remote.autoForwardPortsSource": "hybrid",
-
   "workbench.productIconTheme": "icons-carbon",
   "workbench.iconTheme": "gruvbox-material-icon-theme",
   "workbench.colorTheme": "Rosé Pine",
   "workbench.startupEditor": "none",
   "workbench.secondarySideBar.defaultVisibility": "hidden",
-
   "editor.stickyScroll.enabled": false,
   "editor.detectIndentation": false,
   "editor.insertSpaces": true,
@@ -21,25 +19,23 @@
   "editor.wordWrap": "on",
   "editor.fontFamily": "JuliaMono",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-
   "files.trimTrailingWhitespace": true,
   "files.autoSave": "onFocusChange",
   "files.eol": "\n",
-
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
   "explorer.confirmPasteNative": false,
-
   "git.confirmSync": false,
   "git.autofetch": true,
   "git.enableSmartCommit": true,
   "git.openRepositoryInParentFolders": "never",
-
   "gitlens.telemetry.enabled": false,
   "redhat.telemetry.enabled": false,
   "prettier.bracketSpacing": false,
-
-  "shellcheck.customArgs": ["-s", "bash"],
+  "shellcheck.customArgs": [
+    "-s",
+    "bash"
+  ],
   "shellcheck.exclude": [
     "SC1090",
     "SC1091",

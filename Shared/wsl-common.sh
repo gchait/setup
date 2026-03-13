@@ -4,12 +4,12 @@ ALT_JAVA_VER="17"
 USER_PIP_PKGS=(black boto3 construct dep-logic docker-squash pandas pdm pdm-bump pyyaml)
 
 docker_setup() {
-  docker ps 2>/dev/null || {
+  docker ps 2> /dev/null || {
     echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' |
       sudo tee /etc/docker/daemon.json
 
     sudo systemctl enable docker
-    sudo systemctl start docker 2>/dev/null || true
+    sudo systemctl start docker 2> /dev/null || true
     sudo usermod -aG docker "${USER}"
   }
 }

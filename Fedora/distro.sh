@@ -17,7 +17,7 @@ DISTRO_NAME="Fedora"
 
 system_setup() {
   sudo rm -rf /etc/yum.repos.d/*testing*
-  sudo dnf install -yq "${CORE_DNF_PKGS[@]}" 2>/dev/null
+  sudo dnf install -yq "${CORE_DNF_PKGS[@]}" 2> /dev/null
 
   __get_gh_repo "${SETUP_DIR}" gchait/setup
   sudo cp -r "${SETUP_DIR}/Shared/Etc/"* /etc
@@ -41,11 +41,11 @@ packages_setup() {
     "${java}" "${alt_java}" "${alt_py}" \
     https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm \
     https://github.com/lucagrulla/cw/releases/latest/download/cw_amd64.rpm \
-    "${MORE_DNF_PKGS[@]}" 2>/dev/null
+    "${MORE_DNF_PKGS[@]}" 2> /dev/null
 
   pip install -U --user --no-warn-script-location "${USER_PIP_PKGS[@]}"
-  sudo "${alt_py}" -m ensurepip --altinstall 2>/dev/null
-  sudo chsh -s "$(which zsh)" "${USER}" 2>/dev/null
+  sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
+  sudo chsh -s "$(which zsh)" "${USER}" 2> /dev/null
 }
 
 {
@@ -53,4 +53,4 @@ packages_setup() {
   packages_setup
   home_setup
   docker_setup
-} >/dev/null
+} > /dev/null

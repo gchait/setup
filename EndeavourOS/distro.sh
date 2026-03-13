@@ -1,6 +1,3 @@
-SETUP_DIR="${HOME}/Projects/setup"
-DISTRO_NAME="EndeavourOS"
-
 PKGS=(
   asciinema asciiquarium bat bibata-cursor-theme bind claude-code cmake
   discord docker docker-compose eza fastfetch figlet ghostty github-cli
@@ -11,6 +8,9 @@ PKGS=(
   wireshark-cli wl-clipboard zsh zsh-autosuggestions zsh-completions
   zsh-syntax-highlighting
 )
+
+SETUP_DIR="${HOME}/Projects/setup"
+DISTRO_NAME="EndeavourOS"
 
 system_setup() {
   mkdir -p "${HOME}/Projects"
@@ -39,11 +39,11 @@ packages_setup() {
     kdeconnect konsole lib32-amdvlk nano nano-syntax-highlighting nilfs-utils \
     ntp partitionmanager plasma-x11-session print-manager usb_modeswitch \
     welcome xterm \
-    2>/dev/null || true
+    2> /dev/null || true
 
   # shellcheck disable=SC2046
-  yay -Rns --noconfirm $(yay -Qdtq) 2>/dev/null || true
-  yay -S --needed --noconfirm "${PKGS[@]}" 2>/dev/null
+  yay -Rns --noconfirm $(yay -Qdtq) 2> /dev/null || true
+  yay -S --needed --noconfirm "${PKGS[@]}" 2> /dev/null
 }
 
 home_setup() {
@@ -61,7 +61,7 @@ home_setup() {
 }
 
 services_setup() {
-  docker ps 2>/dev/null || {
+  docker ps 2> /dev/null || {
     sudo systemctl enable --now docker
     sudo usermod -aG docker "${USER}"
   }
@@ -124,4 +124,4 @@ kde_setup() {
   home_setup
   services_setup
   kde_setup
-} >/dev/null
+} > /dev/null
