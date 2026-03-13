@@ -69,9 +69,9 @@ home_setup() {
     "${HOME}/.gitconfig"
 }
 
-CORE_DNF_PKGS=(dnf-plugins-core dnf-utils git python3-dnf)
+BOOTSTRAP_DNF_PKGS=(dnf-plugins-core dnf-utils git python3-dnf)
 
-MORE_DNF_PKGS=(
+DNF_PKGS=(
   adwaita-cursor-theme alsa-lib alsa-lib-devel asciinema asciiquarium atk awscli2 bat
   clean-rpm-gpg-pubkey cmatrix containerd.io cups-libs dnsutils docker-buildx-plugin
   docker-ce docker-ce-cli docker-compose-plugin eza fastfetch fd-find figlet findutils
@@ -88,7 +88,7 @@ DISTRO_NAME="Fedora"
 
 system_setup() {
   sudo rm -rf /etc/yum.repos.d/*testing*
-  sudo dnf install -yq "${CORE_DNF_PKGS[@]}" 2> /dev/null
+  sudo dnf install -yq "${BOOTSTRAP_DNF_PKGS[@]}" 2> /dev/null
 
   __get_gh_repo "${SETUP_DIR}" gchait/setup
   sudo cp -r "${SETUP_DIR}/Shared/Etc/"* /etc
@@ -112,7 +112,7 @@ packages_setup() {
     "${java}" "${alt_java}" "${alt_py}" \
     https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm \
     https://github.com/lucagrulla/cw/releases/latest/download/cw_amd64.rpm \
-    "${MORE_DNF_PKGS[@]}" 2> /dev/null
+    "${DNF_PKGS[@]}" 2> /dev/null
 
   pip install -U --user --no-warn-script-location "${USER_PIP_PKGS[@]}"
   sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
