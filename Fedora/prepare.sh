@@ -108,10 +108,13 @@ packages_setup() {
   local alt_java="java-${ALT_JAVA_VER}-openjdk-devel"
   local alt_py="python${ALT_PY_VER}"
 
+  local arch
+  arch=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')
+
   sudo dnf install -yq \
     "${java}" "${alt_java}" "${alt_py}" \
-    https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm \
-    https://github.com/lucagrulla/cw/releases/latest/download/cw_amd64.rpm \
+    "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_${arch/amd64/64bit}/session-manager-plugin.rpm" \
+    "https://github.com/lucagrulla/cw/releases/latest/download/cw_${arch}.rpm" \
     "${DNF_PKGS[@]}" 2> /dev/null
 
   pip install -U --user --no-warn-script-location "${USER_PIP_PKGS[@]}"

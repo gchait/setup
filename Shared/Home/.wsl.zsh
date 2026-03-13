@@ -1,4 +1,5 @@
-(){
+# shellcheck disable=SC1072,SC1073
+() {
   local firefox="/c/Program Files/Mozilla Firefox/firefox.exe"
   local chrome="/c/Program Files/Google/Chrome/Application/chrome.exe"
 
