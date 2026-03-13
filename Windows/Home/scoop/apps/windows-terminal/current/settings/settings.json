@@ -1,7 +1,6 @@
 {
   "$help": "https://aka.ms/terminal-documentation",
   "$schema": "https://aka.ms/terminal-profiles-schema",
-
   "copyOnSelect": false,
   "alwaysShowNotificationIcon": false,
   "useAcrylicInTabRow": false,
@@ -12,7 +11,6 @@
   "newTabPosition": "afterCurrentTab",
   "defaultProfile": "{9c6e5557-c8cb-4cdf-9c09-7e3c1c17649b}",
   "theme": "Rosé Pine",
-
   "profiles": {
     "defaults": {
       "useAcrylic": false,
@@ -21,7 +19,9 @@
       "closeOnExit": "always",
       "cursorShape": "filledBox",
       "colorScheme": "Rosé Pine",
-      "font": { "face": "JuliaMono" }
+      "font": {
+        "face": "JuliaMono"
+      }
     },
     "list": [
       {
@@ -29,7 +29,7 @@
         "commandline": "C:\\Windows\\System32\\wsl.exe",
         "guid": "{9c6e5557-c8cb-4cdf-9c09-7e3c1c17649b}",
         "icon": "🐧",
-        "name": "Fedora",
+        "name": "Linux",
         "startingDirectory": "~"
       },
       {

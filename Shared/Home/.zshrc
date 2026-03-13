@@ -53,15 +53,21 @@ __dual_run() {
 }
 
 up() {
-  __dual_run \
-    "$(__scoop_update_expr)" \
-    "sudo dnf update -yq"
+  local pkg_cmd
+  if command -v dnf &>/dev/null; then
+    pkg_cmd="sudo dnf update -yq"
+  else
+    pkg_cmd="sudo apt-get upgrade -y"
+  fi
+  __dual_run "$(__scoop_update_expr)" "${pkg_cmd}"
 }
 
 upp() {
+  local distro
+  distro=$(grep "^ID=" /etc/os-release | cut -d= -f2)
   __dual_run \
     "${HOME}/setup/Windows/prepare.ps1" \
-    "${HOME}/setup/Fedora/prepare.sh"
+    "${HOME}/setup/${(C)distro}/prepare.sh"
 }
 
 ij() {
