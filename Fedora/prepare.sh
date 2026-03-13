@@ -35,6 +35,7 @@ __setup_git_config() {
     -e "s/{{GIT_USER_EMAIL}}/${git_user_email}/" \
     "${tpl_path}" > "${out_path}"
 }
+
 SETUP_DIR="${HOME}/setup"
 # shellcheck disable=SC2034
 ALT_JAVA_VER="17"
@@ -68,6 +69,7 @@ home_setup() {
     "${SETUP_DIR}/Shared/.gitconfig.tpl" \
     "${HOME}/.gitconfig"
 }
+
 CORE_DNF_PKGS=(dnf-plugins-core dnf-utils git python3-dnf)
 
 MORE_DNF_PKGS=(

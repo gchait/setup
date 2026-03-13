@@ -35,6 +35,7 @@ __setup_git_config() {
     -e "s/{{GIT_USER_EMAIL}}/${git_user_email}/" \
     "${tpl_path}" > "${out_path}"
 }
+
 PKGS=(
   asciinema asciiquarium bat bibata-cursor-theme bind claude-code cmake discord docker docker-compose
   eza fastfetch figlet ghostty github-cli go-yq gron htop hugo intellij-idea-community-edition
