@@ -34,9 +34,6 @@ __setup_git_config() {
     -e "s/{{GIT_USER_EMAIL}}/${git_user_email}/" \
     "${tpl_path}" > "${out_path}"
 }
-SETUP_DIR="${HOME}/Projects/setup"
-DISTRO_NAME="EndeavourOS"
-
 PKGS=(
   asciinema asciiquarium bat bibata-cursor-theme bind claude-code cmake
   discord docker docker-compose eza fastfetch figlet ghostty github-cli
@@ -47,6 +44,9 @@ PKGS=(
   wireshark-cli wl-clipboard zsh zsh-autosuggestions zsh-completions
   zsh-syntax-highlighting
 )
+
+SETUP_DIR="${HOME}/Projects/setup"
+DISTRO_NAME="EndeavourOS"
 
 system_setup() {
   mkdir -p "${HOME}/Projects"

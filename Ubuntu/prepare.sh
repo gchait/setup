@@ -66,24 +66,20 @@ home_setup() {
     "${SETUP_DIR}/Shared/.gitconfig.tpl" \
     "${HOME}/.gitconfig"
 }
-export DEBIAN_FRONTEND=noninteractive
-
 BOOTSTRAP_APT_PKGS=(ca-certificates curl git gnupg)
 
 APT_PKGS=(
-  adwaita-icon-theme asciinema bat build-essential cmatrix docker.io
-  docker-buildx docker-compose-v2 dnsutils eza fd-find figlet golang-go
-  gron helm htop hugo iproute2 iptables jq just libasound2-dev libasound2t64
-  libatk1.0-0 libcups2t64
-  libgbm1 libgdk-pixbuf2.0-dev libgtk-3-0t64 libgtk-3-dev libncurses-dev
-  libnss3-dev libpango-1.0-0 libxcomposite1 libxcursor1 libxdamage1
-  libxext6 libxi6 libxrandr2 libxss-dev libxss1 libxtst6 lolcat make
-  maven moreutils ncat openssl packer python3-pip qemu-user-static
-  openssh-client python3-dev ripgrep shfmt symlinks tar terraform tree vim
-  wget x11-xserver-utils yq zip zsh
+  adwaita-icon-theme asciinema bat build-essential cmatrix docker.io docker-buildx docker-compose-v2
+  dnsutils eza fd-find figlet golang-go gron helm htop hugo iproute2 iptables jq just libasound2-dev
+  libasound2t64 libatk1.0-0 libcups2t64 libgbm1 libgdk-pixbuf2.0-dev libgtk-3-0t64 libgtk-3-dev
+  libncurses-dev libnss3-dev libpango-1.0-0 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6
+  libxrandr2 libxss-dev libxss1 libxtst6 lolcat make maven moreutils ncat openssl packer python3-pip
+  qemu-user-static openssh-client python3-dev ripgrep shfmt symlinks tar terraform tree vim wget
+  x11-xserver-utils yq zip zsh
 )
 
 DISTRO_NAME="Ubuntu"
+export DEBIAN_FRONTEND=noninteractive
 
 system_setup() {
   sudo apt-get update -y
