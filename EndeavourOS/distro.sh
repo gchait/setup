@@ -80,7 +80,7 @@ services_setup() {
     /usr/share/sddm/themes/maya \
     /usr/share/themes/Emacs
 
-  [ "$(getent passwd "${USER}" | cut -d: -f7)" = "$(which zsh)" ] || sudo chsh -s "$(which zsh)" "${USER}"
+  __set_default_shell
 }
 
 kde_setup() {

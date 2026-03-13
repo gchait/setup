@@ -18,10 +18,15 @@ __install_fonts() {
   }
 }
 
+__set_default_shell() {
+  [ "$(getent passwd "${USER}" | cut -d: -f7)" = "$(which zsh)" ] || sudo chsh -s "$(which zsh)" "${USER}"
+}
+
 __setup_git_config() {
   local user_csv="${1}"
   local tpl_path="${2}"
   local out_path="${3}"
+  local git_user_name git_user_email
 
   if [ ! -f "${user_csv}" ]; then
     read -rp "Enter your Git user name: " git_user_name
@@ -119,7 +124,7 @@ packages_setup() {
 
   pip install -U --user --no-warn-script-location "${USER_PIP_PKGS[@]}"
   sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
-  [ "$(getent passwd "${USER}" | cut -d: -f7)" = "$(which zsh)" ] || sudo chsh -s "$(which zsh)" "${USER}"
+  __set_default_shell
 }
 
 {

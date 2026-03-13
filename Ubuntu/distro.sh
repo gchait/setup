@@ -10,6 +10,7 @@ APT_PKGS=(
 )
 
 DISTRO_NAME="Ubuntu"
+ARCH=$(dpkg --print-architecture)
 export DEBIAN_FRONTEND=noninteractive
 
 system_setup() {
@@ -20,21 +21,20 @@ system_setup() {
   sudo cp -r "${SETUP_DIR}/Shared/Etc/"* /etc
   sudo cp -r "${SETUP_DIR}/${DISTRO_NAME}/Etc/"* /etc
 
-  local arch codename
-  arch=$(dpkg --print-architecture)
+  local codename
   codename=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
 
   sudo install -m 0755 -d /etc/apt/keyrings
 
   curl -fsSL https://apt.releases.hashicorp.com/gpg |
     sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-  echo "deb [arch=${arch} signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com ${codename} main" |
-    sudo tee /etc/apt/sources.list.d/hashicorp.list > /dev/null
+  echo "deb [arch=${ARCH} signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com ${codename} main" |
+    sudo tee /etc/apt/sources.list.d/hashicorp.list
 
   curl -fsSL https://baltocdn.com/helm/signing.asc |
     sudo gpg --dearmor -o /usr/share/keyrings/helm.gpg
-  echo "deb [arch=${arch} signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" |
-    sudo tee /etc/apt/sources.list.d/helm.list > /dev/null
+  echo "deb [arch=${ARCH} signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" |
+    sudo tee /etc/apt/sources.list.d/helm.list
 
   sudo apt-get update -y
 }
@@ -43,11 +43,10 @@ system_setup() {
 packages_setup() {
   local java="openjdk-${JAVA_VER}-jdk"
   local alt_java="openjdk-${ALT_JAVA_VER}-jdk"
-  local arch arch_ff arch_ssm
+  local arch_ff arch_ssm
 
-  arch=$(dpkg --print-architecture)
-  arch_ff=$(echo "${arch}" | sed 's/arm64/aarch64/')
-  arch_ssm=$(echo "${arch}" | sed 's/amd64/64bit/')
+  arch_ff=$(echo "${ARCH}" | sed 's/arm64/aarch64/')
+  arch_ssm=$(echo "${ARCH}" | sed 's/amd64/64bit/')
 
   sudo apt-get install -y "${java}" "${alt_java}" "${APT_PKGS[@]}" 2> /dev/null
 
@@ -55,7 +54,7 @@ packages_setup() {
   sudo apt-get install -y /tmp/fastfetch.deb
   rm /tmp/fastfetch.deb
 
-  curl -fsSL "https://github.com/lucagrulla/cw/releases/latest/download/cw_${arch}.deb" -o /tmp/cw.deb
+  curl -fsSL "https://github.com/lucagrulla/cw/releases/latest/download/cw_${ARCH}.deb" -o /tmp/cw.deb
   sudo apt-get install -y /tmp/cw.deb
   rm /tmp/cw.deb
 
@@ -63,12 +62,12 @@ packages_setup() {
   sudo apt-get install -y /tmp/ssm.deb
   rm /tmp/ssm.deb
 
-  curl -fsSL "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${arch}" -o /tmp/yq
+  curl -fsSL "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${ARCH}" -o /tmp/yq
   sudo install -m 0755 /tmp/yq /usr/local/bin/yq
   rm /tmp/yq
 
   pip install -U --user --no-warn-script-location "${USER_PIP_PKGS[@]}"
-  [ "$(getent passwd "${USER}" | cut -d: -f7)" = "$(which zsh)" ] || sudo chsh -s "$(which zsh)" "${USER}"
+  __set_default_shell
 }
 
 {
