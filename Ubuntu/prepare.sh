@@ -45,7 +45,7 @@ SETUP_DIR="${HOME}/setup"
 # shellcheck disable=SC2034
 ALT_JAVA_VER="17"
 # shellcheck disable=SC2034
-USER_PIP_PKGS=(black boto3 construct dep-logic docker-squash pandas pdm pdm-bump pyyaml)
+USER_PIP_PKGS="black boto3 construct dep-logic docker-squash pandas pdm pdm-bump pyyaml"
 
 __configure_etc() {
   __get_gh_repo "${SETUP_DIR}" gchait/setup
@@ -80,16 +80,16 @@ home_setup() {
     "${HOME}/.gitconfig"
 }
 
-BOOTSTRAP_APT_PKGS=(ca-certificates curl git gnupg)
+BOOTSTRAP_APT_PKGS="ca-certificates curl git gnupg"
 
-APT_PKGS=(
+APT_PKGS="
   adwaita-icon-theme asciinema bat build-essential cmatrix docker.io docker-buildx docker-compose-v2
   dnsutils eza fd-find figlet golang-go gron helm htop hugo iproute2 iptables jq just libasound2-dev
   libasound2t64 libatk1.0-0 libcups2t64 libgbm1 libgdk-pixbuf2.0-dev libgtk-3-0t64 libgtk-3-dev
   libncurses6 libnss3-dev libpango-1.0-0 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6
   libxrandr2 libxss-dev libxss1 libxtst6 lolcat make maven moreutils ncat openssl packer python3-pip
   qemu-user-static openssh-client python3-dev ripgrep shfmt symlinks tar terraform tree vim wget zip zsh
-)
+"
 
 # shellcheck disable=SC2034
 DISTRO_NAME="Ubuntu"
@@ -98,7 +98,8 @@ export DEBIAN_FRONTEND="noninteractive"
 
 system_setup() {
   sudo apt-get update -q
-  sudo apt-get install -yq "${BOOTSTRAP_APT_PKGS[@]}" 2> /dev/null
+  # shellcheck disable=SC2086
+  sudo apt-get install -yq ${BOOTSTRAP_APT_PKGS} 2> /dev/null
 
   __configure_etc
   local codename
@@ -127,7 +128,8 @@ packages_setup() {
   arch_ff=$(echo "${ARCH}" | sed 's/arm64/aarch64/')
   arch_ssm=$(echo "${ARCH}" | sed 's/amd64/64bit/')
 
-  sudo apt-get install -yq "${java}" "${alt_java}" "${APT_PKGS[@]}" 2> /dev/null
+  # shellcheck disable=SC2086
+  sudo apt-get install -yq "${java}" "${alt_java}" ${APT_PKGS} 2> /dev/null
 
   command -v fastfetch || {
     curl -fsSL "https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-${arch_ff}.deb" -o /tmp/fastfetch.deb
@@ -154,7 +156,8 @@ packages_setup() {
   }
 
   sudo apt-get autoremove -yq 2> /dev/null
-  pip install -U --user --no-warn-script-location "${USER_PIP_PKGS[@]}"
+  # shellcheck disable=SC2086
+  pip install -U --user --no-warn-script-location ${USER_PIP_PKGS}
   __set_default_shell
 }
 

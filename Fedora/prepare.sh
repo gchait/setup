@@ -45,7 +45,7 @@ SETUP_DIR="${HOME}/setup"
 # shellcheck disable=SC2034
 ALT_JAVA_VER="17"
 # shellcheck disable=SC2034
-USER_PIP_PKGS=(black boto3 construct dep-logic docker-squash pandas pdm pdm-bump pyyaml)
+USER_PIP_PKGS="black boto3 construct dep-logic docker-squash pandas pdm pdm-bump pyyaml"
 
 __configure_etc() {
   __get_gh_repo "${SETUP_DIR}" gchait/setup
@@ -129,7 +129,8 @@ packages_setup() {
     "${DNF_PKGS[@]}" 2> /dev/null
 
   sudo dnf autoremove -yq 2> /dev/null
-  pip install -U --user --no-warn-script-location "${USER_PIP_PKGS[@]}"
+  # shellcheck disable=SC2086
+  pip install -U --user --no-warn-script-location ${USER_PIP_PKGS}
   sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
   __set_default_shell
 }
