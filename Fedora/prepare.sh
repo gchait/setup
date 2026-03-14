@@ -4,8 +4,6 @@ FONT="JuliaMono"
 # shellcheck disable=SC2034
 JAVA_VER="21"
 
-set -eux
-
 __get_gh_repo() {
   git -C "${1}" pull || git clone --depth=1 "https://github.com/${2}.git" "${1}"
 }
