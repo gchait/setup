@@ -14,6 +14,8 @@ DISTRO_NAME="Ubuntu"
 ARCH=$(dpkg --print-architecture)
 export DEBIAN_FRONTEND="noninteractive"
 
+set -eux
+
 system_setup() {
   sudo apt-get update -q
   # shellcheck disable=SC2086
@@ -75,7 +77,7 @@ packages_setup() {
 
   sudo apt-get autoremove -yq 2> /dev/null
   # shellcheck disable=SC2086
-  pip install -U --user --no-warn-script-location ${USER_PIP_PKGS}
+  pip install -U --user --break-system-packages --no-warn-script-location ${USER_PIP_PKGS}
   __set_default_shell
 }
 

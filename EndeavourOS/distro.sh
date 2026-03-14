@@ -10,6 +10,8 @@ PKGS=(
 SETUP_DIR="${HOME}/Projects/setup"
 DISTRO_NAME="EndeavourOS"
 
+set -eux
+
 system_setup() {
   __get_gh_repo "${SETUP_DIR}" gchait/setup
   sudo cp -r "${SETUP_DIR}/${DISTRO_NAME}/Etc/"* /etc

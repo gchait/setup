@@ -98,6 +98,8 @@ ALT_PY_VER="3.9"
 # shellcheck disable=SC2034
 DISTRO_NAME="Fedora"
 
+set -eux
+
 system_setup() {
   sudo rm -rf /etc/yum.repos.d/*testing*
   sudo dnf install -yq "${BOOTSTRAP_DNF_PKGS[@]}" 2> /dev/null
