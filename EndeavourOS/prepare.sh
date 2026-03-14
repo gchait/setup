@@ -90,7 +90,7 @@ home_setup() {
 
   cp "${SETUP_DIR}/Shared/Home/.p10k.zsh" "${HOME}"
   cp "${SETUP_DIR}/Shared/Home/.common.zsh" "${HOME}"
-  cp -r "${SETUP_DIR}/${DISTRO_NAME}/Home/".[^.]* "${HOME}"
+  cp -r "${SETUP_DIR}/${DISTRO_NAME}/Home/".[!.]* "${HOME}"
   mkdir -p "${HOME}/.local/share/fonts"
 
   __install_fonts "${SETUP_DIR}"

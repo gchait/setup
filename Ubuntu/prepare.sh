@@ -68,7 +68,7 @@ home_setup() {
   __get_gh_repo "${HOME}/.zsh/p10k" romkatv/powerlevel10k &
   wait
 
-  cp -r "${SETUP_DIR}/Shared/Home/".[^.]* "${HOME}"
+  cp -r "${SETUP_DIR}/Shared/Home/".[!.]* "${HOME}"
   mkdir -p "${HOME}/Projects" "${HOME}/.local/share/fonts"
 
   __install_fonts "${SETUP_DIR}"
@@ -81,7 +81,7 @@ home_setup() {
 BOOTSTRAP_APT_PKGS="ca-certificates curl git gnupg"
 
 APT_PKGS="
-  adwaita-icon-theme asciinema bat build-essential cmatrix docker.io docker-buildx docker-compose-v2
+  adwaita-icon-theme bat build-essential cmatrix docker.io docker-buildx docker-compose-v2
   dnsutils eza fd-find figlet golang-go gron helm htop hugo iproute2 iptables jq just libasound2-dev
   libasound2t64 libatk1.0-0 libcups2t64 libgbm1 libgdk-pixbuf2.0-dev libgtk-3-0t64 libgtk-3-dev
   libncurses6 libnss3-dev libpango-1.0-0 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6
