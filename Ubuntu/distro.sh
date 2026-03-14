@@ -15,30 +15,25 @@ ARCH=$(dpkg --print-architecture)
 export DEBIAN_FRONTEND="noninteractive"
 
 system_setup() {
-  sudo apt-get update -y
-  sudo apt-get install -y "${BOOTSTRAP_APT_PKGS[@]}" 2> /dev/null
+  sudo apt-get update -q
+  sudo apt-get install -yq "${BOOTSTRAP_APT_PKGS[@]}" 2> /dev/null
 
   __configure_etc
-  sudo install -m 0755 -d /etc/apt/keyrings
-
   local codename
   codename=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
 
-  [ -f /usr/share/keyrings/hashicorp-archive-keyring.gpg ] || {
-    curl -fsSL https://apt.releases.hashicorp.com/gpg |
-      sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-    echo "deb [arch=${ARCH} signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com ${codename} main" |
-      sudo tee /etc/apt/sources.list.d/hashicorp.list
-  }
+  [ -f /usr/share/keyrings/hashicorp-archive-keyring.gpg ] ||
+    curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+  echo "deb [arch=${ARCH} signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com ${codename} main" |
+    sudo tee /etc/apt/sources.list.d/hashicorp.list
 
-  [ -f /usr/share/keyrings/helm.gpg ] || {
-    curl -fsSL https://baltocdn.com/helm/signing.asc |
-      sudo gpg --dearmor -o /usr/share/keyrings/helm.gpg
-    echo "deb [arch=${ARCH} signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" |
-      sudo tee /etc/apt/sources.list.d/helm.list
-  }
+  [ -f /usr/share/keyrings/helm.gpg ] ||
+    curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/helm.gpg
+  echo "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" |
+    sudo tee /etc/apt/sources.list.d/helm.list
 
-  sudo apt-get update -y
+  sudo apt-get update -q
+  sudo apt-get upgrade -yq 2> /dev/null
 }
 
 # shellcheck disable=SC2001
@@ -50,23 +45,23 @@ packages_setup() {
   arch_ff=$(echo "${ARCH}" | sed 's/arm64/aarch64/')
   arch_ssm=$(echo "${ARCH}" | sed 's/amd64/64bit/')
 
-  sudo apt-get install -y "${java}" "${alt_java}" "${APT_PKGS[@]}" 2> /dev/null
+  sudo apt-get install -yq "${java}" "${alt_java}" "${APT_PKGS[@]}" 2> /dev/null
 
   command -v fastfetch || {
     curl -fsSL "https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-${arch_ff}.deb" -o /tmp/fastfetch.deb
-    sudo apt-get install -y /tmp/fastfetch.deb
+    sudo apt-get install -yq /tmp/fastfetch.deb
     rm /tmp/fastfetch.deb
   }
 
   command -v cw || {
     curl -fsSL "https://github.com/lucagrulla/cw/releases/latest/download/cw_${ARCH}.deb" -o /tmp/cw.deb
-    sudo apt-get install -y /tmp/cw.deb
+    sudo apt-get install -yq /tmp/cw.deb
     rm /tmp/cw.deb
   }
 
   command -v session-manager-plugin || {
     curl -fsSL "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_${arch_ssm}/session-manager-plugin.deb" -o /tmp/ssm.deb
-    sudo apt-get install -y /tmp/ssm.deb
+    sudo apt-get install -yq /tmp/ssm.deb
     rm /tmp/ssm.deb
   }
 
@@ -76,6 +71,7 @@ packages_setup() {
     rm /tmp/yq
   }
 
+  sudo apt-get autoremove -yq 2> /dev/null
   pip install -U --user --no-warn-script-location "${USER_PIP_PKGS[@]}"
   __set_default_shell
 }

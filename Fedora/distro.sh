@@ -46,6 +46,7 @@ packages_setup() {
     "https://github.com/lucagrulla/cw/releases/latest/download/cw_${arch}.rpm" \
     "${DNF_PKGS[@]}" 2> /dev/null
 
+  sudo dnf autoremove -yq 2> /dev/null
   pip install -U --user --no-warn-script-location "${USER_PIP_PKGS[@]}"
   sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
   __set_default_shell

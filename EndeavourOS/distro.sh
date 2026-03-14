@@ -46,7 +46,7 @@ home_setup() {
   __get_gh_repo "${HOME}/.zsh/p10k" romkatv/powerlevel10k
 
   cp "${SETUP_DIR}/Shared/Home/.p10k.zsh" "${HOME}"
-  cp "${SETUP_DIR}/Shared/Home/.zshrc.common" "${HOME}"
+  cp "${SETUP_DIR}/Shared/Home/.common.zsh" "${HOME}"
   cp -r "${SETUP_DIR}/${DISTRO_NAME}/Home/".[^.]* "${HOME}"
   mkdir -p "${HOME}/.local/share/fonts"
 

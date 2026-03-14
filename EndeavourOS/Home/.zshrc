@@ -1,4 +1,4 @@
-source "${HOME}/.zshrc.common"
+source "${HOME}/.common.zsh"
 
 alias ff="fastfetch"
 

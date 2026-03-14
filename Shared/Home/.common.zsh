@@ -1,3 +1,4 @@
+# shellcheck disable=SC1072,SC1073
 () {
   local pkip="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
   [ -r "${pkip}" ] && source "${pkip}"

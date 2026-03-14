@@ -95,6 +95,7 @@ DNF_PKGS=(
 )
 
 ALT_PY_VER="3.9"
+# shellcheck disable=SC2034
 DISTRO_NAME="Fedora"
 
 system_setup() {
@@ -107,8 +108,10 @@ system_setup() {
   sudo sed -i "/VARIANT/d" /etc/os-release
   sudo sed -i "s/ (Container Image)//g" /etc/os-release
 
-  [ -f /etc/yum.repos.d/hashicorp.repo ] || sudo dnf4 config-manager -q --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
-  [ -f /etc/yum.repos.d/docker-ce.repo ] || sudo dnf4 config-manager -q --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+  [ -f /etc/yum.repos.d/hashicorp.repo ] ||
+    sudo dnf4 config-manager -q --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+  [ -f /etc/yum.repos.d/docker-ce.repo ] ||
+    sudo dnf4 config-manager -q --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 }
 
 packages_setup() {
@@ -125,6 +128,7 @@ packages_setup() {
     "https://github.com/lucagrulla/cw/releases/latest/download/cw_${arch}.rpm" \
     "${DNF_PKGS[@]}" 2> /dev/null
 
+  sudo dnf autoremove -yq 2> /dev/null
   pip install -U --user --no-warn-script-location "${USER_PIP_PKGS[@]}"
   sudo "${alt_py}" -m ensurepip --altinstall 2> /dev/null
   __set_default_shell

@@ -1,4 +1,4 @@
-source "${HOME}/.zshrc.common"
+source "${HOME}/.common.zsh"
 
 fpath=("${HOME}/.zsh/complete/src" "${fpath[@]}")
 
