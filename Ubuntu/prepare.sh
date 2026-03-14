@@ -155,6 +155,7 @@ packages_setup() {
     rm /tmp/yq
   }
 
+  sudo ln -sf /usr/bin/batcat /usr/local/bin/bat
   sudo apt-get autoremove -yq 2> /dev/null
   # shellcheck disable=SC2086
   pip install -U --user --break-system-packages --no-warn-script-location ${USER_PIP_PKGS}
