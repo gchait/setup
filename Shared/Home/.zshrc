@@ -1,38 +1,13 @@
-() {
-  local pkip="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-  [ -r "${pkip}" ] && source "${pkip}"
-}
+source "${HOME}/.zshrc.common"
 
 fpath=("${HOME}/.zsh/complete/src" "${fpath[@]}")
-zle_highlight=("paste:none")
 
 IS_WSL=$(uname -r | grep -qi wsl && echo 1 || echo 0)
 [ "${IS_WSL}" = "1" ] && source "${HOME}/.wsl.zsh"
 
-export EDITOR="vim"
-export PAGER="less"
-export HISTSIZE="5000"
-export SAVEHIST="${HISTSIZE}"
-export HISTFILE="${HOME}/.zsh_history"
-export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
-
-alias j="just"
-alias d="docker"
 alias k="kubectl"
 alias c="code"
-alias g="git"
-
-alias ls="eza -a --group-directories-first"
-alias lt="ls -T --git-ignore"
-alias ll="ls -l"
-alias df="df -hT"
-alias du="du -sh"
 alias ff="fastfetch -c paleofetch.jsonc"
-alias cat="bat --paging=never --style=plain"
-
-precmd() {
-  echo -ne "\033]0;${PWD##*/}\007"
-}
 
 __dual_run() {
   if [ "${IS_WSL}" = "1" ]; then
@@ -101,25 +76,6 @@ ec2() {
     --filters "Name=tag:Name,Values=*${1:-*}*" "Name=instance-state-name,Values=running" \
     --query 'Reservations[].Instances[].{id:InstanceId,ip:PrivateIpAddress,name:Tags[?Key==`Name`]|[0].Value}'
 }
-
-jwtd() {
-  if [ ! -t 0 ]; then
-    local input=$(cat /dev/stdin)
-  else
-    >&2 echo "Missing piped input."
-    return 2
-  fi
-
-  echo "${input}" | jq -Rrce 'split(".")[1] | . + "=" * (. | 4 - length % 4)' | \
-    openssl base64 -d -A | jq
-}
-
-bindkey -e
-bindkey "^[[1;5C" forward-word
-bindkey "^[[1;5D" backward-word
-bindkey "^[[1;3C" forward-word
-bindkey "^[[1;3D" backward-word
-bindkey "^[[3~" delete-char
 
 autoload -Uz compinit && compinit
 zstyle ":completion:*" matcher-list "m:{a-z}={A-Za-z}"

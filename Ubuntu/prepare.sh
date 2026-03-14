@@ -47,6 +47,12 @@ ALT_JAVA_VER="17"
 # shellcheck disable=SC2034
 USER_PIP_PKGS=(black boto3 construct dep-logic docker-squash pandas pdm pdm-bump pyyaml)
 
+__configure_etc() {
+  __get_gh_repo "${SETUP_DIR}" gchait/setup
+  sudo cp -r "${SETUP_DIR}/Shared/Etc/"* /etc
+  sudo cp -r "${SETUP_DIR}/${DISTRO_NAME}/Etc/"* /etc
+}
+
 docker_setup() {
   docker ps 2> /dev/null || {
     echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' |
@@ -64,7 +70,7 @@ home_setup() {
   __get_gh_repo "${HOME}/.zsh/p10k" romkatv/powerlevel10k &
   wait
 
-  cp -r "${SETUP_DIR}/Shared/Home/".* "${HOME}"
+  cp -r "${SETUP_DIR}/Shared/Home/".[^.]* "${HOME}"
   mkdir -p "${HOME}/Projects" "${HOME}/.local/share/fonts"
 
   __install_fonts "${SETUP_DIR}"
@@ -93,24 +99,26 @@ system_setup() {
   sudo apt-get update -y
   sudo apt-get install -y "${BOOTSTRAP_APT_PKGS[@]}" 2> /dev/null
 
-  __get_gh_repo "${SETUP_DIR}" gchait/setup
-  sudo cp -r "${SETUP_DIR}/Shared/Etc/"* /etc
-  sudo cp -r "${SETUP_DIR}/${DISTRO_NAME}/Etc/"* /etc
+  __configure_etc
 
   local codename
   codename=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
 
   sudo install -m 0755 -d /etc/apt/keyrings
 
-  curl -fsSL https://apt.releases.hashicorp.com/gpg |
-    sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-  echo "deb [arch=${ARCH} signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com ${codename} main" |
-    sudo tee /etc/apt/sources.list.d/hashicorp.list
+  [ -f /usr/share/keyrings/hashicorp-archive-keyring.gpg ] || {
+    curl -fsSL https://apt.releases.hashicorp.com/gpg |
+      sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+    echo "deb [arch=${ARCH} signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com ${codename} main" |
+      sudo tee /etc/apt/sources.list.d/hashicorp.list
+  }
 
-  curl -fsSL https://baltocdn.com/helm/signing.asc |
-    sudo gpg --dearmor -o /usr/share/keyrings/helm.gpg
-  echo "deb [arch=${ARCH} signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" |
-    sudo tee /etc/apt/sources.list.d/helm.list
+  [ -f /usr/share/keyrings/helm.gpg ] || {
+    curl -fsSL https://baltocdn.com/helm/signing.asc |
+      sudo gpg --dearmor -o /usr/share/keyrings/helm.gpg
+    echo "deb [arch=${ARCH} signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" |
+      sudo tee /etc/apt/sources.list.d/helm.list
+  }
 
   sudo apt-get update -y
 }
@@ -126,21 +134,29 @@ packages_setup() {
 
   sudo apt-get install -y "${java}" "${alt_java}" "${APT_PKGS[@]}" 2> /dev/null
 
-  curl -fsSL "https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-${arch_ff}.deb" -o /tmp/fastfetch.deb
-  sudo apt-get install -y /tmp/fastfetch.deb
-  rm /tmp/fastfetch.deb
+  command -v fastfetch || {
+    curl -fsSL "https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-${arch_ff}.deb" -o /tmp/fastfetch.deb
+    sudo apt-get install -y /tmp/fastfetch.deb
+    rm /tmp/fastfetch.deb
+  }
 
-  curl -fsSL "https://github.com/lucagrulla/cw/releases/latest/download/cw_${ARCH}.deb" -o /tmp/cw.deb
-  sudo apt-get install -y /tmp/cw.deb
-  rm /tmp/cw.deb
+  command -v cw || {
+    curl -fsSL "https://github.com/lucagrulla/cw/releases/latest/download/cw_${ARCH}.deb" -o /tmp/cw.deb
+    sudo apt-get install -y /tmp/cw.deb
+    rm /tmp/cw.deb
+  }
 
-  curl -fsSL "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_${arch_ssm}/session-manager-plugin.deb" -o /tmp/ssm.deb
-  sudo apt-get install -y /tmp/ssm.deb
-  rm /tmp/ssm.deb
+  command -v session-manager-plugin || {
+    curl -fsSL "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_${arch_ssm}/session-manager-plugin.deb" -o /tmp/ssm.deb
+    sudo apt-get install -y /tmp/ssm.deb
+    rm /tmp/ssm.deb
+  }
 
-  curl -fsSL "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${ARCH}" -o /tmp/yq
-  sudo install -m 0755 /tmp/yq /usr/local/bin/yq
-  rm /tmp/yq
+  command -v yq || {
+    curl -fsSL "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${ARCH}" -o /tmp/yq
+    sudo install -m 0755 /tmp/yq /usr/local/bin/yq
+    rm /tmp/yq
+  }
 
   pip install -U --user --no-warn-script-location "${USER_PIP_PKGS[@]}"
   __set_default_shell

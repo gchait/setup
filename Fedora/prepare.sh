@@ -47,6 +47,12 @@ ALT_JAVA_VER="17"
 # shellcheck disable=SC2034
 USER_PIP_PKGS=(black boto3 construct dep-logic docker-squash pandas pdm pdm-bump pyyaml)
 
+__configure_etc() {
+  __get_gh_repo "${SETUP_DIR}" gchait/setup
+  sudo cp -r "${SETUP_DIR}/Shared/Etc/"* /etc
+  sudo cp -r "${SETUP_DIR}/${DISTRO_NAME}/Etc/"* /etc
+}
+
 docker_setup() {
   docker ps 2> /dev/null || {
     echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' |
@@ -64,7 +70,7 @@ home_setup() {
   __get_gh_repo "${HOME}/.zsh/p10k" romkatv/powerlevel10k &
   wait
 
-  cp -r "${SETUP_DIR}/Shared/Home/".* "${HOME}"
+  cp -r "${SETUP_DIR}/Shared/Home/".[^.]* "${HOME}"
   mkdir -p "${HOME}/Projects" "${HOME}/.local/share/fonts"
 
   __install_fonts "${SETUP_DIR}"
@@ -95,17 +101,14 @@ system_setup() {
   sudo rm -rf /etc/yum.repos.d/*testing*
   sudo dnf install -yq "${BOOTSTRAP_DNF_PKGS[@]}" 2> /dev/null
 
-  __get_gh_repo "${SETUP_DIR}" gchait/setup
-  sudo cp -r "${SETUP_DIR}/Shared/Etc/"* /etc
-  sudo cp -r "${SETUP_DIR}/${DISTRO_NAME}/Etc/"* /etc
+  __configure_etc
   sudo dnf update -yq
 
   sudo sed -i "/VARIANT/d" /etc/os-release
   sudo sed -i "s/ (Container Image)//g" /etc/os-release
 
-  sudo dnf4 config-manager -q \
-    --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo \
-    --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+  [ -f /etc/yum.repos.d/hashicorp.repo ] || sudo dnf4 config-manager -q --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+  [ -f /etc/yum.repos.d/docker-ce.repo ] || sudo dnf4 config-manager -q --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 }
 
 packages_setup() {

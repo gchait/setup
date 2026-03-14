@@ -32,10 +32,9 @@ system_setup() {
 
 packages_setup() {
   yay -Rns --noconfirm \
-    amdvlk dialog dmraid endeavouros-konsole-colors haveged iwd \
-    kdeconnect konsole lib32-amdvlk nano nano-syntax-highlighting nilfs-utils \
-    ntp partitionmanager plasma-x11-session print-manager usb_modeswitch \
-    welcome xterm \
+    amdvlk dialog dmraid endeavouros-konsole-colors haveged iwd kdeconnect konsole \
+    lib32-amdvlk nano nano-syntax-highlighting nilfs-utils ntp partitionmanager \
+    plasma-x11-session print-manager usb_modeswitch welcome xterm \
     2> /dev/null || true
 
   # shellcheck disable=SC2046
@@ -46,8 +45,9 @@ packages_setup() {
 home_setup() {
   __get_gh_repo "${HOME}/.zsh/p10k" romkatv/powerlevel10k
 
-  cp -r "${SETUP_DIR}/Shared/Home/".p10k.zsh "${HOME}"
-  cp -r "${SETUP_DIR}/${DISTRO_NAME}/Home/".* "${HOME}"
+  cp "${SETUP_DIR}/Shared/Home/.p10k.zsh" "${HOME}"
+  cp "${SETUP_DIR}/Shared/Home/.zshrc.common" "${HOME}"
+  cp -r "${SETUP_DIR}/${DISTRO_NAME}/Home/".[^.]* "${HOME}"
   mkdir -p "${HOME}/.local/share/fonts"
 
   __install_fonts "${SETUP_DIR}"
