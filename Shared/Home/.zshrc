@@ -3,6 +3,7 @@ source "${HOME}/.common.zsh"
 fpath=("${HOME}/.zsh/complete/src" "${fpath[@]}")
 
 IS_WSL=$(uname -r | grep -qi wsl && echo 1 || echo 0)
+__scoop_update_expr() { :; }
 [ "${IS_WSL}" = "1" ] && source "${HOME}/.wsl.zsh"
 
 alias k="kubectl"
@@ -29,10 +30,10 @@ __dual_run() {
 
 up() {
   local pkg_cmd
-  if command -v dnf &>/dev/null; then
+  if command -v dnf &> /dev/null; then
     pkg_cmd="sudo dnf update -yq"
   else
-    pkg_cmd="sudo apt-get upgrade -y"
+    pkg_cmd="sudo apt-get update -q && sudo apt-get upgrade -yq"
   fi
   __dual_run "$(__scoop_update_expr)" "${pkg_cmd}"
 }
