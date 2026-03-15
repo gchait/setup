@@ -56,6 +56,9 @@
   "vs-kubernetes": {
     "vs-kubernetes.crd-code-completion": "disabled"
   },
+  "code-runner.executorMap": {
+    "c": "cd $dir && gcc $fileName -Wall -ansi -pedantic -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
+  },
   "[python][dockerfile][toml][java][gradle-kotlin-dsl]": {
     "editor.tabSize": 4
   },
