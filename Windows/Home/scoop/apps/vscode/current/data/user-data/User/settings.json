@@ -4,6 +4,7 @@
   "telemetry.telemetryLevel": "off",
   "window.menuBarVisibility": "toggle",
   "remote.autoForwardPortsSource": "hybrid",
+  "chat.disableAIFeatures": true,
   "workbench.productIconTheme": "icons-carbon",
   "workbench.iconTheme": "gruvbox-material-icon-theme",
   "workbench.colorTheme": "Rosé Pine",
