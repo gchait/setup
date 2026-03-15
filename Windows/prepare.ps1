@@ -20,8 +20,6 @@ $VSCODE_EXTENSIONS = @(
   "ecmel.vscode-html-css",
   "esbenp.prettier-vscode",
   "formulahendry.code-runner",
-  "github.copilot",
-  "github.copilot-chat",
   "hashicorp.terraform",
   "jonathanharty.gruvbox-material-icon-theme",
   "kokakiwi.vscode-just",
