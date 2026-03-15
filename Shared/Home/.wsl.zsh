@@ -10,9 +10,9 @@
   fi
 }
 
-export PATH=$(echo "${HOME}/.local/bin:${PATH}" | sed "s|/:|:|g" | \
-  sed -E "s|:[^:]+/games||g" | sed -E "s|:[^:]+/WindowsApps||" | \
-  sed -E "s|:[^:]+/System32/OpenSSH||" | sed -E "s|:[^:]+/System32/Wbem||" | \
+export PATH=$(echo "${HOME}/.local/bin:${PATH}" | sed "s|/:|:|g" |
+  sed -E "s|:[^:]+/games||g" | sed -E "s|:[^:]+/WindowsApps||" |
+  sed -E "s|:[^:]+/System32/OpenSSH||" | sed -E "s|:[^:]+/System32/Wbem||" |
   sed -E "s|:[^:]+/WindowsPowerShell/v1.0||")
 
 alias wsl="wsl.exe"
@@ -25,12 +25,12 @@ __scoop_update_expr() {
 }
 
 __set_wsl_display() {
-  local host=$(ip r | grep "/20 dev eth0" | \
+  local host=$(ip r | grep "/20 dev eth0" |
     cut -d"/" -f1 | sed "s/.0$/.1/")
 
   if nc -zw1 "${host}" 6000; then
     export DISPLAY="${host}:0.0"
-    export XCURSOR_SIZE=$(( $(xrandr | grep "0\.00\*" | \
+    export XCURSOR_SIZE=$(( $(xrandr | grep "0\.00\*" |
       awk '{print $1}' | cut -d"x" -f2) / 27 ))
 
   else

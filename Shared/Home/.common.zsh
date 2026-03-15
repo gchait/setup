@@ -36,7 +36,7 @@ jwtd() {
     return 2
   fi
 
-  echo "${input}" | jq -Rrce 'split(".")[1] | . + "=" * (. | 4 - length % 4)' | \
+  echo "${input}" | jq -Rrce 'split(".")[1] | . + "=" * (. | 4 - length % 4)' |
     openssl base64 -d -A | jq
 }
 
