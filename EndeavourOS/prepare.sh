@@ -160,6 +160,7 @@ kde_setup() {
 boot_setup() {
   local efi="/efi"
   local quiet_params="quiet loglevel=3 rd.udev.log_level=3 vt.global_cursor_default=0 splash"
+  local breeze_script="/usr/share/plymouth/themes/breeze/breeze.script"
 
   sudo test -f "${efi}/loader/loader.conf" && {
     sudo sed -i "s/^timeout.*/timeout 0/" "${efi}/loader/loader.conf"
@@ -174,8 +175,10 @@ boot_setup() {
       sudo sed -i "/quiet/!{/^options /s/$/ ${quiet_params}/}" "${entry}"
     done
 
-  grep -q "^Theme=${PLYMOUTH_THEME}$" /etc/plymouth/plymouthd.conf 2> /dev/null || {
+  { grep -q "^Theme=${PLYMOUTH_THEME}$" /etc/plymouth/plymouthd.conf 2> /dev/null &&
+    sudo grep -q 'title\.text = ""' "${breeze_script}" 2> /dev/null; } || {
     sudo plymouth-set-default-theme "${PLYMOUTH_THEME}"
+    sudo sed -i 's/global\.title\.text = ".*"/global.title.text = ""/' "${breeze_script}"
     sudo dracut -q --force
   }
 }
