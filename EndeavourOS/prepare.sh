@@ -40,16 +40,17 @@ __setup_git_config() {
 }
 
 PKGS=(
-  asciinema asciiquarium bat bibata-cursor-theme bind claude-code cmake discord docker docker-compose
-  eza fastfetch figlet ghostty github-cli go-yq gron htop hugo intellij-idea-community-edition
-  "jdk${JAVA_VER}-openjdk" jq just lolcat meson moreutils ninja openbsd-netcat perl-image-exiftool
-  plymouth plymouth-kcm python-pdm python-pip sbctl shellcheck shfmt steam strace telegram-desktop
-  tmux tree ttf-fira-code ttf-jetbrains-mono ttf-ms-fonts ttf-tahoma wireshark-cli wl-clipboard zsh
-  zsh-autosuggestions zsh-completions zsh-syntax-highlighting
+  asciinema asciiquarium bat bibata-cursor-theme bind breeze-plymouth claude-code cmake discord docker
+  docker-compose eza fastfetch figlet ghostty github-cli go-yq gron htop hugo intellij-idea-community-edition
+  "jdk${JAVA_VER}-openjdk" jq just lolcat meson moreutils ninja openbsd-netcat perl-image-exiftool plymouth
+  plymouth-kcm python-pdm python-pip sbctl shellcheck shfmt steam strace telegram-desktop tmux tree
+  ttf-fira-code ttf-jetbrains-mono ttf-ms-fonts ttf-tahoma wireshark-cli wl-clipboard zsh zsh-autosuggestions
+  zsh-completions zsh-syntax-highlighting
 )
 
 SETUP_DIR="${HOME}/Projects/setup"
 DISTRO_NAME="EndeavourOS"
+PLYMOUTH_THEME="breeze"
 
 set -eux
 
@@ -166,17 +167,15 @@ boot_setup() {
       printf "editor no\n" | sudo tee -a "${efi}/loader/loader.conf" > /dev/null
   }
 
-  grep -q "quiet" /etc/kernel/cmdline ||
-    sudo sed -i "1s/$/ ${quiet_params}/" /etc/kernel/cmdline
+  sudo sed -i "1{/quiet/!s/$/ ${quiet_params}/}" /etc/kernel/cmdline
 
   sudo find "${efi}/loader/entries" -maxdepth 1 -name "*.conf" ! -name "*-fallback.conf" 2> /dev/null |
     while read -r entry; do
-      sudo grep -q "quiet" "${entry}" ||
-        sudo sed -i "/^options /s/$/ ${quiet_params}/" "${entry}"
+      sudo sed -i "/quiet/!{/^options /s/$/ ${quiet_params}/}" "${entry}"
     done
 
-  grep -q "^Theme=bgrt$" /etc/plymouth/plymouthd.conf 2> /dev/null || {
-    sudo plymouth-set-default-theme bgrt
+  grep -q "^Theme=${PLYMOUTH_THEME}$" /etc/plymouth/plymouthd.conf 2> /dev/null || {
+    sudo plymouth-set-default-theme "${PLYMOUTH_THEME}"
     sudo dracut -q --force
   }
 }
