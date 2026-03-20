@@ -104,9 +104,7 @@ system_setup() {
 
   __configure_etc
   sudo dnf update -yq
-
-  sudo sed -i "/VARIANT/d" /etc/os-release
-  sudo sed -i "s/ (Container Image)//g" /etc/os-release
+  sudo sed -i -e "/VARIANT/d" -e "s/ (Container Image)//g" /etc/os-release
 
   [ -f /etc/yum.repos.d/hashicorp.repo ] ||
     sudo dnf4 config-manager -q --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo

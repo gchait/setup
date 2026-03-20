@@ -40,6 +40,19 @@ system_setup() {
   sudo apt-get upgrade -yq 2> /dev/null
 }
 
+__install_from_url() {
+  command -v "${1}" || {
+    local tmp
+    case "${2}" in *.deb) tmp=$(mktemp --suffix=.deb) ;; *) tmp=$(mktemp) ;; esac
+    curl -fsSL "${2}" -o "${tmp}"
+    case "${2}" in
+    *.deb) sudo apt-get install -yq "${tmp}" ;;
+    *) sudo install -m 0755 "${tmp}" "/usr/local/bin/${1}" ;;
+    esac
+    rm -f "${tmp}"
+  }
+}
+
 # shellcheck disable=SC2001
 packages_setup() {
   local java="openjdk-${JAVA_VER}-jdk"
@@ -52,29 +65,14 @@ packages_setup() {
   # shellcheck disable=SC2086
   sudo apt-get install -yq "${java}" "${alt_java}" ${APT_PKGS} 2> /dev/null
 
-  command -v fastfetch || {
-    curl -fsSL "https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-${arch_ff}.deb" -o /tmp/fastfetch.deb
-    sudo apt-get install -yq /tmp/fastfetch.deb
-    rm /tmp/fastfetch.deb
-  }
+  __install_from_url yq "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${ARCH}"
+  __install_from_url cw "https://github.com/lucagrulla/cw/releases/latest/download/cw_${ARCH}.deb"
 
-  command -v cw || {
-    curl -fsSL "https://github.com/lucagrulla/cw/releases/latest/download/cw_${ARCH}.deb" -o /tmp/cw.deb
-    sudo apt-get install -yq /tmp/cw.deb
-    rm /tmp/cw.deb
-  }
+  __install_from_url fastfetch \
+    "https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-${arch_ff}.deb"
 
-  command -v session-manager-plugin || {
-    curl -fsSL "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_${arch_ssm}/session-manager-plugin.deb" -o /tmp/ssm.deb
-    sudo apt-get install -yq /tmp/ssm.deb
-    rm /tmp/ssm.deb
-  }
-
-  command -v yq || {
-    curl -fsSL "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${ARCH}" -o /tmp/yq
-    sudo install -m 0755 /tmp/yq /usr/local/bin/yq
-    rm /tmp/yq
-  }
+  __install_from_url session-manager-plugin \
+    "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_${arch_ssm}/session-manager-plugin.deb"
 
   sudo ln -sf /usr/bin/batcat /usr/local/bin/bat
   sudo apt-get autoremove -yq 2> /dev/null

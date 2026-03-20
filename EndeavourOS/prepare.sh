@@ -63,13 +63,16 @@ system_setup() {
     sudo locale-gen
   }
 
-  localectl status | grep -q "LANG=en_IL" || sudo localectl set-locale \
+  local locale_status
+  locale_status=$(localectl status)
+
+  grep -q "LANG=en_IL" <<< "${locale_status}" || sudo localectl set-locale \
     LANG=en_IL LC_ADDRESS=en_IL LC_IDENTIFICATION=en_IL LC_MEASUREMENT=en_IL \
     LC_MONETARY=en_IL LC_NAME=en_IL LC_NUMERIC=en_IL LC_PAPER=en_IL \
     LC_TELEPHONE=en_IL LC_TIME=en_IL
 
-  localectl status | grep -q "VC Keymap: il" || sudo localectl set-keymap il
-  localectl status | grep -q "X11 Layout: us,il" || sudo localectl set-x11-keymap us,il "" "" grp:alt_shift_toggle
+  grep -q "VC Keymap: il" <<< "${locale_status}" || sudo localectl set-keymap il
+  grep -q "X11 Layout: us,il" <<< "${locale_status}" || sudo localectl set-x11-keymap us,il "" "" grp:alt_shift_toggle
 
   yay -Syu --noconfirm
 }

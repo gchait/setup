@@ -3,7 +3,7 @@ source "${HOME}/.common.zsh"
 alias ff="fastfetch"
 
 up() {
-  yay -Syu
+  yay -Syu --noconfirm
 }
 
 upp() {
