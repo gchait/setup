@@ -30,9 +30,15 @@
   "git.autofetch": true,
   "git.enableSmartCommit": true,
   "git.openRepositoryInParentFolders": "never",
+  "prettier.bracketSpacing": false,
   "gitlens.telemetry.enabled": false,
   "redhat.telemetry.enabled": false,
-  "prettier.bracketSpacing": false,
+  "code-runner.enableAppInsights": false,
+  "code-runner.saveFileBeforeRun": true,
+  "code-runner.runInTerminal": true,
+  "code-runner.executorMap": {
+    "c": "cd $dir && gcc $fileName -Wall -ansi -pedantic -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
+  },
   "shellcheck.customArgs": [
     "-s",
     "bash"
@@ -56,9 +62,6 @@
   ],
   "vs-kubernetes": {
     "vs-kubernetes.crd-code-completion": "disabled"
-  },
-  "code-runner.executorMap": {
-    "c": "cd $dir && gcc $fileName -Wall -ansi -pedantic -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
   },
   "[python][dockerfile][toml][java][gradle-kotlin-dsl]": {
     "editor.tabSize": 4
