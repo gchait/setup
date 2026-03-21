@@ -34,6 +34,7 @@
   "gitlens.telemetry.enabled": false,
   "redhat.telemetry.enabled": false,
   "code-runner.enableAppInsights": false,
+  "code-runner.preserveFocus": false,
   "code-runner.saveFileBeforeRun": true,
   "code-runner.runInTerminal": true,
   "code-runner.executorMap": {
