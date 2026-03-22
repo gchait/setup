@@ -10,14 +10,14 @@
   fi
 }
 
+export USERPROFILE="1"
 export PATH=$(echo "${HOME}/.local/bin:${PATH}" | sed "s|/:|:|g" |
   sed -E "s|:[^:]+/games||g" | sed -E "s|:[^:]+/WindowsApps||" |
-  sed -E "s|:[^:]+/System32/OpenSSH||" | sed -E "s|:[^:]+/System32/Wbem||" |
-  sed -E "s|:[^:]+/WindowsPowerShell/v1.0||")
+  sed -E "s|:[^:]+/System32/OpenSSH||" | sed -E "s|:[^:]+/System32/Wbem||")
 
 alias wsl="wsl.exe"
 alias ipco="ipconfig.exe"
-alias pwsh="/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -NoLogo -NoProfile"
+alias pwsh="powershell.exe -NoLogo -NoProfile"
 alias wff="fastfetch.exe -c paleofetch.jsonc"
 
 __scoop_update_expr() {
