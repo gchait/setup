@@ -17,7 +17,9 @@ __install_fonts() {
 }
 
 __set_default_shell() {
-  [ "$(getent passwd "${USER}" | cut -d: -f7)" = "$(which zsh)" ] || sudo chsh -s "$(which zsh)" "${USER}"
+  local zsh_path
+  zsh_path=$(which zsh)
+  [ "$(getent passwd "${USER}" | cut -d: -f7)" = "${zsh_path}" ] || sudo chsh -s "${zsh_path}" "${USER}"
 }
 
 __setup_git_config() {

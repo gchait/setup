@@ -17,7 +17,9 @@ __install_fonts() {
 }
 
 __set_default_shell() {
-  [ "$(getent passwd "${USER}" | cut -d: -f7)" = "$(which zsh)" ] || sudo chsh -s "$(which zsh)" "${USER}"
+  local zsh_path
+  zsh_path=$(which zsh)
+  [ "$(getent passwd "${USER}" | cut -d: -f7)" = "${zsh_path}" ] || sudo chsh -s "${zsh_path}" "${USER}"
 }
 
 __setup_git_config() {
@@ -40,7 +42,7 @@ __setup_git_config() {
 }
 
 PKGS=(
-  asciinema asciiquarium bat bibata-cursor-theme bind breeze-plymouth claude-code cmake discord docker
+  asciinema asciiquarium bat bibata-cursor-theme bind breeze-plymouth claude-code cmake cmatrix discord docker
   docker-compose eza fastfetch figlet ghostty github-cli go-yq gron htop hugo intellij-idea-community-edition
   "jdk${JAVA_VER}-openjdk" jq just lolcat meson moreutils ninja openbsd-netcat perl-image-exiftool plymouth
   plymouth-kcm python-pdm python-pip sbctl shellcheck shfmt steam strace telegram-desktop tmux tree

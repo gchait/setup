@@ -1,5 +1,5 @@
 PKGS=(
-  asciinema asciiquarium bat bibata-cursor-theme bind breeze-plymouth claude-code cmake discord docker
+  asciinema asciiquarium bat bibata-cursor-theme bind breeze-plymouth claude-code cmake cmatrix discord docker
   docker-compose eza fastfetch figlet ghostty github-cli go-yq gron htop hugo intellij-idea-community-edition
   "jdk${JAVA_VER}-openjdk" jq just lolcat meson moreutils ninja openbsd-netcat perl-image-exiftool plymouth
   plymouth-kcm python-pdm python-pip sbctl shellcheck shfmt steam strace telegram-desktop tmux tree
