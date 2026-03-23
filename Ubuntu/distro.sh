@@ -6,8 +6,8 @@ APT_PKGS="
   libasound2-dev libasound2t64 libatk1.0-0 libcups2t64 libgbm1 libgdk-pixbuf2.0-dev
   libgtk-3-0t64 libgtk-3-dev libncurses6 libnss3-dev libpango-1.0-0 libxcomposite1
   libxcursor1 libxdamage1 libxext6 libxi6 libxrandr2 libxss-dev libxss1 libxtst6 lolcat
-  make maven moreutils ncat openssh-client openssl packer python3-dev python3-pip
-  qemu-user-static ripgrep shfmt symlinks tar terraform tree vim wget zip zsh
+  make maven moreutils ncat openssh-client openssl packer python-is-python3 python3-dev
+  python3-pip qemu-user-static ripgrep shfmt symlinks tar terraform tree vim wget zip zsh
 "
 
 # shellcheck disable=SC2034
