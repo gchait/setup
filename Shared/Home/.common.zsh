@@ -1,17 +1,18 @@
 # shellcheck disable=SC1072,SC1073
 () {
-  local pkip="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+  local pkip="${XDG_CACHE_HOME:-${HOME}/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
   [ -r "${pkip}" ] && source "${pkip}"
 }
 
 zle_highlight=("paste:none")
+JAVA_HOME=$(dirname "$(dirname "$(readlink -f "$(which javac)")")")
 
+export JAVA_HOME
 export EDITOR="vim"
 export PAGER="less"
 export HISTSIZE="5000"
 export SAVEHIST="${HISTSIZE}"
 export HISTFILE="${HOME}/.zsh_history"
-export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
 
 alias j="just"
 alias d="docker"
@@ -30,7 +31,8 @@ precmd() {
 
 jwtd() {
   if [ ! -t 0 ]; then
-    local input=$(cat /dev/stdin)
+    local input
+    input=$(cat /dev/stdin)
   else
     >&2 echo "Missing piped input."
     return 2
@@ -38,6 +40,12 @@ jwtd() {
 
   echo "${input}" | jq -Rrce 'split(".")[1] | . + "=" * (. | 4 - length % 4)' |
     openssl base64 -d -A | jq
+}
+
+bassh() {
+  local host="${1}"
+  shift
+  ssh -to LogLevel=QUIET "${host}" "bash -ic ${(q)${(j: :)@}}"
 }
 
 bindkey -e
