@@ -52,7 +52,7 @@ ij() {
   fi
 
   if [ -x /opt/idea/bin/idea ]; then
-    (/opt/idea/bin/idea "${1:-$HOME/Projects}" &> /dev/null &)
+    (/opt/idea/bin/idea "${1:-${HOME}/Projects}" &> /dev/null &)
   else
     >&2 echo "IntelliJ not found."
     return 2

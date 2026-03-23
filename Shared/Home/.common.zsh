@@ -5,7 +5,7 @@
 }
 
 zle_highlight=("paste:none")
-JAVA_HOME=$(dirname "$(dirname "$(readlink -f "$(which javac)")")")
+JAVA_HOME=$(dirname "$(dirname "$(readlink -f "$(command -v javac)")")")
 
 export JAVA_HOME
 export EDITOR="vim"

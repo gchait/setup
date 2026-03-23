@@ -23,7 +23,7 @@ alias pwsh="powershell.exe -NoLogo -NoProfile"
 alias wff="fastfetch.exe -c paleofetch.jsonc"
 
 __scoop_update_expr() {
-  echo -n '$env:PATH="C:\Program Files\7-Zip;${env:PATH}"; scoop update -a'
+  printf '%s' '$env:PATH="C:\Program Files\7-Zip;${env:PATH}"; scoop update -a'
 }
 
 __set_wsl_display() {
@@ -45,5 +45,5 @@ __set_wsl_display() {
 }
 
 expl() {
-  (cd "${1:-$HOME}" && { explorer.exe . || true; })
+  (cd "${1:-${HOME}}" && { explorer.exe . || true; })
 }

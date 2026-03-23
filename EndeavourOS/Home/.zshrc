@@ -12,7 +12,7 @@ upp() {
 
 ij() {
   if [ -x /usr/bin/idea ]; then
-    (/usr/bin/idea "${1:-$HOME/Projects}" &> /dev/null &)
+    (/usr/bin/idea "${1:-${HOME}/Projects}" &> /dev/null &)
   else
     >&2 echo "IntelliJ not found."
     return 2
