@@ -80,7 +80,6 @@ ec2() {
 
 autoload -Uz compinit && compinit
 zstyle ":completion:*" matcher-list "m:{a-z}={A-Za-z}"
-setopt hist_ignore_all_dups
 
 source "${HOME}/.zsh/highlight/zsh-syntax-highlighting.zsh"
 source "${HOME}/.zsh/suggest/zsh-autosuggestions.zsh"

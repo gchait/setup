@@ -21,7 +21,6 @@ ij() {
 
 autoload -Uz compinit && compinit
 zstyle ":completion:*" matcher-list "m:{a-z}={A-Za-z}"
-setopt hist_ignore_all_dups
 
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh

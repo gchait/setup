@@ -24,6 +24,7 @@ alias ll="ls -l"
 alias df="df -hT"
 alias du="du -sh"
 alias cat="bat --paging=never --style=plain"
+alias grep="grep --color=auto"
 
 precmd() {
   echo -ne "\033]0;${PWD##*/}\007"
@@ -47,6 +48,10 @@ bassh() {
   shift
   ssh -to LogLevel=QUIET "${host}" "bash -ic ${(q)${(j: :)@}}"
 }
+
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt INC_APPEND_HISTORY
 
 bindkey -e
 bindkey "^[[1;5C" forward-word
