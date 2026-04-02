@@ -1,10 +1,11 @@
 PKGS=(
-  asciinema asciiquarium bat bibata-cursor-theme bind breeze-plymouth claude-code cmake cmatrix discord docker
-  docker-compose eza fastfetch figlet ghostty github-cli go-yq gron htop hugo intellij-idea-community-edition
-  "jdk${JAVA_VER}-openjdk" jq just lolcat meson moreutils ninja openbsd-netcat perl-image-exiftool plymouth
-  plymouth-kcm python-pdm python-pip sbctl shellcheck shfmt steam strace telegram-desktop tmux tree
-  ttf-fira-code ttf-jetbrains-mono ttf-ms-fonts ttf-tahoma wireshark-cli wl-clipboard zsh zsh-autosuggestions
-  zsh-completions zsh-syntax-highlighting
+  asciinema asciiquarium bat bibata-cursor-theme bind breeze-plymouth claude-code cmake
+  cmatrix discord docker docker-compose eza fastfetch figlet ghostty github-cli go-yq
+  goaccess gron htop hugo intellij-idea-community-edition "jdk${JAVA_VER}-openjdk" jq just
+  krabby-bin lolcat meson moreutils ninja openbsd-netcat perl-image-exiftool plymouth
+  plymouth-kcm python-pdm python-pip sbctl shellcheck shfmt steam strace telegram-desktop
+  tmux tree ttf-fira-code ttf-jetbrains-mono ttf-ms-fonts ttf-tahoma wireshark-cli
+  wl-clipboard zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting
 )
 
 SETUP_DIR="${HOME}/Projects/setup"

@@ -8,7 +8,7 @@ DNF_PKGS=(
   iptables-utils iputils jq just kubernetes-client libXScrnSaver libXScrnSaver-devel
   libXcomposite libXcursor libXdamage libXext libXi libXrandr libXtst lolcat make maven
   mesa-libgbm moreutils-parallel ncurses nmap-ncat nss-devel openssl packer pango
-  python3-pip python-unversioned-command qemu-user-static remove-retired-packages ripgrep
+  python-unversioned-command python3-pip qemu-user-static remove-retired-packages ripgrep
   rpmconf shfmt symlinks tar terraform tree vim wget xrandr yq zip zsh
 )
 
