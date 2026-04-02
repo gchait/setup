@@ -1,14 +1,13 @@
-source "${HOME}/.common.zsh"
+alias c="code"
+alias k="kubectl"
+alias ff="fastfetch -c paleofetch.jsonc"
 
+source "${HOME}/.common.zsh"
 fpath=("${HOME}/.zsh/complete/src" "${fpath[@]}")
 
 IS_WSL=$(uname -r | grep -qi wsl && echo 1 || echo 0)
 __scoop_update_expr() { :; }
 [ "${IS_WSL}" = "1" ] && source "${HOME}/.wsl.zsh"
-
-alias k="kubectl"
-alias c="code"
-alias ff="fastfetch -c paleofetch.jsonc"
 
 __dual_run() {
   if [ "${IS_WSL}" = "1" ]; then

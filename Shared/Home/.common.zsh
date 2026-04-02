@@ -14,15 +14,17 @@ export HISTSIZE="5000"
 export SAVEHIST="${HISTSIZE}"
 export HISTFILE="${HOME}/.zsh_history"
 
+alias g="git"
 alias j="just"
 alias d="docker"
-alias g="git"
 
 alias ls="eza -a --group-directories-first"
-alias lt="ls -T --git-ignore"
 alias ll="ls -l"
+alias lt="ls -T --git-ignore"
+
 alias df="df -hT"
 alias du="du -sh"
+
 alias cat="bat --paging=never --style=plain"
 alias grep="grep --color=auto"
 

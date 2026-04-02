@@ -1,7 +1,8 @@
-source "${HOME}/.common.zsh"
-
 alias ff="fastfetch"
 alias pkmn="krabby random 1,3 --no-title --no-regional --no-gmax"
+
+pkmn
+source "${HOME}/.common.zsh"
 
 up() {
   yay -Syu --noconfirm
@@ -27,4 +28,3 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source "${HOME}/.zsh/p10k/powerlevel10k.zsh-theme"
 source "${HOME}/.p10k.zsh"
-pkmn
