@@ -1,3 +1,5 @@
-font-family = Fira Code Retina
+window-height = 25
+window-width = 100
 theme = Kanagawabones
+font-family = Fira Code Retina
 shell-integration-features = ssh-terminfo
