@@ -39,9 +39,9 @@ system_setup() {
 
 packages_setup() {
   yay -Rns --noconfirm \
-    amdvlk dialog dmraid endeavouros-konsole-colors haveged iwd kdeconnect konsole \
-    lib32-amdvlk nano nano-syntax-highlighting nilfs-utils ntp partitionmanager \
-    plasma-x11-session print-manager usb_modeswitch welcome xterm \
+    amdvlk b43-fwcutter dialog dmraid endeavouros-konsole-colors haveged iwd kdeconnect konsole \
+    lib32-amdvlk libdvdcss nano nano-syntax-highlighting networkmanager-openvpn nilfs-utils ntp \
+    partitionmanager plasma-x11-session print-manager usb_modeswitch welcome xterm \
     2> /dev/null || true
 
   # shellcheck disable=SC2046
