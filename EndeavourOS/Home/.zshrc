@@ -1,7 +1,5 @@
 alias ff="fastfetch"
-alias pkmn="krabby random 1,3 --no-title --no-regional --no-gmax"
-
-pkmn
+ff
 source "${HOME}/.common.zsh"
 
 up() {
