@@ -90,6 +90,10 @@ packages_setup() {
   # shellcheck disable=SC2046
   yay -Rns --noconfirm $(yay -Qdtq) 2> /dev/null || true
   yay -S --needed --noconfirm "${PKGS[@]}" 2> /dev/null
+
+  # shellcheck disable=SC2016
+  echo -e '#!/bin/bash\nwhile :; do POK=$(krabby random 1,3 --no-title --no-regional --no-gmax); read -r W H < <(awk "length>m{m=length} END{print m, NR}" <<< "${POK}") && (( W < 1000 && H < 15 )) && break; done; echo "${POK}"' |
+    sudo install -m 755 /dev/stdin /usr/local/bin/poke
 }
 
 home_setup() {
