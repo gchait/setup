@@ -91,7 +91,7 @@ DNF_PKGS=(
   libXcomposite libXcursor libXdamage libXext libXi libXrandr libXtst lolcat make maven
   mesa-libgbm moreutils-parallel ncurses nmap-ncat nss-devel openssl packer pango
   python-unversioned-command python3-pip qemu-user-static remove-retired-packages ripgrep
-  rpmconf shfmt symlinks tar terraform tree vim wget xrandr yq zip zsh
+  rpmconf shfmt symlinks tar terraform tokei tree vim wget xrandr yq zip zsh
 )
 
 ALT_PY_VER="3.9"
