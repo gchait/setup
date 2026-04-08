@@ -15,6 +15,8 @@ __install_fonts() {
 }
 
 __set_default_shell() {
+  local -
+  set +x
   local zsh_path
   zsh_path=$(command -v zsh)
   [ "$(getent passwd "${USER}" | cut -d: -f7)" = "${zsh_path}" ] || sudo chsh -s "${zsh_path}" "${USER}"

@@ -104,6 +104,9 @@ __kw() { kwriteconfig6 --file "${1}" --group "${2}" --key "${3}" "${@:4}"; }
 __kw2() { kwriteconfig6 --file "${1}" --group "${2}" --group "${3}" --key "${4}" "${@:5}"; }
 
 kde_setup() {
+  local -
+  set +x
+
   __kw kwinrc Effect-overview BorderActivate 9
   __kw kwinrc NightColor Active --type bool true
   __kw kwinrc NightColor NightTemperature 2800
