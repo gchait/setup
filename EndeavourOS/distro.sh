@@ -12,28 +12,30 @@ PKGS=(
 SETUP_DIR="${HOME}/Projects/setup"
 DISTRO_NAME="EndeavourOS"
 PLYMOUTH_THEME="breeze"
+KEYBOARD_LAYOUT="us,il"
 
 set -eux
 
 system_setup() {
   __get_gh_repo "${SETUP_DIR}" gchait/setup
   sudo cp -r "${SETUP_DIR}/${DISTRO_NAME}/Etc/"* /etc
+  local locale="en_IL"
 
-  locale -a | grep -q "en_IL" || {
-    sudo sed -i "s/^#\(en_IL UTF-8\)/\1/;s/^#\(en_US\.UTF-8 UTF-8\)/\1/" /etc/locale.gen
+  locale -a | grep -q "${locale}" || {
+    sudo sed -i "s/^#\(${locale} UTF-8\)/\1/;s/^#\(en_US\.UTF-8 UTF-8\)/\1/" /etc/locale.gen
     sudo locale-gen
   }
 
   local locale_status
   locale_status=$(localectl status)
 
-  grep -q "LANG=en_IL" <<< "${locale_status}" || sudo localectl set-locale \
-    LANG=en_IL LC_ADDRESS=en_IL LC_IDENTIFICATION=en_IL LC_MEASUREMENT=en_IL \
-    LC_MONETARY=en_IL LC_NAME=en_IL LC_NUMERIC=en_IL LC_PAPER=en_IL \
-    LC_TELEPHONE=en_IL LC_TIME=en_IL
+  grep -q "LANG=${locale}" <<< "${locale_status}" || sudo localectl set-locale \
+    LANG="${locale}" LC_ADDRESS="${locale}" LC_IDENTIFICATION="${locale}" LC_MEASUREMENT="${locale}" \
+    LC_MONETARY="${locale}" LC_NAME="${locale}" LC_NUMERIC="${locale}" LC_PAPER="${locale}" \
+    LC_TELEPHONE="${locale}" LC_TIME="${locale}"
 
   grep -q "VC Keymap: il" <<< "${locale_status}" || sudo localectl set-keymap il
-  grep -q "X11 Layout: us,il" <<< "${locale_status}" || sudo localectl set-x11-keymap us,il "" "" grp:alt_shift_toggle
+  grep -q "X11 Layout: ${KEYBOARD_LAYOUT}" <<< "${locale_status}" || sudo localectl set-x11-keymap "${KEYBOARD_LAYOUT}" "" "" grp:alt_shift_toggle
 
   yay -Syu --noconfirm
 }
@@ -54,7 +56,7 @@ packages_setup() {
 
   # shellcheck disable=SC2016
   printf '#!/bin/bash\nwhile :; do POK=$(krabby random 1,3 --no-title --no-regional --no-gmax); read -r W H < <(awk "length>m{m=length} END{print m, NR}" <<< "${POK}") && (( W < 1000 && H < 15 )) && break; done; echo "${POK}"\n' |
-    sudo install -m 755 /dev/stdin /usr/local/bin/poke
+    sudo install -m 0755 /dev/stdin /usr/local/bin/poke
 }
 
 home_setup() {
@@ -127,7 +129,7 @@ kde_setup() {
   __kw bluedevilglobalrc General bluetoothBlocked --type bool true
 
   __kw kxkbrc Layout DisplayNames ","
-  __kw kxkbrc Layout LayoutList "us,il"
+  __kw kxkbrc Layout LayoutList "${KEYBOARD_LAYOUT}"
   __kw kxkbrc Layout Use --type bool true
   __kw kxkbrc Layout VariantList ","
 

@@ -110,14 +110,17 @@ system_setup() {
   local codename
   codename=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
 
-  [ -f /usr/share/keyrings/hashicorp-archive-keyring.gpg ] ||
-    curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-  echo "deb [arch=${ARCH} signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com ${codename} main" |
+  local hashicorp_keyring="/usr/share/keyrings/hashicorp-archive-keyring.gpg"
+  local helm_keyring="/usr/share/keyrings/helm.gpg"
+
+  [ -f "${hashicorp_keyring}" ] ||
+    curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o "${hashicorp_keyring}"
+  echo "deb [arch=${ARCH} signed-by=${hashicorp_keyring}] https://apt.releases.hashicorp.com ${codename} main" |
     sudo tee /etc/apt/sources.list.d/hashicorp.list
 
-  [ -f /usr/share/keyrings/helm.gpg ] ||
-    curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/helm.gpg
-  echo "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" |
+  [ -f "${helm_keyring}" ] ||
+    curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | sudo gpg --dearmor -o "${helm_keyring}"
+  echo "deb [signed-by=${helm_keyring}] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" |
     sudo tee /etc/apt/sources.list.d/helm.list
 
   sudo apt-get update -q
