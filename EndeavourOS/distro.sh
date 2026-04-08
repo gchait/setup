@@ -5,7 +5,7 @@ PKGS=(
   intellij-idea-community-edition "jdk${JAVA_VER}-openjdk" jq just kora-icon-theme krabby-bin
   lolcat meson moreutils ninja openbsd-netcat pastel perl-image-exiftool plymouth plymouth-kcm
   python-pdm python-pip sbctl shellcheck shfmt steam strace tcpdump telegram-desktop tmux tokei
-  tree ttf-fira-code ttf-jetbrains-mono ttf-ms-fonts ttf-tahoma wireshark-cli wl-clipboard zsh
+  tree ttf-fira-code ttf-jetbrains-mono ttf-tahoma wireshark-cli wl-clipboard zsh
   zsh-autosuggestions zsh-completions zsh-syntax-highlighting
 )
 
