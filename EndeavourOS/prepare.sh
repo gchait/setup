@@ -45,10 +45,10 @@ PKGS=(
   android-tools asciinema asciinema-agg-bin asciiquarium bat bibata-cursor-theme bind
   breeze-plymouth claude-code cmake cmatrix cowsay curlie discord dive docker docker-compose
   eza fastfetch figlet ghostty github-cli go-yq goaccess gron htop hugo
-  intellij-idea-community-edition "jdk${JAVA_VER}-openjdk" jq just krabby-bin lolcat meson
-  moreutils ninja openbsd-netcat pastel perl-image-exiftool plymouth plymouth-kcm python-pdm
-  python-pip sbctl shellcheck shfmt steam strace tcpdump telegram-desktop tmux tokei tree
-  ttf-fira-code ttf-jetbrains-mono ttf-ms-fonts ttf-tahoma wireshark-cli wl-clipboard zsh
+  intellij-idea-community-edition "jdk${JAVA_VER}-openjdk" jq just kora-icon-theme krabby-bin
+  lolcat meson moreutils ninja openbsd-netcat pastel perl-image-exiftool plymouth plymouth-kcm
+  python-pdm python-pip sbctl shellcheck shfmt steam strace tcpdump telegram-desktop tmux tokei
+  tree ttf-fira-code ttf-jetbrains-mono ttf-ms-fonts ttf-tahoma wireshark-cli wl-clipboard zsh
   zsh-autosuggestions zsh-completions zsh-syntax-highlighting
 )
 
@@ -139,39 +139,44 @@ services_setup() {
   __set_default_shell
 }
 
+__kw() { kwriteconfig6 --file "${1}" --group "${2}" --key "${3}" "${@:4}"; }
+__kw2() { kwriteconfig6 --file "${1}" --group "${2}" --group "${3}" --key "${4}" "${@:5}"; }
+
 kde_setup() {
-  kwriteconfig6 --file kwinrc --group Effect-overview --key BorderActivate 9
-  kwriteconfig6 --file kwinrc --group NightColor --key Active --type bool true
-  kwriteconfig6 --file kwinrc --group NightColor --key NightTemperature 2800
-  kwriteconfig6 --file kwinrc --group Plugins --key shakecursorEnabled --type bool false
-  kwriteconfig6 --file kwinrc --group Plugins --key wobblywindowsEnabled --type bool true
-  kwriteconfig6 --file kwinrc --group Xwayland --key Scale 2
-  kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key ButtonsOnLeft ""
-  kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key ButtonsOnRight IAX
-  kwriteconfig6 --file kwinrc --group "org.kde.kdecoration2" --key ShowToolTips --type bool false
+  __kw kwinrc Effect-overview BorderActivate 9
+  __kw kwinrc NightColor Active --type bool true
+  __kw kwinrc NightColor NightTemperature 2800
 
-  kwriteconfig6 --file kscreenlockerrc --group Daemon --key Timeout 45
+  __kw kwinrc Plugins shakecursorEnabled --type bool false
+  __kw kwinrc Plugins translucencyEnabled --type bool true
+  __kw kwinrc Plugins wobblywindowsEnabled --type bool true
+  __kw kwinrc Xwayland Scale 2
 
-  kwriteconfig6 --file ksmserverrc --group General --key confirmLogout --type bool false
+  __kw kwinrc "org.kde.kdecoration2" ButtonsOnLeft ""
+  __kw kwinrc "org.kde.kdecoration2" ButtonsOnRight IAX
+  __kw kwinrc "org.kde.kdecoration2" ShowToolTips --type bool false
 
-  kwriteconfig6 --file ksplashrc --group KSplash --key Engine none
-  kwriteconfig6 --file ksplashrc --group KSplash --key Theme None
+  __kw kscreenlockerrc Daemon Timeout 45
+  __kw ksmserverrc General confirmLogout --type bool false
+  __kw ksplashrc KSplash Engine none
+  __kw ksplashrc KSplash Theme None
+  __kw bluedevilglobalrc General bluetoothBlocked --type bool true
 
-  kwriteconfig6 --file bluedevilglobalrc --group General --key bluetoothBlocked --type bool true
+  __kw kxkbrc Layout DisplayNames ","
+  __kw kxkbrc Layout LayoutList "us,il"
+  __kw kxkbrc Layout Use --type bool true
+  __kw kxkbrc Layout VariantList ","
 
-  kwriteconfig6 --file kxkbrc --group Layout --key DisplayNames ","
-  kwriteconfig6 --file kxkbrc --group Layout --key LayoutList "us,il"
-  kwriteconfig6 --file kxkbrc --group Layout --key Use --type bool true
-  kwriteconfig6 --file kxkbrc --group Layout --key VariantList ","
+  __kw kdeglobals General AccentColor 85,170,255
+  __kw kdeglobals General TerminalApplication ghostty
+  __kw kdeglobals General TerminalService com.mitchellh.ghostty.desktop
+  __kw kdeglobals Icons Theme kora
 
-  kwriteconfig6 --file powerdevilrc --group AC --group Display --key DimDisplayIdleTimeoutSec -- -1
-  kwriteconfig6 --file powerdevilrc --group AC --group Display --key DimDisplayWhenIdle --type bool false
-  kwriteconfig6 --file powerdevilrc --group AC --group Display --key TurnOffDisplayIdleTimeoutSec 1800
-  kwriteconfig6 --file powerdevilrc --group AC --group SuspendAndShutdown --key AutoSuspendIdleTimeoutSec 3600
-  kwriteconfig6 --file powerdevilrc --group AC --group SuspendAndShutdown --key PowerButtonAction 8
-
-  kwriteconfig6 --file kdeglobals --group General --key TerminalApplication ghostty
-  kwriteconfig6 --file kdeglobals --group General --key TerminalService com.mitchellh.ghostty.desktop
+  __kw2 powerdevilrc AC Display DimDisplayIdleTimeoutSec -- -1
+  __kw2 powerdevilrc AC Display DimDisplayWhenIdle --type bool false
+  __kw2 powerdevilrc AC Display TurnOffDisplayIdleTimeoutSec 1800
+  __kw2 powerdevilrc AC SuspendAndShutdown AutoSuspendIdleTimeoutSec 3600
+  __kw2 powerdevilrc AC SuspendAndShutdown PowerButtonAction 8
 }
 
 boot_setup() {
