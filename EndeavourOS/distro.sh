@@ -50,7 +50,7 @@ packages_setup() {
   yay -S --needed --noconfirm "${PKGS[@]}" 2> /dev/null
 
   # shellcheck disable=SC2016
-  echo -e '#!/bin/bash\nwhile :; do POK=$(krabby random 1,3 --no-title --no-regional --no-gmax); read -r W H < <(awk "length>m{m=length} END{print m, NR}" <<< "${POK}") && (( W < 1000 && H < 15 )) && break; done; echo "${POK}"' |
+  printf '#!/bin/bash\nwhile :; do POK=$(krabby random 1,3 --no-title --no-regional --no-gmax); read -r W H < <(awk "length>m{m=length} END{print m, NR}" <<< "${POK}") && (( W < 1000 && H < 15 )) && break; done; echo "${POK}"\n' |
     sudo install -m 755 /dev/stdin /usr/local/bin/poke
 }
 
@@ -67,6 +67,9 @@ home_setup() {
     "${SETUP_DIR}/.user.csv" \
     "${SETUP_DIR}/Shared/.gitconfig.tpl" \
     "${HOME}/.gitconfig"
+
+  local kate_tool="${HOME}/.config/kate/externaltools/Run%20Shell%20Script.ini"
+  [ -f "${kate_tool}" ] && sed -i 's/^executable=konsole$/executable=ghostty/' "${kate_tool}"
 }
 
 services_setup() {
@@ -78,7 +81,7 @@ services_setup() {
   sudo systemctl disable --now NetworkManager-wait-online.service
   sudo systemctl disable --now avahi-daemon.service avahi-daemon.socket
 
-  printf "[Icon Theme]\nInherits=Bibata-Modern-Classic\n" |
+  printf '[Icon Theme]\nInherits=Bibata-Modern-Classic\n' |
     sudo tee /usr/share/icons/default/index.theme
 
   sudo rm -rf \
@@ -123,6 +126,9 @@ kde_setup() {
   kwriteconfig6 --file powerdevilrc --group AC --group Display --key TurnOffDisplayIdleTimeoutSec 1800
   kwriteconfig6 --file powerdevilrc --group AC --group SuspendAndShutdown --key AutoSuspendIdleTimeoutSec 3600
   kwriteconfig6 --file powerdevilrc --group AC --group SuspendAndShutdown --key PowerButtonAction 8
+
+  kwriteconfig6 --file kdeglobals --group General --key TerminalApplication ghostty
+  kwriteconfig6 --file kdeglobals --group General --key TerminalService com.mitchellh.ghostty.desktop
 }
 
 boot_setup() {
@@ -133,7 +139,7 @@ boot_setup() {
   sudo test -f "${efi}/loader/loader.conf" && {
     sudo sed -i "s/^timeout.*/timeout 0/" "${efi}/loader/loader.conf"
     sudo grep -q "^editor" "${efi}/loader/loader.conf" ||
-      printf "editor no\n" | sudo tee -a "${efi}/loader/loader.conf" > /dev/null
+      printf 'editor no\n' | sudo tee -a "${efi}/loader/loader.conf" > /dev/null
   }
 
   sudo sed -i "1{/quiet/!s/$/ ${quiet_params}/}" /etc/kernel/cmdline
