@@ -58,6 +58,7 @@ packages_setup() {
 }
 
 home_setup() {
+  gsettings set org.gnome.desktop.interface gtk-enable-primary-paste true
   __get_gh_repo "${HOME}/.zsh/p10k" romkatv/powerlevel10k
 
   cp "${SETUP_DIR}/Shared/Home/.p10k.zsh" "${HOME}"
