@@ -1,5 +1,7 @@
 window-height = 25
 window-width = 100
+background-opacity = 0.87
+background-blur = true
 theme = Kanagawabones
 font-family = Fira Code Retina
 shell-integration-features = ssh-terminfo
