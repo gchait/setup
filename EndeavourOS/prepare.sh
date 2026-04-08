@@ -82,13 +82,14 @@ system_setup() {
 }
 
 packages_setup() {
-  yay -Rns --noconfirm \
+  # shellcheck disable=SC2046
+  yay -Rns --noconfirm $(yay -Qq \
     amdvlk b43-fwcutter dialog dmraid endeavouros-konsole-colors eos-apps-info eos-log-tool \
     eos-quickstart glances haveged iwd kdeconnect kgamma konsole lib32-amdvlk libdvdcss lsscsi \
     nano nano-syntax-highlighting networkmanager-openvpn nilfs-utils ntp partitionmanager pkgfile \
     plasma-x11-session print-manager sysfsutils usb_modeswitch welcome xf86-video-ati xl2tpd \
     xorg-xinit xorg-xinput xorg-xkill xterm \
-    2> /dev/null || true
+    2> /dev/null) 2> /dev/null || true
 
   # shellcheck disable=SC2046
   yay -Rns --noconfirm $(yay -Qdtq) 2> /dev/null || true
