@@ -99,6 +99,9 @@ services_setup() {
     /usr/share/sddm/themes/maya \
     /usr/share/themes/Emacs
 
+  sudo sed -i '/sourceSize\.\(width\|height\): parent\.\(width\|height\)/d' \
+    /usr/share/sddm/themes/eos-breeze/Background.qml
+
   __set_default_shell
 }
 
