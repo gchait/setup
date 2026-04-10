@@ -19,18 +19,18 @@ set -eux
 system_setup() {
   __get_gh_repo "${SETUP_DIR}" gchait/setup
   sudo cp -r "${SETUP_DIR}/${DISTRO_NAME}/Etc/"* /etc
-  local locale="en_IL"
+  local locale="en_IL.UTF-8"
 
-  locale -a | grep -q "${locale}" || {
-    sudo sed -i "s/^#\(${locale} UTF-8\)/\1/;s/^#\(en_US\.UTF-8 UTF-8\)/\1/" /etc/locale.gen
+  locale -a | grep -q "${locale%.*}" || {
+    sudo sed -i "s/^#\(${locale%.*} UTF-8\)/\1/;s/^#\(en_US\.UTF-8 UTF-8\)/\1/" /etc/locale.gen
     sudo locale-gen
   }
 
   local locale_status
   locale_status=$(localectl status)
 
-  grep -q "LANG=${locale}" <<< "${locale_status}" || sudo localectl set-locale \
-    LANG="${locale}" LC_ADDRESS="${locale}" LC_IDENTIFICATION="${locale}" LC_MEASUREMENT="${locale}" \
+  grep -q "LANG=${locale}" <<< "${locale_status}" || sudo localectl set-locale LANG="${locale}" \
+    LC_ADDRESS="${locale}" LC_IDENTIFICATION="${locale}" LC_MEASUREMENT="${locale}" \
     LC_MONETARY="${locale}" LC_NAME="${locale}" LC_NUMERIC="${locale}" LC_PAPER="${locale}" \
     LC_TELEPHONE="${locale}" LC_TIME="${locale}"
 
