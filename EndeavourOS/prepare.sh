@@ -129,6 +129,11 @@ services_setup() {
     sudo usermod -aG docker "${USER}"
   }
 
+  sudo firewall-cmd --zone=public --query-service=ssh && {
+    sudo firewall-cmd --permanent --remove-service=ssh --zone=public
+    sudo firewall-cmd --reload
+  }
+
   sudo systemctl disable --now NetworkManager-wait-online.service
   sudo systemctl disable --now avahi-daemon.service avahi-daemon.socket
 
