@@ -9,7 +9,6 @@ ExecStart=rclone mount gdrive: %h/Drive \
   --vfs-cache-mode full \
   --vfs-cache-max-size 20G \
   --vfs-read-ahead 128M \
-  --buffer-size 256M \
   --poll-interval 30s
 Restart=on-failure
 RestartSec=10s
