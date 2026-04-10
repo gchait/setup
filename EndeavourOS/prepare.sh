@@ -49,8 +49,8 @@ PKGS=(
   eza fastfetch figlet ghostty github-cli go-yq goaccess gron htop hugo
   intellij-idea-community-edition "jdk${JAVA_VER}-openjdk" jq just kora-icon-theme krabby-bin
   lolcat meson moreutils ninja openbsd-netcat pastel perl-image-exiftool plymouth plymouth-kcm
-  python-pdm python-pip sbctl shellcheck shfmt steam strace tcpdump telegram-desktop tmux tokei
-  tree ttf-fira-code ttf-jetbrains-mono ttf-tahoma wireshark-cli wl-clipboard zsh
+  python-pdm python-pip rclone sbctl shellcheck shfmt steam strace tcpdump telegram-desktop tmux
+  tokei tree ttf-fira-code ttf-jetbrains-mono ttf-tahoma wireshark-cli wl-clipboard zsh
   zsh-autosuggestions zsh-completions zsh-syntax-highlighting
 )
 
@@ -111,7 +111,7 @@ home_setup() {
   cp "${SETUP_DIR}/Shared/Home/.p10k.zsh" "${HOME}"
   cp "${SETUP_DIR}/Shared/Home/.common.zsh" "${HOME}"
   cp -r "${SETUP_DIR}/${DISTRO_NAME}/Home/".[!.]* "${HOME}"
-  mkdir -p "${HOME}/.local/share/fonts"
+  mkdir -p "${HOME}/.local/share/fonts" "${HOME}/Drive"
 
   __install_fonts "${SETUP_DIR}"
   __setup_git_config \
