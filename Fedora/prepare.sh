@@ -66,10 +66,12 @@ docker_setup() {
 }
 
 home_setup() {
-  __get_gh_repo "${HOME}/.zsh/complete" zsh-users/zsh-completions &
-  __get_gh_repo "${HOME}/.zsh/highlight" zsh-users/zsh-syntax-highlighting &
-  __get_gh_repo "${HOME}/.zsh/suggest" zsh-users/zsh-autosuggestions &
-  __get_gh_repo "${HOME}/.zsh/p10k" romkatv/powerlevel10k &
+  local zsh_dir="${HOME}/.zsh"
+
+  __get_gh_repo "${zsh_dir}/complete" zsh-users/zsh-completions &
+  __get_gh_repo "${zsh_dir}/highlight" zsh-users/zsh-syntax-highlighting &
+  __get_gh_repo "${zsh_dir}/suggest" zsh-users/zsh-autosuggestions &
+  __get_gh_repo "${zsh_dir}/p10k" romkatv/powerlevel10k &
   wait
 
   cp -r "${SETUP_DIR}/Shared/Home/".[!.]* "${HOME}"

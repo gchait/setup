@@ -18,16 +18,16 @@ export DEBIAN_FRONTEND="noninteractive"
 set -eux
 
 system_setup() {
+  local hashicorp_keyring="/usr/share/keyrings/hashicorp-archive-keyring.gpg"
+  local helm_keyring="/usr/share/keyrings/helm.gpg"
+  local codename
+
   sudo apt-get update -q
   # shellcheck disable=SC2086
   sudo apt-get install -yq ${BOOTSTRAP_APT_PKGS} 2> /dev/null
 
   __configure_etc
-  local codename
   codename=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
-
-  local hashicorp_keyring="/usr/share/keyrings/hashicorp-archive-keyring.gpg"
-  local helm_keyring="/usr/share/keyrings/helm.gpg"
 
   [ -f "${hashicorp_keyring}" ] ||
     curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o "${hashicorp_keyring}"

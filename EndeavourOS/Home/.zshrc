@@ -2,10 +2,6 @@ alias ff="fastfetch"
 ff
 source "${HOME}/.common.zsh"
 
-up() {
-  yay -Syu --noconfirm
-}
-
 upp() {
   sh "${HOME}/Projects/setup/EndeavourOS/prepare.sh"
 }

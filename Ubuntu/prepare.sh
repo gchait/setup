@@ -66,10 +66,12 @@ docker_setup() {
 }
 
 home_setup() {
-  __get_gh_repo "${HOME}/.zsh/complete" zsh-users/zsh-completions &
-  __get_gh_repo "${HOME}/.zsh/highlight" zsh-users/zsh-syntax-highlighting &
-  __get_gh_repo "${HOME}/.zsh/suggest" zsh-users/zsh-autosuggestions &
-  __get_gh_repo "${HOME}/.zsh/p10k" romkatv/powerlevel10k &
+  local zsh_dir="${HOME}/.zsh"
+
+  __get_gh_repo "${zsh_dir}/complete" zsh-users/zsh-completions &
+  __get_gh_repo "${zsh_dir}/highlight" zsh-users/zsh-syntax-highlighting &
+  __get_gh_repo "${zsh_dir}/suggest" zsh-users/zsh-autosuggestions &
+  __get_gh_repo "${zsh_dir}/p10k" romkatv/powerlevel10k &
   wait
 
   cp -r "${SETUP_DIR}/Shared/Home/".[!.]* "${HOME}"
@@ -102,16 +104,16 @@ export DEBIAN_FRONTEND="noninteractive"
 set -eux
 
 system_setup() {
+  local hashicorp_keyring="/usr/share/keyrings/hashicorp-archive-keyring.gpg"
+  local helm_keyring="/usr/share/keyrings/helm.gpg"
+  local codename
+
   sudo apt-get update -q
   # shellcheck disable=SC2086
   sudo apt-get install -yq ${BOOTSTRAP_APT_PKGS} 2> /dev/null
 
   __configure_etc
-  local codename
   codename=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
-
-  local hashicorp_keyring="/usr/share/keyrings/hashicorp-archive-keyring.gpg"
-  local helm_keyring="/usr/share/keyrings/helm.gpg"
 
   [ -f "${hashicorp_keyring}" ] ||
     curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o "${hashicorp_keyring}"

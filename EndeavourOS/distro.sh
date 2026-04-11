@@ -4,8 +4,8 @@ PKGS=(
   eza fastfetch figlet ghostty github-cli go-yq goaccess gron htop hugo
   intellij-idea-community-edition "jdk${JAVA_VER}-openjdk" jq just kora-icon-theme krabby-bin
   lolcat meson moreutils ninja openbsd-netcat pastel perl-image-exiftool plymouth plymouth-kcm
-  python-pdm python-pip rclone sbctl shellcheck shfmt steam strace tcpdump telegram-desktop tmux
-  tokei tree ttf-fira-code ttf-jetbrains-mono ttf-tahoma wireshark-cli wl-clipboard zsh
+  python-pdm python-pip rclone sbctl shellcheck shfmt steam strace tcpdump telegram-desktop
+  tmux tokei tree ttf-fira-code ttf-jetbrains-mono ttf-tahoma wireshark-cli wl-clipboard zsh
   zsh-autosuggestions zsh-completions zsh-syntax-highlighting
 )
 
@@ -17,25 +17,27 @@ KEYBOARD_LAYOUT="us,il"
 set -eux
 
 system_setup() {
+  local locale="en_IL.UTF-8"
+  local locale_status
+
   __get_gh_repo "${SETUP_DIR}" gchait/setup
   sudo cp -r "${SETUP_DIR}/${DISTRO_NAME}/Etc/"* /etc
-  local locale="en_IL.UTF-8"
 
   locale -a | grep -q "${locale%.*}" || {
     sudo sed -i "s/^#\(${locale%.*} UTF-8\)/\1/;s/^#\(en_US\.UTF-8 UTF-8\)/\1/" /etc/locale.gen
     sudo locale-gen
   }
 
-  local locale_status
   locale_status=$(localectl status)
 
-  grep -q "LANG=${locale}" <<< "${locale_status}" || sudo localectl set-locale LANG="${locale}" \
-    LC_ADDRESS="${locale}" LC_IDENTIFICATION="${locale}" LC_MEASUREMENT="${locale}" \
-    LC_MONETARY="${locale}" LC_NAME="${locale}" LC_NUMERIC="${locale}" LC_PAPER="${locale}" \
-    LC_TELEPHONE="${locale}" LC_TIME="${locale}"
+  grep -q "LANG=${locale}" <<< "${locale_status}" || sudo localectl set-locale \
+    LANG="${locale}" LC_ADDRESS="${locale}" LC_IDENTIFICATION="${locale}" \
+    LC_MEASUREMENT="${locale}" LC_MONETARY="${locale}" LC_NAME="${locale}" \
+    LC_NUMERIC="${locale}" LC_PAPER="${locale}" LC_TELEPHONE="${locale}" LC_TIME="${locale}"
 
   grep -q "VC Keymap: il" <<< "${locale_status}" || sudo localectl set-keymap il
-  grep -q "X11 Layout: ${KEYBOARD_LAYOUT}" <<< "${locale_status}" || sudo localectl set-x11-keymap "${KEYBOARD_LAYOUT}" "" "" grp:alt_shift_toggle
+  grep -q "X11 Layout: ${KEYBOARD_LAYOUT}" <<< "${locale_status}" ||
+    sudo localectl set-x11-keymap "${KEYBOARD_LAYOUT}" "" "" grp:alt_shift_toggle
 
   yay -Syu --noconfirm
 }
@@ -60,25 +62,31 @@ packages_setup() {
 }
 
 home_setup() {
-  gsettings set org.gnome.desktop.interface gtk-enable-primary-paste true
-  __get_gh_repo "${HOME}/.zsh/p10k" romkatv/powerlevel10k
+  local shared_home="${SETUP_DIR}/Shared/Home"
+  local service_menus="${HOME}/.local/share/kio/servicemenus"
+  local kate_tool="${HOME}/.config/kate/externaltools/Run%20Shell%20Script.ini"
 
-  cp "${SETUP_DIR}/Shared/Home/.p10k.zsh" "${HOME}"
-  cp "${SETUP_DIR}/Shared/Home/.common.zsh" "${HOME}"
+  __get_gh_repo "${HOME}/.zsh/p10k" romkatv/powerlevel10k
+  cp "${shared_home}/.p10k.zsh" "${HOME}"
+  cp "${shared_home}/.common.zsh" "${HOME}"
   cp -r "${SETUP_DIR}/${DISTRO_NAME}/Home/".[!.]* "${HOME}"
-  mkdir -p "${HOME}/.local/share/fonts" "${HOME}/Drive"
+
+  mkdir -p "${HOME}/.local/share/fonts" "${HOME}/Drive" "${service_menus}"
+  gsettings set org.gnome.desktop.interface gtk-enable-primary-paste true
+
+  [ -f "${kate_tool}" ] && sed -i 's/^executable=konsole$/executable=ghostty/' "${kate_tool}"
+  printf '[Desktop Entry]\nHidden=true\n' > "${service_menus}/com.mitchellh.ghostty.desktop"
 
   __install_fonts "${SETUP_DIR}"
   __setup_git_config \
     "${SETUP_DIR}/.user.csv" \
     "${SETUP_DIR}/Shared/.gitconfig.tpl" \
     "${HOME}/.gitconfig"
-
-  local kate_tool="${HOME}/.config/kate/externaltools/Run%20Shell%20Script.ini"
-  [ -f "${kate_tool}" ] && sed -i 's/^executable=konsole$/executable=ghostty/' "${kate_tool}"
 }
 
 services_setup() {
+  local sddm_themes="/usr/share/sddm/themes"
+
   docker ps 2> /dev/null || {
     sudo systemctl enable --now docker
     sudo usermod -aG docker "${USER}"
@@ -99,13 +107,13 @@ services_setup() {
     /usr/share/kstyle/themes/qtplastique.themerc \
     /usr/share/kstyle/themes/qtwindows.themerc \
     /usr/share/kwin/decorations/kwin4_decoration_qml_plastik \
-    /usr/share/sddm/themes/elarun \
-    /usr/share/sddm/themes/maldives \
-    /usr/share/sddm/themes/maya \
+    "${sddm_themes}/elarun" \
+    "${sddm_themes}/maldives" \
+    "${sddm_themes}/maya" \
     /usr/share/themes/Emacs
 
   sudo sed -i '/sourceSize\.\(width\|height\): parent\.\(width\|height\)/d' \
-    /usr/share/sddm/themes/eos-breeze/Background.qml
+    "${sddm_themes}/eos-breeze/Background.qml"
 
   __set_default_shell
 }
@@ -155,13 +163,14 @@ kde_setup() {
 
 boot_setup() {
   local efi="/efi"
+  local loader_conf="${efi}/loader/loader.conf"
   local quiet_params="quiet loglevel=3 rd.udev.log_level=3 vt.global_cursor_default=0 splash"
   local breeze_script="/usr/share/plymouth/themes/breeze/breeze.script"
 
-  sudo test -f "${efi}/loader/loader.conf" && {
-    sudo sed -i "s/^timeout.*/timeout 0/" "${efi}/loader/loader.conf"
-    sudo grep -q "^editor" "${efi}/loader/loader.conf" ||
-      printf 'editor no\n' | sudo tee -a "${efi}/loader/loader.conf" > /dev/null
+  sudo test -f "${loader_conf}" && {
+    sudo sed -i "s/^timeout.*/timeout 0/" "${loader_conf}"
+    sudo grep -q "^editor" "${loader_conf}" ||
+      printf 'editor no\n' | sudo tee -a "${loader_conf}"
   }
 
   sudo sed -i "1{/quiet/!s/$/ ${quiet_params}/}" /etc/kernel/cmdline
