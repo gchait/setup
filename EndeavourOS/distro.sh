@@ -3,16 +3,20 @@ PKGS=(
   breeze-plymouth claude-code cmake cmatrix cowsay curlie discord dive docker docker-compose
   eza fastfetch figlet ghostty github-cli go-yq goaccess gron htop hugo
   intellij-idea-community-edition "jdk${JAVA_VER}-openjdk" jq just kora-icon-theme krabby-bin
-  lolcat meson moreutils ninja openbsd-netcat pastel perl-image-exiftool plymouth plymouth-kcm
-  python-pdm python-pip rclone sbctl shellcheck shfmt steam strace tcpdump telegram-desktop
-  tmux tokei tree ttf-fira-code ttf-jetbrains-mono ttf-tahoma wireshark-cli wl-clipboard zsh
-  zsh-autosuggestions zsh-completions zsh-syntax-highlighting
+  lolcat meson moreutils ninja ollama ollama-rocm openbsd-netcat pastel perl-image-exiftool
+  plymouth plymouth-kcm python-pdm python-pip rclone sbctl shellcheck shfmt steam strace tcpdump
+  telegram-desktop tmux tokei tree ttf-fira-code ttf-jetbrains-mono ttf-tahoma wireshark-cli
+  wl-clipboard zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting
 )
 
 SETUP_DIR="${HOME}/Projects/setup"
 DISTRO_NAME="EndeavourOS"
 PLYMOUTH_THEME="breeze"
 KEYBOARD_LAYOUT="us,il"
+
+OLLAMA_BASE_MODEL="devstral-small-2:24b"
+OLLAMA_AGENT_NAME="devstral-agent"
+OLLAMA_NUM_CTX="32768"
 
 set -eux
 
@@ -71,11 +75,22 @@ home_setup() {
   cp "${shared_home}/.common.zsh" "${HOME}"
   cp -r "${SETUP_DIR}/${DISTRO_NAME}/Home/".[!.]* "${HOME}"
 
-  mkdir -p "${HOME}/.local/share/fonts" "${HOME}/Drive" "${service_menus}"
+  mkdir -p "${HOME}/.claude" "${HOME}/.local/share/fonts" "${HOME}/Drive" "${service_menus}"
   gsettings set org.gnome.desktop.interface gtk-enable-primary-paste true
 
   [ -f "${kate_tool}" ] && sed -i 's/^executable=konsole$/executable=ghostty/' "${kate_tool}"
   printf '[Desktop Entry]\nHidden=true\n' > "${service_menus}/com.mitchellh.ghostty.desktop"
+
+  jq -n \
+    --arg base_url "http://127.0.0.1:11434" \
+    --arg auth_tok "ollama" \
+    --arg api_key "" \
+    --arg model "${OLLAMA_AGENT_NAME}" \
+    '{model: $model, env: {
+       ANTHROPIC_BASE_URL:   $base_url,
+       ANTHROPIC_AUTH_TOKEN: $auth_tok,
+       ANTHROPIC_API_KEY:    $api_key
+     }}' > "${HOME}/.claude/settings.json"
 
   __install_fonts "${SETUP_DIR}"
   __setup_git_config \
@@ -91,6 +106,21 @@ services_setup() {
     sudo systemctl enable --now docker
     sudo usermod -aG docker "${USER}"
   }
+
+  ollama ps &> /dev/null || {
+    sudo usermod -aG render,video "${USER}"
+    printf '[ollama] Added to render/video groups — re-login required for GPU device access\n' >&2
+    sudo mkdir -p /etc/systemd/system/ollama.service.d
+    printf '[Service]\nEnvironment="OLLAMA_FLASH_ATTENTION=1"\nEnvironment="OLLAMA_KV_CACHE_TYPE=q8_0"\n' |
+      sudo tee /etc/systemd/system/ollama.service.d/override.conf
+    sudo systemctl daemon-reload
+    sudo systemctl enable --now ollama
+    ollama pull "${OLLAMA_BASE_MODEL}"
+    printf 'FROM %s\nPARAMETER num_ctx %d\n' "${OLLAMA_BASE_MODEL}" "${OLLAMA_NUM_CTX}" |
+      ollama create "${OLLAMA_AGENT_NAME}" -f /dev/stdin
+  }
+
+  __assert_ollama_gpu "${OLLAMA_AGENT_NAME}"
 
   sudo firewall-cmd --zone=public --query-service=ssh && {
     sudo firewall-cmd --permanent --remove-service=ssh --zone=public
@@ -116,6 +146,22 @@ services_setup() {
     "${sddm_themes}/eos-breeze/Background.qml"
 
   __set_default_shell
+}
+
+__assert_ollama_gpu() {
+  local model="${1}"
+  local -i i=0
+  ollama run "${model}" "." &> /dev/null &
+  local run_pid=$!
+  until ollama ps 2> /dev/null | grep -qE "${model}.*GPU" || ((i++ > 17)); do
+    sleep 5
+  done
+  kill "${run_pid}" 2> /dev/null
+  ollama ps 2> /dev/null | grep -qE "${model}.*GPU" || {
+    printf '[ollama] FATAL: %s not running on GPU — check ROCm setup\n' "${model}" >&2
+    exit 1
+  }
+  printf '[ollama] Confirmed: %s running on GPU\n' "${model}" >&2
 }
 
 __kw() { kwriteconfig6 --file "${1}" --group "${2}" --key "${3}" "${@:4}"; }
