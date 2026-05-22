@@ -14,8 +14,8 @@ DISTRO_NAME="EndeavourOS"
 PLYMOUTH_THEME="breeze"
 KEYBOARD_LAYOUT="us,il"
 
-OLLAMA_BASE_MODEL="devstral-small-2:24b"
-OLLAMA_AGENT_NAME="devstral-agent"
+OLLAMA_BASE_MODEL="qwen3-coder:30b"
+OLLAMA_AGENT_NAME="qwen-agent"
 OLLAMA_NUM_CTX="32768"
 
 set -eux
