@@ -99,6 +99,23 @@ home_setup() {
     "${HOME}/.gitconfig"
 }
 
+__assert_ollama_gpu() {
+  local model="${1}"
+  local -i i=0
+  ollama run "${model}" "." &> /dev/null &
+  local run_pid=$!
+
+  until ollama ps 2> /dev/null | grep -qE "${model}.*GPU" || ((i++ > 17)); do
+    sleep 5
+  done
+  kill "${run_pid}" 2> /dev/null
+
+  ollama ps 2> /dev/null | grep -qE "${model}.*GPU" || {
+    printf '[ollama] FATAL: %s not running on GPU — check ROCm setup\n' "${model}" >&2
+    exit 1
+  }
+}
+
 services_setup() {
   local sddm_themes="/usr/share/sddm/themes"
 
@@ -107,14 +124,15 @@ services_setup() {
     sudo usermod -aG docker "${USER}"
   }
 
-  ollama ps &> /dev/null || {
+  ollama show "${OLLAMA_AGENT_NAME}" &> /dev/null || {
+    local -i i=0
     sudo usermod -aG render,video "${USER}"
-    printf '[ollama] Added to render/video groups — re-login required for GPU device access\n' >&2
-    sudo mkdir -p /etc/systemd/system/ollama.service.d
-    printf '[Service]\nEnvironment="OLLAMA_FLASH_ATTENTION=1"\nEnvironment="OLLAMA_KV_CACHE_TYPE=q8_0"\n' |
-      sudo tee /etc/systemd/system/ollama.service.d/override.conf
+    echo '[ollama] Added to render/video groups — re-login required for GPU device access' >&2
+
     sudo systemctl daemon-reload
     sudo systemctl enable --now ollama
+    until ollama ps &> /dev/null || ((i++ > 30)); do sleep 1; done
+
     ollama pull "${OLLAMA_BASE_MODEL}"
     printf 'FROM %s\nPARAMETER num_ctx %d\n' "${OLLAMA_BASE_MODEL}" "${OLLAMA_NUM_CTX}" |
       ollama create "${OLLAMA_AGENT_NAME}" -f /dev/stdin
@@ -146,22 +164,6 @@ services_setup() {
     "${sddm_themes}/eos-breeze/Background.qml"
 
   __set_default_shell
-}
-
-__assert_ollama_gpu() {
-  local model="${1}"
-  local -i i=0
-  ollama run "${model}" "." &> /dev/null &
-  local run_pid=$!
-  until ollama ps 2> /dev/null | grep -qE "${model}.*GPU" || ((i++ > 17)); do
-    sleep 5
-  done
-  kill "${run_pid}" 2> /dev/null
-  ollama ps 2> /dev/null | grep -qE "${model}.*GPU" || {
-    printf '[ollama] FATAL: %s not running on GPU — check ROCm setup\n' "${model}" >&2
-    exit 1
-  }
-  printf '[ollama] Confirmed: %s running on GPU\n' "${model}" >&2
 }
 
 __kw() { kwriteconfig6 --file "${1}" --group "${2}" --key "${3}" "${@:4}"; }

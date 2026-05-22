@@ -152,14 +152,15 @@ services_setup() {
     sudo usermod -aG docker "${USER}"
   }
 
-  ollama ps &> /dev/null || {
+  ollama show "${OLLAMA_AGENT_NAME}" &> /dev/null || {
+    local -i i=0
     sudo usermod -aG render,video "${USER}"
-    printf '[ollama] Added to render/video groups — re-login required for GPU device access\n' >&2
-    sudo mkdir -p /etc/systemd/system/ollama.service.d
-    printf '[Service]\nEnvironment="OLLAMA_FLASH_ATTENTION=1"\nEnvironment="OLLAMA_KV_CACHE_TYPE=q8_0"\n' |
-      sudo tee /etc/systemd/system/ollama.service.d/override.conf
+    echo '[ollama] Added to render/video groups — re-login required for GPU device access' >&2
+
     sudo systemctl daemon-reload
     sudo systemctl enable --now ollama
+    until ollama ps &> /dev/null || ((i++ > 30)); do sleep 1; done
+
     ollama pull "${OLLAMA_BASE_MODEL}"
     printf 'FROM %s\nPARAMETER num_ctx %d\n' "${OLLAMA_BASE_MODEL}" "${OLLAMA_NUM_CTX}" |
       ollama create "${OLLAMA_AGENT_NAME}" -f /dev/stdin
