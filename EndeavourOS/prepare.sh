@@ -59,7 +59,7 @@ DISTRO_NAME="EndeavourOS"
 PLYMOUTH_THEME="breeze"
 KEYBOARD_LAYOUT="us,il"
 
-OLLAMA_BASE_MODEL="qwen3:30b-a3b"
+OLLAMA_BASE_MODEL="qwen3-coder:30b"
 OLLAMA_AGENT_NAME="qwen-agent"
 OLLAMA_NUM_CTX="32768"
 
@@ -131,10 +131,14 @@ home_setup() {
     --arg auth_tok "ollama" \
     --arg api_key "" \
     --arg model "${OLLAMA_AGENT_NAME}" \
+    --arg num_ctx "${OLLAMA_NUM_CTX}" \
     '{model: $model, env: {
-       ANTHROPIC_BASE_URL:   $base_url,
-       ANTHROPIC_AUTH_TOKEN: $auth_tok,
-       ANTHROPIC_API_KEY:    $api_key
+       ANTHROPIC_BASE_URL:                       $base_url,
+       ANTHROPIC_AUTH_TOKEN:                     $auth_tok,
+       ANTHROPIC_API_KEY:                        $api_key,
+       CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1",
+       CLAUDE_CODE_AUTO_COMPACT_WINDOW:          $num_ctx,
+       CLAUDE_AUTOCOMPACT_PCT_OVERRIDE:          "75"
      }}' > "${HOME}/.claude/settings.json"
 
   __install_fonts "${SETUP_DIR}"
