@@ -144,6 +144,23 @@ home_setup() {
     "${HOME}/.gitconfig"
 }
 
+__assert_ollama_gpu() {
+  local model="${1}"
+  local -i i=0
+  ollama run "${model}" "." &> /dev/null &
+  local run_pid=$!
+
+  until ollama ps 2> /dev/null | grep -qE "${model}.*GPU" || ((i++ > 17)); do
+    sleep 5
+  done
+  kill "${run_pid}" 2> /dev/null
+
+  ollama ps 2> /dev/null | grep -qE "${model}.*GPU" || {
+    printf '[ollama] FATAL: %s not running on GPU — check ROCm setup\n' "${model}" >&2
+    exit 1
+  }
+}
+
 services_setup() {
   local sddm_themes="/usr/share/sddm/themes"
 
@@ -192,22 +209,6 @@ services_setup() {
     "${sddm_themes}/eos-breeze/Background.qml"
 
   __set_default_shell
-}
-
-__assert_ollama_gpu() {
-  local model="${1}"
-  local -i i=0
-  ollama run "${model}" "." &> /dev/null &
-  local run_pid=$!
-  until ollama ps 2> /dev/null | grep -qE "${model}.*GPU" || ((i++ > 17)); do
-    sleep 5
-  done
-  kill "${run_pid}" 2> /dev/null
-  ollama ps 2> /dev/null | grep -qE "${model}.*GPU" || {
-    printf '[ollama] FATAL: %s not running on GPU — check ROCm setup\n' "${model}" >&2
-    exit 1
-  }
-  printf '[ollama] Confirmed: %s running on GPU\n' "${model}" >&2
 }
 
 __kw() { kwriteconfig6 --file "${1}" --group "${2}" --key "${3}" "${@:4}"; }
