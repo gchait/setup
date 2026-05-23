@@ -99,6 +99,11 @@ home_setup() {
        CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1",
        CLAUDE_CODE_AUTO_COMPACT_WINDOW:          $num_ctx,
        CLAUDE_AUTOCOMPACT_PCT_OVERRIDE:          "75"
+     }, mcpServers: {
+       duckduckgo: {
+         command: "docker",
+         args: ["run", "-i", "--rm", "mcp/duckduckgo"]
+       }
      }}' > "${HOME}/.claude/settings.json"
 
   __install_fonts "${SETUP_DIR}"
