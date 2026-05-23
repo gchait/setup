@@ -133,17 +133,19 @@ home_setup() {
     --arg model "${OLLAMA_AGENT_NAME}" \
     --arg num_ctx "${OLLAMA_NUM_CTX}" \
     '{model: $model, env: {
-       ANTHROPIC_BASE_URL:                       $base_url,
-       ANTHROPIC_AUTH_TOKEN:                     $auth_tok,
-       ANTHROPIC_API_KEY:                        $api_key,
-       ANTHROPIC_DEFAULT_OPUS_MODEL:             $model,
-       ANTHROPIC_DEFAULT_SONNET_MODEL:           $model,
-       ANTHROPIC_DEFAULT_HAIKU_MODEL:            $model,
-       CLAUDE_CODE_SUBAGENT_MODEL:               $model,
-       CLAUDE_CODE_ATTRIBUTION_HEADER:           "0",
-       CLAUDE_CODE_AUTO_COMPACT_WINDOW:          $num_ctx,
-       CLAUDE_AUTOCOMPACT_PCT_OVERRIDE:          "75"
-     }}' > "${HOME}/.claude/settings.json"
+      ANTHROPIC_BASE_URL:                       $base_url,
+      ANTHROPIC_AUTH_TOKEN:                     $auth_tok,
+      ANTHROPIC_API_KEY:                        $api_key,
+      ANTHROPIC_DEFAULT_OPUS_MODEL:             $model,
+      ANTHROPIC_DEFAULT_SONNET_MODEL:           $model,
+      ANTHROPIC_DEFAULT_HAIKU_MODEL:            $model,
+      CLAUDE_CODE_SUBAGENT_MODEL:               $model,
+      CLAUDE_CODE_ATTRIBUTION_HEADER:           "0",
+      CLAUDE_CODE_AUTO_COMPACT_WINDOW:          $num_ctx,
+      CLAUDE_AUTOCOMPACT_PCT_OVERRIDE:          "75"
+    }, permissions: {
+      deny: ["WebSearch", "WebFetch"]
+    }}' > "${HOME}/.claude/settings.json"
 
   claude mcp add --scope user duckduckgo -t stdio -- \
     docker run -i --rm mcp/duckduckgo 2> /dev/null || true
