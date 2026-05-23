@@ -136,6 +136,11 @@ home_setup() {
        ANTHROPIC_BASE_URL:                       $base_url,
        ANTHROPIC_AUTH_TOKEN:                     $auth_tok,
        ANTHROPIC_API_KEY:                        $api_key,
+       ANTHROPIC_DEFAULT_OPUS_MODEL:             $model,
+       ANTHROPIC_DEFAULT_SONNET_MODEL:           $model,
+       ANTHROPIC_DEFAULT_HAIKU_MODEL:            $model,
+       CLAUDE_CODE_SUBAGENT_MODEL:               $model,
+       CLAUDE_CODE_ATTRIBUTION_HEADER:           "0",
        CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1",
        CLAUDE_CODE_AUTO_COMPACT_WINDOW:          $num_ctx,
        CLAUDE_AUTOCOMPACT_PCT_OVERRIDE:          "75"
