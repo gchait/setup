@@ -142,7 +142,7 @@ home_setup() {
       CLAUDE_CODE_SUBAGENT_MODEL:               $model,
       CLAUDE_CODE_ATTRIBUTION_HEADER:           "0",
       CLAUDE_CODE_AUTO_COMPACT_WINDOW:          $num_ctx,
-      CLAUDE_AUTOCOMPACT_PCT_OVERRIDE:          "75"
+      CLAUDE_AUTOCOMPACT_PCT_OVERRIDE:          "28"
     }, permissions: {
       deny: ["WebSearch", "WebFetch"]
     }}' > "${HOME}/.claude/settings.json"
