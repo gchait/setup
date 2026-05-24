@@ -140,11 +140,27 @@ home_setup() {
       ANTHROPIC_DEFAULT_SONNET_MODEL:           $model,
       ANTHROPIC_DEFAULT_HAIKU_MODEL:            $model,
       CLAUDE_CODE_SUBAGENT_MODEL:               $model,
-      CLAUDE_CODE_ATTRIBUTION_HEADER:           "0",
       CLAUDE_CODE_AUTO_COMPACT_WINDOW:          $num_ctx,
+      CLAUDE_CODE_ATTRIBUTION_HEADER:           "0",
       CLAUDE_AUTOCOMPACT_PCT_OVERRIDE:          "28"
     }, permissions: {
-      deny: ["WebSearch", "WebFetch"]
+      deny: [
+        "WebSearch",
+        "WebFetch",
+        "NotebookRead",
+        "NotebookEdit",
+        "PowerShell",
+        "PushNotification",
+        "RemoteTrigger",
+        "ShareOnboardingGuide",
+        "TeamCreate",
+        "TeamDelete",
+        "SendMessage",
+        "CronCreate",
+        "CronDelete",
+        "CronList",
+        "ScheduleWakeup"
+      ]
     }}' > "${HOME}/.claude/settings.json"
 
   claude mcp add --scope user duckduckgo -t stdio -- \
