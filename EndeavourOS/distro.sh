@@ -82,41 +82,49 @@ home_setup() {
   printf '[Desktop Entry]\nHidden=true\n' > "${service_menus}/com.mitchellh.ghostty.desktop"
 
   jq -n \
-    --arg base_url "http://127.0.0.1:11434" \
-    --arg auth_tok "ollama" \
     --arg api_key "" \
+    --arg attr_header "0" \
+    --arg auth_tok "ollama" \
+    --arg auto_compact_pct "28" \
+    --arg base_url "http://127.0.0.1:11434" \
     --arg model "${OLLAMA_AGENT_NAME}" \
     --arg num_ctx "${OLLAMA_NUM_CTX}" \
-    '{model: $model, env: {
-      ANTHROPIC_BASE_URL:                       $base_url,
-      ANTHROPIC_AUTH_TOKEN:                     $auth_tok,
-      ANTHROPIC_API_KEY:                        $api_key,
-      ANTHROPIC_DEFAULT_OPUS_MODEL:             $model,
-      ANTHROPIC_DEFAULT_SONNET_MODEL:           $model,
-      ANTHROPIC_DEFAULT_HAIKU_MODEL:            $model,
-      CLAUDE_CODE_SUBAGENT_MODEL:               $model,
-      CLAUDE_CODE_AUTO_COMPACT_WINDOW:          $num_ctx,
-      CLAUDE_CODE_ATTRIBUTION_HEADER:           "0",
-      CLAUDE_AUTOCOMPACT_PCT_OVERRIDE:          "28"
-    }, permissions: {
-      deny: [
-        "WebSearch",
-        "WebFetch",
-        "NotebookRead",
-        "NotebookEdit",
-        "PowerShell",
-        "PushNotification",
-        "RemoteTrigger",
-        "ShareOnboardingGuide",
-        "TeamCreate",
-        "TeamDelete",
-        "SendMessage",
-        "CronCreate",
-        "CronDelete",
-        "CronList",
-        "ScheduleWakeup"
-      ]
-    }}' > "${HOME}/.claude/settings.json"
+    --argjson deny '[
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "NotebookEdit",
+      "NotebookRead",
+      "PowerShell",
+      "PushNotification",
+      "RemoteTrigger",
+      "ScheduleWakeup",
+      "SendMessage",
+      "ShareOnboardingGuide",
+      "TeamCreate",
+      "TeamDelete",
+      "WebFetch",
+      "WebSearch"
+    ]' '
+  {
+    model: $model,
+    env: {
+      ANTHROPIC_API_KEY: $api_key,
+      ANTHROPIC_AUTH_TOKEN: $auth_tok,
+      ANTHROPIC_BASE_URL: $base_url,
+      ANTHROPIC_DEFAULT_HAIKU_MODEL: $model,
+      ANTHROPIC_DEFAULT_OPUS_MODEL: $model,
+      ANTHROPIC_DEFAULT_SONNET_MODEL: $model,
+      CLAUDE_AUTOCOMPACT_PCT_OVERRIDE: $auto_compact_pct,
+      CLAUDE_CODE_ATTRIBUTION_HEADER: $attr_header,
+      CLAUDE_CODE_AUTO_COMPACT_WINDOW: $num_ctx,
+      CLAUDE_CODE_SUBAGENT_MODEL: $model
+    },
+    permissions: {
+      deny: $deny
+    }
+  }
+  ' > "${HOME}/.claude/settings.json"
 
   claude mcp add --scope user duckduckgo -t stdio -- \
     docker run -i --rm mcp/duckduckgo 2> /dev/null || true
