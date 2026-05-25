@@ -140,9 +140,10 @@ home_setup() {
       ANTHROPIC_DEFAULT_SONNET_MODEL:           $model,
       ANTHROPIC_DEFAULT_HAIKU_MODEL:            $model,
       CLAUDE_CODE_SUBAGENT_MODEL:               $model,
+      CLAUDE_CODE_AUTO_COMPACT_WINDOW:          $num_ctx,
       CLAUDE_CODE_MAX_CONTEXT_TOKENS:           $num_ctx,
       CLAUDE_CODE_ATTRIBUTION_HEADER:           "0",
-      DISABLE_COMPACT:                          "1"
+      CLAUDE_AUTOCOMPACT_PCT_OVERRIDE:          "70"
     }, permissions: {
       deny: [
         "WebSearch",
