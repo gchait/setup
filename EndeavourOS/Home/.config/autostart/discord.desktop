@@ -1,9 +1,9 @@
 [Desktop Entry]
 Type=Application
-Exec=/opt/discord/Discord --start-minimized
+Exec=/usr/bin/discord --start-minimized
 Hidden=false
 NoDisplay=false
 Name=Discord
-Icon=/opt/discord/discord.png
+Icon=discord
 Comment=Text and voice chat for gamers.
 X-GNOME-Autostart-enabled=true
