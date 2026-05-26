@@ -126,32 +126,29 @@ home_setup() {
   [ -f "${kate_tool}" ] && sed -i 's/^executable=konsole$/executable=ghostty/' "${kate_tool}"
   printf '[Desktop Entry]\nHidden=true\n' > "${service_menus}/com.mitchellh.ghostty.desktop"
 
-  # shellcheck disable=SC2016,SC2183
-  printf '  {
-    "model": "%1$s",
+  jq -n --arg m "${OLLAMA_AGENT_NAME}" --arg c "${OLLAMA_NUM_CTX}" '{
+    "model": $m,
     "env": {
       "ANTHROPIC_API_KEY": "",
       "ANTHROPIC_AUTH_TOKEN": "ollama",
       "ANTHROPIC_BASE_URL": "http://127.0.0.1:11434",
-      "ANTHROPIC_DEFAULT_HAIKU_MODEL": "%1$s",
-      "ANTHROPIC_DEFAULT_OPUS_MODEL": "%1$s",
-      "ANTHROPIC_DEFAULT_SONNET_MODEL": "%1$s",
+      "ANTHROPIC_DEFAULT_HAIKU_MODEL": $m,
+      "ANTHROPIC_DEFAULT_OPUS_MODEL": $m,
+      "ANTHROPIC_DEFAULT_SONNET_MODEL": $m,
       "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "80",
       "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
-      "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "%2$s",
-      "CLAUDE_CODE_SUBAGENT_MODEL": "%1$s",
+      "CLAUDE_CODE_AUTO_COMPACT_WINDOW": $c,
+      "CLAUDE_CODE_SUBAGENT_MODEL": $m,
       "ENABLE_TOOL_SEARCH": "true"
     },
     "permissions": {
       "deny": [
-        "CronCreate", "CronDelete", "CronList",
-        "NotebookEdit", "NotebookRead", "PowerShell",
-        "PushNotification", "RemoteTrigger", "ScheduleWakeup",
-        "SendMessage", "ShareOnboardingGuide", "TeamCreate",
-        "TeamDelete", "WebFetch", "WebSearch"
+        "CronCreate", "CronDelete", "CronList", "NotebookEdit", "NotebookRead",
+        "PowerShell", "PushNotification", "RemoteTrigger", "ScheduleWakeup", "SendMessage",
+        "ShareOnboardingGuide", "TeamCreate", "TeamDelete", "WebFetch", "WebSearch"
       ]
     }
-  }\n' "${OLLAMA_AGENT_NAME}" "${OLLAMA_NUM_CTX}" | sed 's/^  //' > "${HOME}/.claude/settings.json"
+  }' > "${HOME}/.claude/settings.json"
 
   claude mcp add --scope user duckduckgo -t stdio -- \
     docker run -i --rm mcp/duckduckgo 2> /dev/null || true
