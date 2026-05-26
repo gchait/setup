@@ -126,50 +126,32 @@ home_setup() {
   [ -f "${kate_tool}" ] && sed -i 's/^executable=konsole$/executable=ghostty/' "${kate_tool}"
   printf '[Desktop Entry]\nHidden=true\n' > "${service_menus}/com.mitchellh.ghostty.desktop"
 
-  jq -n \
-    --arg api_key "" \
-    --arg attr_header "0" \
-    --arg auth_tok "ollama" \
-    --arg auto_compact_pct "77" \
-    --arg base_url "http://127.0.0.1:11434" \
-    --arg model "${OLLAMA_AGENT_NAME}" \
-    --arg num_ctx "${OLLAMA_NUM_CTX}" \
-    --argjson deny '[
-      "CronCreate",
-      "CronDelete",
-      "CronList",
-      "NotebookEdit",
-      "NotebookRead",
-      "PowerShell",
-      "PushNotification",
-      "RemoteTrigger",
-      "ScheduleWakeup",
-      "SendMessage",
-      "ShareOnboardingGuide",
-      "TeamCreate",
-      "TeamDelete",
-      "WebFetch",
-      "WebSearch"
-    ]' '
-  {
-    model: $model,
-    env: {
-      ANTHROPIC_API_KEY: $api_key,
-      ANTHROPIC_AUTH_TOKEN: $auth_tok,
-      ANTHROPIC_BASE_URL: $base_url,
-      ANTHROPIC_DEFAULT_HAIKU_MODEL: $model,
-      ANTHROPIC_DEFAULT_OPUS_MODEL: $model,
-      ANTHROPIC_DEFAULT_SONNET_MODEL: $model,
-      CLAUDE_AUTOCOMPACT_PCT_OVERRIDE: $auto_compact_pct,
-      CLAUDE_CODE_ATTRIBUTION_HEADER: $attr_header,
-      CLAUDE_CODE_AUTO_COMPACT_WINDOW: $num_ctx,
-      CLAUDE_CODE_SUBAGENT_MODEL: $model
+  # shellcheck disable=SC2016,SC2183
+  printf '  {
+    "model": "%1$s",
+    "env": {
+      "ANTHROPIC_API_KEY": "",
+      "ANTHROPIC_AUTH_TOKEN": "ollama",
+      "ANTHROPIC_BASE_URL": "http://127.0.0.1:11434",
+      "ANTHROPIC_DEFAULT_HAIKU_MODEL": "%1$s",
+      "ANTHROPIC_DEFAULT_OPUS_MODEL": "%1$s",
+      "ANTHROPIC_DEFAULT_SONNET_MODEL": "%1$s",
+      "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "80",
+      "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+      "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "%2$s",
+      "CLAUDE_CODE_SUBAGENT_MODEL": "%1$s",
+      "ENABLE_TOOL_SEARCH": "true"
     },
-    permissions: {
-      deny: $deny
+    "permissions": {
+      "deny": [
+        "CronCreate", "CronDelete", "CronList",
+        "NotebookEdit", "NotebookRead", "PowerShell",
+        "PushNotification", "RemoteTrigger", "ScheduleWakeup",
+        "SendMessage", "ShareOnboardingGuide", "TeamCreate",
+        "TeamDelete", "WebFetch", "WebSearch"
+      ]
     }
-  }
-  ' > "${HOME}/.claude/settings.json"
+  }\n' "${OLLAMA_AGENT_NAME}" "${OLLAMA_NUM_CTX}" | sed 's/^  //' > "${HOME}/.claude/settings.json"
 
   claude mcp add --scope user duckduckgo -t stdio -- \
     docker run -i --rm mcp/duckduckgo 2> /dev/null || true
