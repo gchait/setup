@@ -85,7 +85,7 @@ home_setup() {
     --arg api_key "" \
     --arg attr_header "0" \
     --arg auth_tok "ollama" \
-    --arg auto_compact_pct "77" \
+    --arg auto_compact_pct "80" \
     --arg base_url "http://127.0.0.1:11434" \
     --arg model "${OLLAMA_AGENT_NAME}" \
     --arg num_ctx "${OLLAMA_NUM_CTX}" \
@@ -118,7 +118,8 @@ home_setup() {
       CLAUDE_AUTOCOMPACT_PCT_OVERRIDE: $auto_compact_pct,
       CLAUDE_CODE_ATTRIBUTION_HEADER: $attr_header,
       CLAUDE_CODE_AUTO_COMPACT_WINDOW: $num_ctx,
-      CLAUDE_CODE_SUBAGENT_MODEL: $model
+      CLAUDE_CODE_SUBAGENT_MODEL: $model,
+      ENABLE_TOOL_SEARCH: "true"
     },
     permissions: {
       deny: $deny
