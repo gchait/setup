@@ -85,7 +85,7 @@ home_setup() {
     --arg api_key "" \
     --arg attr_header "0" \
     --arg auth_tok "ollama" \
-    --arg auto_compact_pct "28" \
+    --arg auto_compact_pct "77" \
     --arg base_url "http://127.0.0.1:11434" \
     --arg model "${OLLAMA_AGENT_NAME}" \
     --arg num_ctx "${OLLAMA_NUM_CTX}" \
