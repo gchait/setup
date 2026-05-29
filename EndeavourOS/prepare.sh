@@ -164,6 +164,7 @@ home_setup() {
 services_setup() {
   local sddm_themes="/usr/share/sddm/themes"
   sudo usermod -aG render,video "${USER}"
+  sudo systemctl enable autocake lm_sensors
 
   docker ps 2> /dev/null || {
     sudo systemctl enable --now docker
@@ -185,8 +186,6 @@ services_setup() {
     printf 'FROM %s\nPARAMETER num_ctx %d\n' "${OLLAMA_BASE_MODEL}" "${OLLAMA_NUM_CTX}" |
       ollama create "${OLLAMA_AGENT_NAME}" -f /dev/stdin
   }
-
-  sudo systemctl enable autocake
 
   sudo firewall-cmd --zone=public --query-service=ssh && {
     sudo firewall-cmd --permanent --remove-service=ssh --zone=public
