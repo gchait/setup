@@ -1,5 +1,5 @@
 PKGS=(
-  android-tools asciinema asciinema-agg-bin asciiquarium bat bibata-cursor-theme bind
+  android-tools asciinema asciinema-agg-bin asciiquarium autocake bat bibata-cursor-theme bind
   breeze-plymouth claude-code cmake cmatrix cowsay curlie discord dive docker docker-compose
   eza fastfetch figlet ghostty github-cli go-yq goaccess gron htop hugo
   intellij-idea-community-edition "jdk${JAVA_VER}-openjdk" jq just kora-icon-theme krabby-bin
@@ -105,8 +105,8 @@ home_setup() {
     }
   }' > "${HOME}/.claude/settings.json"
 
-  claude mcp add --scope user duckduckgo -t stdio -- \
-    docker run -i --rm mcp/duckduckgo 2> /dev/null || true
+  jq -e '.mcpServers.duckduckgo' "${HOME}/.claude.json" 2> /dev/null ||
+    claude mcp add --scope user duckduckgo -t stdio -- docker run -i --rm mcp/duckduckgo
 
   __install_fonts "${SETUP_DIR}"
   __setup_git_config \
@@ -117,20 +117,24 @@ home_setup() {
 
 services_setup() {
   local sddm_themes="/usr/share/sddm/themes"
+  sudo usermod -aG render,video "${USER}"
 
   docker ps 2> /dev/null || {
     sudo systemctl enable --now docker
     sudo usermod -aG docker "${USER}"
   }
 
-  ollama show "${OLLAMA_AGENT_NAME}" 2> /dev/null || {
+  ollama ps 2> /dev/null || {
     local -i i=0
-    sudo usermod -aG render,video "${USER}"
-
     sudo systemctl daemon-reload
     sudo systemctl enable --now ollama
-    until ollama ps &> /dev/null || ((i++ > 30)); do sleep 1; done
+    until ollama ps 2> /dev/null; do
+      ((i++ < 30)) || return 1
+      sleep 1
+    done
+  }
 
+  ollama show "${OLLAMA_AGENT_NAME}" 2> /dev/null || {
     ollama pull "${OLLAMA_BASE_MODEL}"
     printf 'FROM %s\nPARAMETER num_ctx %d\n' "${OLLAMA_BASE_MODEL}" "${OLLAMA_NUM_CTX}" |
       ollama create "${OLLAMA_AGENT_NAME}" -f /dev/stdin
