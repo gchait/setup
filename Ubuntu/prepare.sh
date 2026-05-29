@@ -126,7 +126,7 @@ system_setup() {
     sudo tee /etc/apt/sources.list.d/helm.list
 
   sudo apt-get update -q
-  sudo apt-get upgrade -yq 2> /dev/null
+  sudo -E apt-get upgrade -yq 2> /dev/null
 }
 
 __install_from_url() {
@@ -152,7 +152,7 @@ packages_setup() {
   arch_ssm=$(echo "${ARCH}" | sed 's/amd64/64bit/')
 
   # shellcheck disable=SC2086
-  sudo apt-get install -yq "${java}" "${alt_java}" ${APT_PKGS} 2> /dev/null
+  sudo -E apt-get install -yq "${java}" "${alt_java}" ${APT_PKGS} 2> /dev/null
 
   __install_from_url yq "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${ARCH}"
   __install_from_url cw "https://github.com/lucagrulla/cw/releases/latest/download/cw_${ARCH}.deb"
