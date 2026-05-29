@@ -7,3 +7,7 @@
 	rebase = true
 [credential]
 	helper = store
+[advice]
+	defaultBranchName = false
+[push]
+	autoSetupRemote = true
