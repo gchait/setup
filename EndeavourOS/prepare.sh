@@ -148,7 +148,8 @@ home_setup() {
         "ShareOnboardingGuide", "TeamCreate", "TeamDelete", "WebFetch", "WebSearch"
       ]
     }
-  }' > "${HOME}/.claude/settings.json"
+  }' > "${HOME}/.claude/settings.json.local"
+  ln -sf "${HOME}/.claude/settings.json.local" "${HOME}/.claude/settings.json"
 
   jq -e '.mcpServers.duckduckgo' "${HOME}/.claude.json" 2> /dev/null ||
     claude mcp add --scope user duckduckgo -t stdio -- docker run -i --rm mcp/duckduckgo
