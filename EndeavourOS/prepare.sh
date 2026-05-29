@@ -186,6 +186,8 @@ services_setup() {
       ollama create "${OLLAMA_AGENT_NAME}" -f /dev/stdin
   }
 
+  sudo systemctl enable autocake
+
   sudo firewall-cmd --zone=public --query-service=ssh && {
     sudo firewall-cmd --permanent --remove-service=ssh --zone=public
     sudo firewall-cmd --reload
