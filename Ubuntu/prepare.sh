@@ -126,6 +126,7 @@ system_setup() {
     sudo tee /etc/apt/sources.list.d/helm.list
 
   sudo apt-get update -q
+  echo "docker.io docker.io/restart boolean true" | sudo debconf-set-selections
   sudo -E apt-get upgrade -yq 2> /dev/null
 }
 
