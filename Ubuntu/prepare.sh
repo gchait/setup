@@ -87,13 +87,13 @@ home_setup() {
 BOOTSTRAP_APT_PKGS="ca-certificates curl git gnupg"
 
 APT_PKGS="
-  adwaita-icon-theme bat build-essential cmatrix dnsutils docker-buildx docker-compose-v2
+  adwaita-icon-theme bat bind9-dnsutils build-essential cmatrix docker-buildx docker-compose-v2
   docker.io eza fd-find figlet golang-go gron helm htop hugo iproute2 iptables jq just
-  libasound2-dev libasound2t64 libatk1.0-0 libcups2t64 libgbm1 libgdk-pixbuf2.0-dev
+  libasound2-dev libasound2t64 libatk1.0-0t64 libcups2t64 libgbm1 libgdk-pixbuf-2.0-dev
   libgtk-3-0t64 libgtk-3-dev libncurses6 libnss3-dev libpango-1.0-0 libxcomposite1
   libxcursor1 libxdamage1 libxext6 libxi6 libxrandr2 libxss-dev libxss1 libxtst6 lolcat
   make maven moreutils ncat openssh-client openssl packer python-is-python3 python3-dev
-  python3-pip qemu-user-static ripgrep shfmt symlinks tar terraform tree vim wget zip zsh
+  python3-pip ripgrep shfmt symlinks tar terraform tree vim wget zip zsh
 "
 
 # shellcheck disable=SC2034
@@ -147,13 +147,14 @@ __install_from_url() {
 packages_setup() {
   local java="openjdk-${JAVA_VER}-jdk"
   local alt_java="openjdk-${ALT_JAVA_VER}-jdk"
-  local arch_ff arch_ssm
+  local arch_ff arch_ssm qemu_pkg
 
   arch_ff=$(echo "${ARCH}" | sed 's/arm64/aarch64/')
   arch_ssm=$(echo "${ARCH}" | sed 's/amd64/64bit/')
+  qemu_pkg=$(apt-cache show qemu-user-static &> /dev/null && echo qemu-user-static || echo qemu-user)
 
   # shellcheck disable=SC2086
-  sudo -E apt-get install -yq "${java}" "${alt_java}" ${APT_PKGS} 2> /dev/null
+  sudo -E apt-get install -yq "${java}" "${alt_java}" "${qemu_pkg}" ${APT_PKGS} 2> /dev/null
 
   __install_from_url yq "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${ARCH}"
   __install_from_url cw "https://github.com/lucagrulla/cw/releases/latest/download/cw_${ARCH}.deb"
