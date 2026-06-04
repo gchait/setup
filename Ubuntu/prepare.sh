@@ -151,7 +151,7 @@ packages_setup() {
 
   arch_ff=$(echo "${ARCH}" | sed 's/arm64/aarch64/')
   arch_ssm=$(echo "${ARCH}" | sed 's/amd64/64bit/')
-  qemu_pkg=$(apt-cache show qemu-user-static &> /dev/null && echo qemu-user-static || echo qemu-user)
+  qemu_pkg=$(apt-cache show qemu-user-static > /dev/null 2>&1 && echo qemu-user-static || echo qemu-user)
 
   # shellcheck disable=SC2086
   sudo -E apt-get install -yq "${java}" "${alt_java}" "${qemu_pkg}" ${APT_PKGS} 2> /dev/null
