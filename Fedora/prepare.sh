@@ -91,7 +91,7 @@ DNF_PKGS=(
   clean-rpm-gpg-pubkey cmatrix containerd.io cups-libs dnsutils docker-buildx-plugin
   docker-ce docker-ce-cli docker-compose-plugin eza fastfetch fd-find figlet findutils
   gdk-pixbuf2-devel golang gron gtk3 gtk3-devel gzip helm htop hugo iproute iptables-legacy
-  iptables-utils iputils jq just kubernetes1.35-client libXScrnSaver libXScrnSaver-devel
+  iptables-utils iputils jq just kubernetes1.34-client libXScrnSaver libXScrnSaver-devel
   libXcomposite libXcursor libXdamage libXext libXi libXrandr libXtst lolcat make maven
   mesa-libgbm moreutils-parallel ncurses nmap-ncat nss-devel openssl packer pango
   python-unversioned-command python3-pip qemu-user-static remove-retired-packages ripgrep
