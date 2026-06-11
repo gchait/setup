@@ -92,10 +92,10 @@ DNF_PKGS=(
   docker-ce docker-ce-cli docker-compose-plugin eza fastfetch fd-find figlet findutils
   gdk-pixbuf2-devel golang gron gtk3 gtk3-devel gzip helm htop hugo iproute iptables-legacy
   iptables-utils iputils jq just libXScrnSaver libXScrnSaver-devel libXcomposite libXcursor
-  libXdamage libXext libXi libXrandr libXtst lolcat make maven mesa-libgbm moreutils-parallel
-  ncurses nmap-ncat nss-devel openssl packer pango python-unversioned-command python3-pip
-  qemu-user-static remove-retired-packages ripgrep rpmconf shfmt symlinks tar terraform tokei
-  tree vim wget xrandr yq zip zsh
+  libXdamage libXext libXi libXrandr libXtst lolcat make maven-unbound mesa-libgbm
+  moreutils-parallel ncurses nmap-ncat nss-devel openssl packer pango python-unversioned-command
+  python3-pip qemu-user-static remove-retired-packages ripgrep rpmconf shfmt symlinks tar
+  terraform tokei tree vim wget xrandr yq zip zsh
 )
 
 ALT_PY_VER="3.9"
