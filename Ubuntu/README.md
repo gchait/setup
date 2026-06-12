@@ -1,4 +1,4 @@
-\* Tested on Ubuntu 24.04 (WSL2).
+\* Tested on Ubuntu 24.04–26.04 (WSL2).
 
 ## Setup
 

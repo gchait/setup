@@ -1,4 +1,4 @@
-\* Tested on Fedora 41 (WSL2).
+\* Tested on Fedora 44 (WSL2).
 
 ## Setup
 
