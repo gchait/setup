@@ -41,7 +41,7 @@ jwtd() {
     return 2
   fi
 
-  echo "${input}" | jq -Rrce 'split(".")[1] | . + "=" * (. | 4 - length % 4)' |
+  echo "${input}" | jq -Rrce 'split(".")[1] | gsub("-";"+") | gsub("_";"/") | . + "=" * (. | (4 - length % 4) % 4)' |
     openssl base64 -d -A | jq
 }
 
