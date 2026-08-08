@@ -63,3 +63,5 @@ bindkey "^[[1;3D" backward-word
 bindkey "^[[3~" delete-char
 bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
+bindkey "^[OA" up-line-or-beginning-search
+bindkey "^[OB" down-line-or-beginning-search
