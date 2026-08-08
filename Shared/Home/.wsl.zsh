@@ -17,6 +17,7 @@ PATH=$(echo "${HOME}/.local/bin:${PATH}" | sed "s|/:|:|g" |
 export PATH
 export USERPROFILE="1"
 
+alias wp="wslpath"
 alias wsl="wsl.exe"
 alias ipco="ipconfig.exe"
 alias pwsh="powershell.exe -NoLogo -NoProfile"
