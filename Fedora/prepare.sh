@@ -47,6 +47,8 @@ SETUP_DIR="${HOME}/setup"
 # shellcheck disable=SC2034
 ALT_JAVA_VER="17"
 # shellcheck disable=SC2034
+KUBECTL_VER="1.34"
+# shellcheck disable=SC2034
 USER_PIP_PKGS="black boto3 construct dep-logic docker-squash pandas pdm pdm-bump pyyaml"
 
 __configure_etc() {
@@ -87,19 +89,17 @@ home_setup() {
 BOOTSTRAP_DNF_PKGS=(adoptium-temurin-java-repository dnf-plugins-core dnf-utils git python3-dnf)
 
 DNF_PKGS=(
-  adwaita-cursor-theme alsa-lib alsa-lib-devel asciinema asciiquarium atk awscli2 bat bind-utils
-  clean-rpm-gpg-pubkey cmatrix containerd.io cups-libs docker-buildx-plugin docker-ce
-  docker-ce-cli docker-compose-plugin eza fastfetch fd-find figlet findutils gdk-pixbuf2-devel
-  golang gtk3 gtk3-devel gzip helm htop hugo iproute iptables-legacy iptables-utils iputils jq
-  just libXScrnSaver libXScrnSaver-devel libXcomposite libXcursor libXdamage libXext libXi
-  libXrandr libXtst lolcat make maven-unbound mesa-libgbm moreutils-parallel ncurses nmap-ncat
-  nss-devel openssl packer pango python-unversioned-command python3-pip qemu-user-static
-  remove-retired-packages ripgrep rpmconf shfmt symlinks tar terraform tokei tree vim-enhanced
-  wget2 xrandr yq zip zsh
+  ShellCheck adwaita-cursor-theme alsa-lib alsa-lib-devel asciinema asciiquarium atk awscli2 bat
+  bind-utils clean-rpm-gpg-pubkey cmatrix containerd.io cups-libs docker-buildx-plugin docker-ce
+  docker-ce-cli docker-compose-plugin eza fastfetch fd-find figlet findutils gdk-pixbuf2-devel gh
+  glab golang gtk3 gtk3-devel gzip helm htop hugo iproute iptables-legacy iptables-utils iputils jq
+  just libXScrnSaver libXScrnSaver-devel libXcomposite libXcursor libXdamage libXext libXi libXrandr
+  libXtst lolcat make maven-unbound mesa-libgbm moreutils-parallel ncurses nmap-ncat nss-devel
+  openssl packer pango python-unversioned-command python3-pip qemu-user-static remove-retired-packages
+  ripgrep rpmconf shfmt symlinks tar tcpdump terraform tokei tree vim-enhanced wget2 xrandr yq zip zsh
 )
 
 ALT_PY_VER="3.9"
-KUBECTL_VER="1.34"
 # shellcheck disable=SC2034
 DISTRO_NAME="Fedora"
 

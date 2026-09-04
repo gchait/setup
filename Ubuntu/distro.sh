@@ -1,13 +1,13 @@
 BOOTSTRAP_APT_PKGS="ca-certificates curl git gnupg"
 
 APT_PKGS="
-  adwaita-icon-theme bat bind9-dnsutils build-essential cmatrix docker-buildx docker-compose-v2
-  docker.io eza fd-find figlet golang-go gron helm htop hugo iproute2 iptables jq just
-  libasound2-dev libasound2t64 libatk1.0-0t64 libcups2t64 libgbm1 libgdk-pixbuf-2.0-dev
-  libgtk-3-0t64 libgtk-3-dev libncurses6 libnss3-dev libpango-1.0-0 libxcomposite1
-  libxcursor1 libxdamage1 libxext6 libxi6 libxrandr2 libxss-dev libxss1 libxtst6 lolcat
-  make maven moreutils ncat openssh-client openssl packer python-is-python3 python3-dev
-  python3-pip ripgrep shfmt symlinks tar terraform tree vim wget zip zsh
+  adwaita-icon-theme asciinema bat bind9-dnsutils build-essential cmatrix docker-buildx
+  docker-compose-v2 docker.io eza fd-find figlet glab golang-go gron helm htop hugo iproute2
+  iptables jq just kubectl libasound2-dev libasound2t64 libatk1.0-0t64 libcups2t64 libgbm1
+  libgdk-pixbuf-2.0-dev libgtk-3-0t64 libgtk-3-dev libncurses6 libnss3-dev libpango-1.0-0
+  libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxrandr2 libxss-dev libxss1 libxtst6
+  lolcat make maven moreutils ncat openssh-client openssl packer python-is-python3 python3-dev
+  python3-pip ripgrep shellcheck shfmt symlinks tar tcpdump terraform tree vim wget zip zsh
 "
 
 # shellcheck disable=SC2034
@@ -20,6 +20,7 @@ set -eux
 system_setup() {
   local hashicorp_keyring="/usr/share/keyrings/hashicorp-archive-keyring.gpg"
   local helm_keyring="/usr/share/keyrings/helm.gpg"
+  local k8s_keyring="/usr/share/keyrings/kubernetes-apt-keyring.gpg"
   local codename
 
   sudo apt-get update -q
@@ -38,6 +39,12 @@ system_setup() {
     curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | sudo gpg --dearmor -o "${helm_keyring}"
   echo "deb [signed-by=${helm_keyring}] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" |
     sudo tee /etc/apt/sources.list.d/helm.list
+
+  [ -f "${k8s_keyring}" ] ||
+    curl -fsSL "https://pkgs.k8s.io/core:/stable:/v${KUBECTL_VER}/deb/Release.key" |
+    sudo gpg --dearmor -o "${k8s_keyring}"
+  echo "deb [signed-by=${k8s_keyring}] https://pkgs.k8s.io/core:/stable:/v${KUBECTL_VER}/deb/ /" |
+    sudo tee /etc/apt/sources.list.d/kubernetes.list
 
   sudo apt-get update -q
   echo "docker.io docker.io/restart boolean true" | sudo debconf-set-selections
@@ -72,6 +79,10 @@ packages_setup() {
 
   __install_from_url yq "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${ARCH}"
   __install_from_url cw "https://github.com/lucagrulla/cw/releases/latest/download/cw_${ARCH}.deb"
+  __install_from_url k3d "https://github.com/k3d-io/k3d/releases/latest/download/k3d-linux-${ARCH}"
+
+  __install_from_url argocd \
+    "https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-${ARCH}"
 
   __install_from_url fastfetch \
     "https://github.com/fastfetch-cli/fastfetch/releases/latest/download/fastfetch-linux-${arch_ff}.deb"
@@ -81,6 +92,7 @@ packages_setup() {
 
   sudo ln -sf /usr/bin/batcat /usr/local/bin/bat
   sudo apt-get autoremove -yq 2> /dev/null
+
   # shellcheck disable=SC2086
   pip install -U --user --break-system-packages --no-warn-script-location ${USER_PIP_PKGS}
   __set_default_shell
