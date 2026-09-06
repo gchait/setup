@@ -4,7 +4,7 @@ ALT_JAVA_VER="17"
 # shellcheck disable=SC2034
 KUBECTL_VER="1.34"
 # shellcheck disable=SC2034
-USER_PIP_PKGS="black boto3 construct dep-logic docker-squash pandas pdm pdm-bump pyyaml"
+USER_PIP_PKGS="aws-sam-cli black boto3 construct dep-logic docker-squash pandas pdm pdm-bump pyyaml"
 
 __configure_etc() {
   __get_gh_repo "${SETUP_DIR}" gchait/setup
