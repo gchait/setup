@@ -1,4 +1,4 @@
-FONT="JuliaMono"
+FONT="JuliaMonoNerdFontMono"
 # shellcheck disable=SC2034
 JAVA_VER="21"
 

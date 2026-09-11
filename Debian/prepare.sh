@@ -90,26 +90,33 @@ home_setup() {
 BOOTSTRAP_APT_PKGS="ca-certificates curl git gnupg"
 
 APT_PKGS="
-  adwaita-icon-theme asciinema bat bind9-dnsutils build-essential cmatrix docker-buildx
-  docker-compose-v2 docker.io eza fd-find figlet gh glab golang-go gron helm htop hugo iproute2
-  iptables jq just kubectl libasound2-dev libasound2t64 libatk1.0-0t64 libcups2t64 libgbm1
-  libgdk-pixbuf-2.0-dev libgtk-3-0t64 libgtk-3-dev libncurses6 libnss3-dev libpango-1.0-0
+  adwaita-icon-theme asciinema awscli bat bind9-dnsutils build-essential claude-code cmatrix
+  docker-buildx docker-compose docker.io eza fd-find figlet gh glab golang-go gron helm htop hugo
+  iproute2 iptables jq just kubectl less libasound2-dev libasound2t64 libatk1.0-0t64 libcups2t64
+  libgbm1 libgdk-pixbuf-2.0-dev libgtk-3-0t64 libgtk-3-dev libncurses6 libnss3-dev libpango-1.0-0
   libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxrandr2 libxss-dev libxss1 libxtst6
-  lolcat make maven moreutils ncat openssh-client openssl packer python-is-python3 python3-dev
-  python3-pip ripgrep shellcheck shfmt symlinks tar tcpdump terraform tree vim wget zip zsh
+  lolcat make man-db maven mongodb-mongosh moreutils nano ncat nodejs npm openssh-client openssl
+  packer postgresql-client python-is-python3 python3-dev python3-pip ripgrep shellcheck shfmt
+  symlinks tar tcpdump terraform tokei tree tshark unzip vim wget x11-xserver-utils zip zsh
 "
 
 # shellcheck disable=SC2034
-DISTRO_NAME="Ubuntu"
+DISTRO_NAME="Debian"
 ARCH=$(dpkg --print-architecture)
 export DEBIAN_FRONTEND="noninteractive"
 
 set -eux
 
+__add_apt_repo() {
+  local name="${1}" key_url="${2}" deb_suite="${3}" extra_opts="${4:-}"
+  local keyring="/usr/share/keyrings/${name}.gpg"
+
+  [ -f "${keyring}" ] || curl -fsSL "${key_url}" | sudo gpg --dearmor -o "${keyring}"
+  echo "deb [${extra_opts}signed-by=${keyring}] ${deb_suite}" |
+    sudo tee "/etc/apt/sources.list.d/${name}.list"
+}
+
 system_setup() {
-  local hashicorp_keyring="/usr/share/keyrings/hashicorp-archive-keyring.gpg"
-  local helm_keyring="/usr/share/keyrings/helm.gpg"
-  local k8s_keyring="/usr/share/keyrings/kubernetes-apt-keyring.gpg"
   local codename
 
   sudo apt-get update -q
@@ -119,24 +126,25 @@ system_setup() {
   __configure_etc
   codename=$(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)
 
-  [ -f "${hashicorp_keyring}" ] ||
-    curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o "${hashicorp_keyring}"
-  echo "deb [arch=${ARCH} signed-by=${hashicorp_keyring}] https://apt.releases.hashicorp.com ${codename} main" |
-    sudo tee /etc/apt/sources.list.d/hashicorp.list
+  __add_apt_repo adoptium https://packages.adoptium.net/artifactory/api/gpg/key/public \
+    "https://packages.adoptium.net/artifactory/deb ${codename} main"
 
-  [ -f "${helm_keyring}" ] ||
-    curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | sudo gpg --dearmor -o "${helm_keyring}"
-  echo "deb [signed-by=${helm_keyring}] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" |
-    sudo tee /etc/apt/sources.list.d/helm.list
+  __add_apt_repo hashicorp https://apt.releases.hashicorp.com/gpg \
+    "https://apt.releases.hashicorp.com ${codename} main" "arch=${ARCH} "
 
-  [ -f "${k8s_keyring}" ] ||
-    curl -fsSL "https://pkgs.k8s.io/core:/stable:/v${KUBECTL_VER}/deb/Release.key" |
-    sudo gpg --dearmor -o "${k8s_keyring}"
-  echo "deb [signed-by=${k8s_keyring}] https://pkgs.k8s.io/core:/stable:/v${KUBECTL_VER}/deb/ /" |
-    sudo tee /etc/apt/sources.list.d/kubernetes.list
+  __add_apt_repo helm https://packages.buildkite.com/helm-linux/helm-debian/gpgkey \
+    "https://packages.buildkite.com/helm-linux/helm-debian/any/ any main"
+
+  __add_apt_repo kubernetes "https://pkgs.k8s.io/core:/stable:/v${KUBECTL_VER}/deb/Release.key" \
+    "https://pkgs.k8s.io/core:/stable:/v${KUBECTL_VER}/deb/ /"
+
+  __add_apt_repo mongodb https://pgp.mongodb.com/server-8.0.asc \
+    "https://repo.mongodb.org/apt/debian ${codename}/mongodb-org/8.0 main"
+
+  __add_apt_repo claude-code https://downloads.claude.ai/keys/claude-code.asc \
+    "https://downloads.claude.ai/claude-code/apt/stable stable main"
 
   sudo apt-get update -q
-  echo "docker.io docker.io/restart boolean true" | sudo debconf-set-selections
   sudo -E apt-get upgrade -yq 2> /dev/null
 }
 
@@ -155,8 +163,8 @@ __install_from_url() {
 
 # shellcheck disable=SC2001
 packages_setup() {
-  local java="openjdk-${JAVA_VER}-jdk"
-  local alt_java="openjdk-${ALT_JAVA_VER}-jdk"
+  local java="temurin-${JAVA_VER}-jdk"
+  local alt_java="temurin-${ALT_JAVA_VER}-jdk"
   local arch_ff arch_ssm qemu_pkg
 
   arch_ff=$(echo "${ARCH}" | sed 's/arm64/aarch64/')

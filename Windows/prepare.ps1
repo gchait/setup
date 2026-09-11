@@ -49,7 +49,7 @@ $VSCODE_EXTENSIONS = @(
 )
 
 $FONTS_DIR = "${env:LOCALAPPDATA}\Microsoft\Windows\Fonts"
-$FONT = "JuliaMono"
+$FONT = "JuliaMonoNerdFontMono"
 
 $WSL_MEMORY = "$([math]::Floor([math]::Ceiling((Get-CimInstance `
   -ClassName Win32_ComputerSystem).TotalPhysicalMemory / 1GB) * 0.625) )GB"
