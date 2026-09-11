@@ -9,20 +9,20 @@ __get_gh_repo() {
   git -C "${1}" pull || git clone --depth=1 "https://github.com/${2}.git" "${1}"
 }
 
-__install_fonts() {
-  local setup_dir="${1}"
-  fc-list | grep -q "/${FONT}-" || {
-    cp "${setup_dir}/Assets/${FONT}/"*.ttf "${HOME}/.local/share/fonts/"
-    fc-cache -f
-  }
-}
-
 __set_default_shell() {
   local -
   set +x
   local zsh_path
   zsh_path=$(command -v zsh)
   [ "$(getent passwd "${USER}" | cut -d: -f7)" = "${zsh_path}" ] || sudo chsh -s "${zsh_path}" "${USER}"
+}
+
+__install_fonts() {
+  local setup_dir="${1}"
+  fc-list | grep -q "/${FONT}-" || {
+    cp "${setup_dir}/Assets/${FONT}/"*.ttf "${HOME}/.local/share/fonts/"
+    fc-cache -f
+  }
 }
 
 __setup_git_config() {
@@ -58,16 +58,6 @@ __configure_etc() {
   sudo cp -r "${SETUP_DIR}/${DISTRO_NAME}/Etc/"* /etc
 }
 
-docker_setup() {
-  docker ps 2> /dev/null || {
-    echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' |
-      sudo tee /etc/docker/daemon.json
-
-    sudo systemctl enable --now docker
-    sudo usermod -aG docker "${USER}"
-  }
-}
-
 home_setup() {
   local zsh_dir="${HOME}/.zsh"
 
@@ -85,6 +75,16 @@ home_setup() {
     "${SETUP_DIR}/.user.csv" \
     "${SETUP_DIR}/Shared/.gitconfig.tpl" \
     "${HOME}/.gitconfig"
+}
+
+docker_setup() {
+  docker ps 2> /dev/null || {
+    echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' |
+      sudo tee /etc/docker/daemon.json
+
+    sudo systemctl enable --now docker
+    sudo usermod -aG docker "${USER}"
+  }
 }
 
 BOOTSTRAP_DNF_PKGS=(adoptium-temurin-java-repository dnf-plugins-core dnf-utils git python3-dnf)

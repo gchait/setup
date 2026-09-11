@@ -20,6 +20,9 @@ OLLAMA_NUM_CTX="32768"
 
 set -eux
 
+__kw() { kwriteconfig6 --file "${1}" --group "${2}" --key "${3}" "${@:4}"; }
+__kw2() { kwriteconfig6 --file "${1}" --group "${2}" --group "${3}" --key "${4}" "${@:5}"; }
+
 system_setup() {
   local locale="en_IL.UTF-8"
   local locale_status
@@ -167,9 +170,6 @@ services_setup() {
 
   __set_default_shell
 }
-
-__kw() { kwriteconfig6 --file "${1}" --group "${2}" --key "${3}" "${@:4}"; }
-__kw2() { kwriteconfig6 --file "${1}" --group "${2}" --group "${3}" --key "${4}" "${@:5}"; }
 
 kde_setup() {
   local -

@@ -27,6 +27,19 @@ __add_apt_repo() {
     sudo tee "/etc/apt/sources.list.d/${name}.list"
 }
 
+__install_from_url() {
+  command -v "${1}" || {
+    local tmp
+    case "${2}" in *.deb) tmp=$(mktemp --suffix=.deb) ;; *) tmp=$(mktemp) ;; esac
+    curl -fsSL "${2}" -o "${tmp}"
+    case "${2}" in
+    *.deb) sudo apt-get install -yq "${tmp}" ;;
+    *) sudo install -m 0755 "${tmp}" "/usr/local/bin/${1}" ;;
+    esac
+    rm -f "${tmp}"
+  }
+}
+
 system_setup() {
   local codename
 
@@ -57,19 +70,6 @@ system_setup() {
 
   sudo apt-get update -q
   sudo -E apt-get upgrade -yq 2> /dev/null
-}
-
-__install_from_url() {
-  command -v "${1}" || {
-    local tmp
-    case "${2}" in *.deb) tmp=$(mktemp --suffix=.deb) ;; *) tmp=$(mktemp) ;; esac
-    curl -fsSL "${2}" -o "${tmp}"
-    case "${2}" in
-    *.deb) sudo apt-get install -yq "${tmp}" ;;
-    *) sudo install -m 0755 "${tmp}" "/usr/local/bin/${1}" ;;
-    esac
-    rm -f "${tmp}"
-  }
 }
 
 # shellcheck disable=SC2001

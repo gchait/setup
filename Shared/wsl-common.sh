@@ -12,16 +12,6 @@ __configure_etc() {
   sudo cp -r "${SETUP_DIR}/${DISTRO_NAME}/Etc/"* /etc
 }
 
-docker_setup() {
-  docker ps 2> /dev/null || {
-    echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' |
-      sudo tee /etc/docker/daemon.json
-
-    sudo systemctl enable --now docker
-    sudo usermod -aG docker "${USER}"
-  }
-}
-
 home_setup() {
   local zsh_dir="${HOME}/.zsh"
 
@@ -39,4 +29,14 @@ home_setup() {
     "${SETUP_DIR}/.user.csv" \
     "${SETUP_DIR}/Shared/.gitconfig.tpl" \
     "${HOME}/.gitconfig"
+}
+
+docker_setup() {
+  docker ps 2> /dev/null || {
+    echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' |
+      sudo tee /etc/docker/daemon.json
+
+    sudo systemctl enable --now docker
+    sudo usermod -aG docker "${USER}"
+  }
 }

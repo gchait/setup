@@ -9,20 +9,20 @@ __get_gh_repo() {
   git -C "${1}" pull || git clone --depth=1 "https://github.com/${2}.git" "${1}"
 }
 
-__install_fonts() {
-  local setup_dir="${1}"
-  fc-list | grep -q "/${FONT}-" || {
-    cp "${setup_dir}/Assets/${FONT}/"*.ttf "${HOME}/.local/share/fonts/"
-    fc-cache -f
-  }
-}
-
 __set_default_shell() {
   local -
   set +x
   local zsh_path
   zsh_path=$(command -v zsh)
   [ "$(getent passwd "${USER}" | cut -d: -f7)" = "${zsh_path}" ] || sudo chsh -s "${zsh_path}" "${USER}"
+}
+
+__install_fonts() {
+  local setup_dir="${1}"
+  fc-list | grep -q "/${FONT}-" || {
+    cp "${setup_dir}/Assets/${FONT}/"*.ttf "${HOME}/.local/share/fonts/"
+    fc-cache -f
+  }
 }
 
 __setup_git_config() {
@@ -65,6 +65,9 @@ OLLAMA_AGENT_NAME="qwen-agent"
 OLLAMA_NUM_CTX="32768"
 
 set -eux
+
+__kw() { kwriteconfig6 --file "${1}" --group "${2}" --key "${3}" "${@:4}"; }
+__kw2() { kwriteconfig6 --file "${1}" --group "${2}" --group "${3}" --key "${4}" "${@:5}"; }
 
 system_setup() {
   local locale="en_IL.UTF-8"
@@ -213,9 +216,6 @@ services_setup() {
 
   __set_default_shell
 }
-
-__kw() { kwriteconfig6 --file "${1}" --group "${2}" --key "${3}" "${@:4}"; }
-__kw2() { kwriteconfig6 --file "${1}" --group "${2}" --group "${3}" --key "${4}" "${@:5}"; }
 
 kde_setup() {
   local -

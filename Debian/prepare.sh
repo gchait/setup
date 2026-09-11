@@ -9,20 +9,20 @@ __get_gh_repo() {
   git -C "${1}" pull || git clone --depth=1 "https://github.com/${2}.git" "${1}"
 }
 
-__install_fonts() {
-  local setup_dir="${1}"
-  fc-list | grep -q "/${FONT}-" || {
-    cp "${setup_dir}/Assets/${FONT}/"*.ttf "${HOME}/.local/share/fonts/"
-    fc-cache -f
-  }
-}
-
 __set_default_shell() {
   local -
   set +x
   local zsh_path
   zsh_path=$(command -v zsh)
   [ "$(getent passwd "${USER}" | cut -d: -f7)" = "${zsh_path}" ] || sudo chsh -s "${zsh_path}" "${USER}"
+}
+
+__install_fonts() {
+  local setup_dir="${1}"
+  fc-list | grep -q "/${FONT}-" || {
+    cp "${setup_dir}/Assets/${FONT}/"*.ttf "${HOME}/.local/share/fonts/"
+    fc-cache -f
+  }
 }
 
 __setup_git_config() {
@@ -58,16 +58,6 @@ __configure_etc() {
   sudo cp -r "${SETUP_DIR}/${DISTRO_NAME}/Etc/"* /etc
 }
 
-docker_setup() {
-  docker ps 2> /dev/null || {
-    echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' |
-      sudo tee /etc/docker/daemon.json
-
-    sudo systemctl enable --now docker
-    sudo usermod -aG docker "${USER}"
-  }
-}
-
 home_setup() {
   local zsh_dir="${HOME}/.zsh"
 
@@ -85,6 +75,16 @@ home_setup() {
     "${SETUP_DIR}/.user.csv" \
     "${SETUP_DIR}/Shared/.gitconfig.tpl" \
     "${HOME}/.gitconfig"
+}
+
+docker_setup() {
+  docker ps 2> /dev/null || {
+    echo '{"default-address-pools":[{"base":"10.2.0.0/16","size":24}]}' |
+      sudo tee /etc/docker/daemon.json
+
+    sudo systemctl enable --now docker
+    sudo usermod -aG docker "${USER}"
+  }
 }
 
 BOOTSTRAP_APT_PKGS="ca-certificates curl git gnupg"
@@ -114,6 +114,19 @@ __add_apt_repo() {
   [ -f "${keyring}" ] || curl -fsSL "${key_url}" | sudo gpg --dearmor -o "${keyring}"
   echo "deb [${extra_opts}signed-by=${keyring}] ${deb_suite}" |
     sudo tee "/etc/apt/sources.list.d/${name}.list"
+}
+
+__install_from_url() {
+  command -v "${1}" || {
+    local tmp
+    case "${2}" in *.deb) tmp=$(mktemp --suffix=.deb) ;; *) tmp=$(mktemp) ;; esac
+    curl -fsSL "${2}" -o "${tmp}"
+    case "${2}" in
+    *.deb) sudo apt-get install -yq "${tmp}" ;;
+    *) sudo install -m 0755 "${tmp}" "/usr/local/bin/${1}" ;;
+    esac
+    rm -f "${tmp}"
+  }
 }
 
 system_setup() {
@@ -146,19 +159,6 @@ system_setup() {
 
   sudo apt-get update -q
   sudo -E apt-get upgrade -yq 2> /dev/null
-}
-
-__install_from_url() {
-  command -v "${1}" || {
-    local tmp
-    case "${2}" in *.deb) tmp=$(mktemp --suffix=.deb) ;; *) tmp=$(mktemp) ;; esac
-    curl -fsSL "${2}" -o "${tmp}"
-    case "${2}" in
-    *.deb) sudo apt-get install -yq "${tmp}" ;;
-    *) sudo install -m 0755 "${tmp}" "/usr/local/bin/${1}" ;;
-    esac
-    rm -f "${tmp}"
-  }
 }
 
 # shellcheck disable=SC2001

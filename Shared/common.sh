@@ -6,20 +6,20 @@ __get_gh_repo() {
   git -C "${1}" pull || git clone --depth=1 "https://github.com/${2}.git" "${1}"
 }
 
-__install_fonts() {
-  local setup_dir="${1}"
-  fc-list | grep -q "/${FONT}-" || {
-    cp "${setup_dir}/Assets/${FONT}/"*.ttf "${HOME}/.local/share/fonts/"
-    fc-cache -f
-  }
-}
-
 __set_default_shell() {
   local -
   set +x
   local zsh_path
   zsh_path=$(command -v zsh)
   [ "$(getent passwd "${USER}" | cut -d: -f7)" = "${zsh_path}" ] || sudo chsh -s "${zsh_path}" "${USER}"
+}
+
+__install_fonts() {
+  local setup_dir="${1}"
+  fc-list | grep -q "/${FONT}-" || {
+    cp "${setup_dir}/Assets/${FONT}/"*.ttf "${HOME}/.local/share/fonts/"
+    fc-cache -f
+  }
 }
 
 __setup_git_config() {
