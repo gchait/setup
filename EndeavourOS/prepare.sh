@@ -50,14 +50,14 @@ __setup_git_config() {
 
 # shellcheck disable=SC2154
 PKGS=(
-  android-tools asciinema asciinema-agg-bin asciiquarium autocake bat bibata-cursor-theme bind
-  breeze-plymouth claude-code cmake cmatrix cowsay curlie discord dive docker docker-compose
-  eza fastfetch figlet ghostty github-cli go-yq goaccess gron htop hugo
+  android-tools asciinema asciinema-agg-bin asciiquarium autocake bat bibata-cursor-theme
+  bind breeze-plymouth claude-code cmake cmatrix cowsay curlie discord dive docker
+  docker-compose eza fastfetch figlet ghostty github-cli go-yq goaccess gron htop hugo
   intellij-idea-community-edition "jdk${JAVA_VER}-openjdk" jq just kora-icon-theme krabby-bin
   lolcat meson moreutils ninja ollama ollama-rocm openbsd-netcat pastel perl-image-exiftool
-  plymouth plymouth-kcm python-pdm python-pip rclone sbctl shellcheck shfmt steam strace tcpdump
-  telegram-desktop tmux tokei tree ttf-fira-code ttf-jetbrains-mono ttf-tahoma wireshark-cli
-  wl-clipboard zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting
+  plymouth plymouth-kcm python-pdm python-pip rclone sbctl shellcheck shfmt steam strace
+  tcpdump telegram-desktop tmux tokei tree ttf-fira-code ttf-jetbrains-mono ttf-tahoma
+  wireshark-cli wl-clipboard zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting
 )
 
 SETUP_DIR="${HOME}/Projects/setup"
