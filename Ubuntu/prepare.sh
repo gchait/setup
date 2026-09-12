@@ -15,7 +15,8 @@ __set_default_shell() {
   set +x
   local zsh_path
   zsh_path=$(command -v zsh)
-  [ "$(getent passwd "${USER}" | cut -d: -f7)" = "${zsh_path}" ] || sudo chsh -s "${zsh_path}" "${USER}"
+  [ "$(getent passwd "${USER}" | cut -d: -f7)" = "${zsh_path}" ] ||
+    sudo chsh -s "${zsh_path}" "${USER}"
 }
 
 # shellcheck disable=SC2312
@@ -78,7 +79,8 @@ __packages_setup_common() {
 
   arch_ff=$(echo "${ARCH}" | sed 's/arm64/aarch64/')
   arch_ssm=$(echo "${ARCH}" | sed 's/amd64/64bit/')
-  qemu_pkg=$(apt-cache policy qemu-user-static | grep -q "Candidate: [^(]" && echo qemu-user-static || echo qemu-user-binfmt)
+  qemu_pkg=$(apt-cache policy qemu-user-static | grep -q "Candidate: [^(]" &&
+    echo qemu-user-static || echo qemu-user-binfmt)
 
   sudo -E apt-get install -yq "${java}" "${alt_java}" "${qemu_pkg}" ${APT_PKGS} 2> /dev/null
 

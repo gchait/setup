@@ -15,7 +15,8 @@ __set_default_shell() {
   set +x
   local zsh_path
   zsh_path=$(command -v zsh)
-  [ "$(getent passwd "${USER}" | cut -d: -f7)" = "${zsh_path}" ] || sudo chsh -s "${zsh_path}" "${USER}"
+  [ "$(getent passwd "${USER}" | cut -d: -f7)" = "${zsh_path}" ] ||
+    sudo chsh -s "${zsh_path}" "${USER}"
 }
 
 # shellcheck disable=SC2312

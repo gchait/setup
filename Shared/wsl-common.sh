@@ -29,7 +29,8 @@ __packages_setup_common() {
 
   arch_ff=$(echo "${ARCH}" | sed 's/arm64/aarch64/')
   arch_ssm=$(echo "${ARCH}" | sed 's/amd64/64bit/')
-  qemu_pkg=$(apt-cache policy qemu-user-static | grep -q "Candidate: [^(]" && echo qemu-user-static || echo qemu-user-binfmt)
+  qemu_pkg=$(apt-cache policy qemu-user-static | grep -q "Candidate: [^(]" &&
+    echo qemu-user-static || echo qemu-user-binfmt)
 
   sudo -E apt-get install -yq "${java}" "${alt_java}" "${qemu_pkg}" ${APT_PKGS} 2> /dev/null
 
