@@ -6,6 +6,7 @@ __get_gh_repo() {
   git -C "${1}" pull || git clone --depth=1 "https://github.com/${2}.git" "${1}"
 }
 
+# shellcheck disable=SC2292,SC2312
 __set_default_shell() {
   local -
   set +x
@@ -14,6 +15,7 @@ __set_default_shell() {
   [ "$(getent passwd "${USER}" | cut -d: -f7)" = "${zsh_path}" ] || sudo chsh -s "${zsh_path}" "${USER}"
 }
 
+# shellcheck disable=SC2312
 __install_fonts() {
   local setup_dir="${1}"
   fc-list | grep -q "/${FONT}-" || {
@@ -22,6 +24,7 @@ __install_fonts() {
   }
 }
 
+# shellcheck disable=SC2292
 __setup_git_config() {
   local user_csv="${1}"
   local tpl_path="${2}"

@@ -1,3 +1,4 @@
+# shellcheck disable=SC2154
 PKGS=(
   android-tools asciinema asciinema-agg-bin asciiquarium autocake bat bibata-cursor-theme bind
   breeze-plymouth claude-code cmake cmatrix cowsay curlie discord dive docker docker-compose
@@ -23,6 +24,7 @@ set -eux
 __kw() { kwriteconfig6 --file "${1}" --group "${2}" --key "${3}" "${@:4}"; }
 __kw2() { kwriteconfig6 --file "${1}" --group "${2}" --group "${3}" --key "${4}" "${@:5}"; }
 
+# shellcheck disable=SC2312
 system_setup() {
   local locale="en_IL.UTF-8"
   local locale_status
@@ -49,18 +51,24 @@ system_setup() {
   yay -Syu --noconfirm
 }
 
+# shellcheck disable=SC2312
 packages_setup() {
-  # shellcheck disable=SC2046
-  yay -Rns --noconfirm $(yay -Qq \
-    amdvlk b43-fwcutter dialog dmraid endeavouros-konsole-colors eos-apps-info eos-log-tool \
-    eos-quickstart glances haveged iwd kdeconnect kgamma konsole lib32-amdvlk libdvdcss lsscsi \
-    nano nano-syntax-highlighting networkmanager-openvpn nilfs-utils ntp partitionmanager pkgfile \
-    plasma-x11-session print-manager sysfsutils usb_modeswitch welcome xf86-video-ati xl2tpd \
-    xorg-xinit xorg-xinput xorg-xkill xterm \
-    2> /dev/null) 2> /dev/null || true
+  local unwanted_pkgs=(
+    amdvlk b43-fwcutter dialog dmraid endeavouros-konsole-colors eos-apps-info eos-log-tool
+    eos-quickstart glances haveged iwd kdeconnect kgamma konsole lib32-amdvlk libdvdcss lsscsi
+    nano nano-syntax-highlighting networkmanager-openvpn nilfs-utils ntp partitionmanager pkgfile
+    plasma-x11-session print-manager sysfsutils usb_modeswitch welcome xf86-video-ati xl2tpd
+    xorg-xinit xorg-xinput xorg-xkill xterm
+  )
+  local installed_unwanted orphans
 
-  # shellcheck disable=SC2046
-  yay -Rns --noconfirm $(yay -Qdtq) 2> /dev/null || true
+  readarray -t installed_unwanted < <(yay -Qq "${unwanted_pkgs[@]}" 2> /dev/null)
+  [[ "${#installed_unwanted[@]}" -eq 0 ]] ||
+    yay -Rns --noconfirm "${installed_unwanted[@]}" 2> /dev/null || true
+
+  readarray -t orphans < <(yay -Qdtq 2> /dev/null)
+  [[ "${#orphans[@]}" -eq 0 ]] || yay -Rns --noconfirm "${orphans[@]}" 2> /dev/null || true
+
   yay -S --needed --noconfirm "${PKGS[@]}" 2> /dev/null
 
   # shellcheck disable=SC2016
@@ -81,7 +89,7 @@ home_setup() {
   mkdir -p "${HOME}/.claude" "${HOME}/.local/share/fonts" "${HOME}/Drive" "${service_menus}"
   gsettings set org.gnome.desktop.interface gtk-enable-primary-paste true
 
-  [ -f "${kate_tool}" ] && sed -i 's/^executable=konsole$/executable=ghostty/' "${kate_tool}"
+  [[ -f "${kate_tool}" ]] && sed -i 's/^executable=konsole$/executable=ghostty/' "${kate_tool}"
   printf '[Desktop Entry]\nHidden=true\n' > "${service_menus}/com.mitchellh.ghostty.desktop"
 
   jq -n --arg m "${OLLAMA_AGENT_NAME}" --arg c "${OLLAMA_NUM_CTX}" '{
@@ -211,6 +219,7 @@ kde_setup() {
   __kw2 powerdevilrc AC SuspendAndShutdown PowerButtonAction 8
 }
 
+# shellcheck disable=SC2312
 boot_setup() {
   local efi="/efi"
   local loader_conf="${efi}/loader/loader.conf"
