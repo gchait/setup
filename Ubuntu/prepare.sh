@@ -154,11 +154,11 @@ APT_PKGS="
   docker-buildx docker-compose-v2 docker.io eza fd-find figlet gh glab golang-go gron
   helm htop hugo iproute2 iptables jq just kubectl less libasound2-dev libasound2t64
   libatk1.0-0t64 libcups2t64 libgbm1 libgdk-pixbuf-2.0-dev libgtk-3-0t64 libgtk-3-dev
-  libncurses6 libnss3-dev libpango-1.0-0 libxcomposite1 libxcursor1 libxdamage1
-  libxext6 libxi6 libxrandr2 libxss-dev libxss1 libxtst6 lolcat make man-db maven
-  mongodb-mongosh moreutils nano ncat nodejs npm openssh-client openssl packer
-  postgresql-client python-is-python3 python3-dev python3-pip ripgrep shellcheck shfmt
-  symlinks tar tcpdump terraform tree tshark unzip vim wget x11-xserver-utils zip zsh
+  libncurses6 libnss3-dev libpango-1.0-0 libxcomposite1 libxcursor1 libxdamage1 libxext6
+  libxi6 libxrandr2 libxss-dev libxss1 libxtst6 lolcat make man-db maven moreutils nano
+  ncat nodejs npm openssh-client openssl packer postgresql-client python-is-python3
+  python3-dev python3-pip ripgrep shellcheck shfmt symlinks tar tcpdump terraform tree
+  tshark unzip vim wget x11-xserver-utils zip zsh
 "
 
 # shellcheck disable=SC2034
@@ -186,9 +186,6 @@ system_setup() {
 
   __add_apt_repo kubernetes "https://pkgs.k8s.io/core:/stable:/v${KUBECTL_VER}/deb/Release.key" \
     "https://pkgs.k8s.io/core:/stable:/v${KUBECTL_VER}/deb/ /"
-
-  __add_apt_repo mongodb https://pgp.mongodb.com/server-8.0.asc \
-    "https://repo.mongodb.org/apt/ubuntu ${codename}/mongodb-org/8.0 multiverse"
 
   __add_apt_repo claude-code https://downloads.claude.ai/keys/claude-code.asc \
     "https://downloads.claude.ai/claude-code/apt/stable stable main"
