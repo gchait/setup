@@ -41,6 +41,17 @@ Format with `shfmt -l -w -i 2 -sr .` (2-space indent, space after redirects)
 single-quoted string split across lines via `'...'\` + `'...'` back onto one
 line — don't bother with that trick.
 
+## Package-list wrapping
+
+`shfmt` only fixes indentation/redirect spacing — it does not rewrap the
+long space-separated package lists (`APT_PKGS`, `DNF_PKGS`, `PKGS`). When
+adding or removing a token, rewrap the whole block, not just the line it
+landed on — one token can shift the optimal balance for every line in the
+block. The rule: preserve the list's existing ASCII sort order, keep every
+line under 100 chars, and — using the fewest lines that constraint allows —
+pick the wrapping that minimizes the gap between the longest and shortest
+line.
+
 ## Install method constraints — hard rules, not preferences
 
 - No `curl | bash` installer scripts, ever.
