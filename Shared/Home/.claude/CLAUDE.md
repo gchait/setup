@@ -193,9 +193,16 @@ Create the tracking issue before the branch exists; use its key as the branch-na
 
 ### Run every configured checker as part of the gate
 
-- If the repo has a config for a stricter or secondary checker that CI doesn't run (a second linter profile, an IDE-only type-checker config), run it before calling the gate green anyway — CI omitting it usually just means it's wired for editor use, not that it's optional.
-- If that checker isn't installed locally, fetch and run a pinned version rather than skip it.
+- A config file for a stricter or secondary checker that CI doesn't run (a second linter profile, an IDE-only type-checker config) is a trigger, not a fixed tool name — forks of a checker read the same config table by design, so run whichever one the repo actually declares. CI omitting it usually just means it's wired for editor use, not that it's optional.
+- Fetch a pinned upstream version only when the repo itself pins none — substituting an unpinned fetch for a checker the repo already pins disagrees with it at the margins, surfacing findings the gate doesn't and missing ones it does.
+- A language server or editor's inline checking is not a gate — it answers only for open files and returns no exit code, so it can't stand in for a checker run that passes or fails.
 - One checker passing is never evidence another passes — different tools disagree on real cases. Verify any editor/IDE-level check with the actual tool behind it, not by inference from a different one.
+
+### Never install into a project's environment to satisfy a prompt
+
+- A project's declared dependencies are the whole environment (venv, node_modules, etc.) — never install a tool into it because an editor, LSP plugin, or assistant prompt suggested it; that lands the tool there undeclared and drifts the environment from the pinned toolchain.
+- The prompt's off-switch is per-user global state, not repo-scoped — no repo file can pre-empt it for a team, and installing what it asks for is exactly what makes it reappear next time.
+- Audit for drift by walking the dependency closure from the declared roots and diffing against what's installed — anything unreachable was added by hand.
 
 ### Code is a liability — delete it, never rubber-stamp
 
@@ -315,12 +322,13 @@ Each Bash call is a fresh, minimal-PATH shell with `nomatch` set.
 - Nothing persists between Bash calls (no `cd`/`source`/exported vars) — use absolute paths or chain with `&&`. A creds script the user sourced in their terminal isn't in yours.
 - Unquoted `${VAR}` doesn't word-split in zsh, and bash arrays don't exist — use `${=VAR}` or a `name:value` list, not `declare -A`.
 
-### Editing Confluence pages via MCP Atlassian tools
+### Editing Confluence pages and Jira issues via MCP Atlassian tools
 
 `updateConfluencePage` replaces the WHOLE page body — no diff/patch mode.
 
 - `body` is literal content only — never pass a file-reference placeholder; it saves that literal string, silently wiping the real content.
-- Malformed/crossed HTML tag nesting (`<strong>...<span>...</strong></span>`) silently truncates the save past the bad tag, with no error and a clean version bump — verify nesting first.
+- *Confluence only:* malformed/crossed HTML tag nesting (`<strong>...<span>...</strong></span>`) silently truncates the save past the bad tag, with no error and a clean version bump — verify nesting first.
 - Verify large edits with `mcp__atlassian__fetch` (ARI-based) or `getConfluencePage`, not `searchConfluenceUsingCql` — CQL can return stale results for edits made moments earlier.
 - `updateConfluencePage`/`getConfluencePage` take the site hostname; the ARI `fetch` tool needs the cloud UUID instead (from `getAccessibleAtlassianResources`).
 - Large bodies (~58-61K+ chars) make `getConfluencePage` throw a token-limit error — stage in a scratchpad file and make targeted, verified string edits instead of resubmitting the whole body.
+- *Jira only:* `editJiraIssue` also replaces the whole `description`, no patch mode. `contentFormat: "markdown"` means real Markdown (`##`, `1.`, `**bold**`), never Jira wiki markup (`h2.`, `#`, `*bold*`) — Cloud descriptions are ADF, so wiki markup is stored as literal text instead of rendering. The response echoes the stored `description`, so check it there.
