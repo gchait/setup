@@ -51,6 +51,11 @@ bassh() {
   ssh -to LogLevel=QUIET "${host}" "bash -ic ${(q)${(j: :)@}}"
 }
 
+whoisip() {
+  local ip="${1:-$(curl -s ifconfig.me)}"
+  whois -L "${ip}"
+}
+
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt INC_APPEND_HISTORY

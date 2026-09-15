@@ -158,7 +158,7 @@ APT_PKGS="
   libxi6 libxrandr2 libxss-dev libxss1 libxtst6 lolcat make man-db maven moreutils nano
   ncat nodejs npm openssh-client openssl packer postgresql-client python-is-python3
   python3-dev python3-pip ripgrep shellcheck shfmt symlinks tar tcpdump terraform tree
-  tshark unzip vim wget x11-xserver-utils zip zsh
+  tshark unzip vim wget whois x11-xserver-utils zip zsh
 "
 
 # shellcheck disable=SC2034

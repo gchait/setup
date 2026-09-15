@@ -11,7 +11,7 @@ DNF_PKGS=(
   moreutils-parallel nano ncurses nmap-ncat nodejs22 nodejs22-npm nss-devel openssl
   packer pango postgresql python-unversioned-command python3-pip qemu-user-static
   remove-retired-packages ripgrep rpmconf shfmt symlinks tar tcpdump terraform
-  tokei tree unzip vim-enhanced wget2 wireshark-cli xrandr yq zip zsh
+  tokei tree unzip vim-enhanced wget2 whois wireshark-cli xrandr yq zip zsh
 )
 
 ALT_PY_VER="3.9"
