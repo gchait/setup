@@ -57,7 +57,8 @@ PKGS=(
   lolcat meson moreutils ninja ollama ollama-rocm openbsd-netcat pastel perl-image-exiftool
   plymouth plymouth-kcm python-pdm python-pip rclone sbctl shellcheck shfmt steam strace
   tcpdump telegram-desktop tmux tokei tree ttf-fira-code ttf-jetbrains-mono ttf-tahoma
-  whois wireshark-cli wl-clipboard zsh zsh-autosuggestions zsh-completions zsh-syntax-highlighting
+  whois wireshark-cli wl-clipboard zsh zsh-autosuggestions zsh-completions
+  zsh-syntax-highlighting
 )
 
 SETUP_DIR="${HOME}/Projects/setup"
