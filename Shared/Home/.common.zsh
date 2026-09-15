@@ -54,18 +54,36 @@ bassh() {
 whoisip() {
   local ip="${1:-$(curl -s ifconfig.me)}"
   whois -L "${ip}" | awk -F': *' '
+    function ip2int(ip,    a) {
+      split(ip, a, ".")
+      return a[1] * 16777216 + a[2] * 65536 + a[3] * 256 + a[4]
+    }
+    function cidr_of(startip, endip,    s, e, size, len) {
+      s = ip2int(startip); e = ip2int(endip)
+      size = e - s + 1
+      len = 32
+      while (size > 1) { size /= 2; len-- }
+      return startip "/" len
+    }
+    BEGIN { n = 0 }
+    /^inetnum:/ { split($2, r, " - "); cur = cidr_of(r[1], r[2]) }
+    /^netname:/ && cur != "" { name[cur] = $2; cur = "" }
     /^org-name:/ { org = $2 }
     /^route:/ { route = $2 }
     /^origin:/ { asn = $2 }
     /^created:/ && route != "" {
       split($2, d, "T")
-      routes[n++] = sprintf("%-18s %-8s %s", route, asn, d[1])
+      routes[n] = route; asns[n] = asn; dates[n] = d[1]
+      n++
       route = ""
     }
     END {
       print "Owner: " org
       print ""
-      for (i = 0; i < n; i++) print routes[i]
+      for (i = 0; i < n; i++) {
+        label = (routes[i] in name) ? name[routes[i]] : "-"
+        printf "%-18s %-24s %-8s %s\n", routes[i], label, asns[i], dates[i]
+      }
     }
   '
 }
