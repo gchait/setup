@@ -53,7 +53,21 @@ bassh() {
 
 whoisip() {
   local ip="${1:-$(curl -s ifconfig.me)}"
-  whois -L "${ip}"
+  whois -L "${ip}" | awk -F': *' '
+    /^org-name:/ { org = $2 }
+    /^route:/ { route = $2 }
+    /^origin:/ { asn = $2 }
+    /^created:/ && route != "" {
+      split($2, d, "T")
+      routes[n++] = sprintf("%-18s %-8s %s", route, asn, d[1])
+      route = ""
+    }
+    END {
+      print "Owner: " org
+      print ""
+      for (i = 0; i < n; i++) print routes[i]
+    }
+  '
 }
 
 setopt HIST_IGNORE_ALL_DUPS
