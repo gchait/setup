@@ -100,7 +100,7 @@ __packages_setup_common() {
   sudo ln -sf /usr/bin/batcat /usr/local/bin/bat
   sudo apt-get autoremove -yq 2> /dev/null
 
-  pip install -U --user --break-system-packages --no-warn-script-location ${USER_PIP_PKGS}
+  pip install -U --user --break-system-packages --no-warn-script-location --use-pep517 ${USER_PIP_PKGS}
   __set_default_shell
 }
 
