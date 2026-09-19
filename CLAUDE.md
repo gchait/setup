@@ -2,37 +2,26 @@
 
 ## Real shell per distro governs what syntax is legal
 
-Never assume a distro's dialect from its family (e.g. Debian-based ≠
-always dash). Verified via `readlink -f /bin/sh` on real containers —
-**Ubuntu, Debian → `dash`** (no arrays, no `${var/search/replace}`, no
-`[[ ]]`); **Fedora, EndeavourOS → `bash`** — matching the Justfile's
-`dash_header`/`bash_header` build recipe (check there if this ever changes,
-rather than guessing from distro family). `Shared/common.sh` (all 4 distros)
-and `Shared/wsl-common.sh` (Ubuntu/Debian/Fedora) must both stay dash-safe —
-a file shared across multiple distros must satisfy the most restrictive
-dialect among its actual consumers, not whichever one happens to be open.
-Generated `prepare.sh` shebangs match each distro's real interpreter purely
-so shellcheck auto-detects the right dialect — the actual invocation ignores
-shebangs, so this has zero effect on execution.
+Never infer a distro's dialect from its family — Debian-based is not always
+dash. The Justfile's `build` recipe assigns each distro `dash_header` or
+`bash_header` to match its real `/bin/sh`; read it there rather than
+guessing. A shared fragment must satisfy the most restrictive dialect among
+the distros the recipe joins it into — that recipe is also where you see
+which those are — so anything a dash distro joins gets no arrays, no
+`${var/search/replace}` and no `[[ ]]`. The generated `prepare.sh` shebangs
+exist so shellcheck detects the right dialect; the invocation ignores them.
 
-## shellcheck gotchas (each took real testing to pin down)
+## shellcheck gotchas
 
 - **Never put `# shellcheck shell=` inside a fragment file.** It overrides
   the dialect for the rest of the *whole joined file* from that point on,
-  not just the fragment — verified it falsely flags a bash-dialect
-  fragment's valid arrays once poisoned by an earlier fragment's directive.
-- A shellcheck warning that a variable "appears unused" or "is referenced
-  but not assigned," when that variable is defined in one fragment and used
-  in another, is an artifact of the `awk`-text-join build (fragments are
-  concatenated, never `source`d) — shellcheck can't trace usage across files
-  it never sees joined. Disable at the site; don't add a `source` call just
-  to fix this.
-- Before disabling anything else, check whether the file's real dialect can
-  actually do what shellcheck is suggesting. If not, it's unfixable there —
-  disable it. If it can, do the rewrite instead.
-- Don't add complexity to silence an info-level note if the existing code
-  already handles the real risk — verify with a direct test first (e.g. does
-  the command already fail loudly on bad input?) before "fixing" it.
+  not just the fragment, and falsely flags a later bash-dialect fragment's
+  valid arrays.
+- A variable that "appears unused" or "is referenced but not assigned" when
+  it is defined in one fragment and used in another is an artifact of the
+  `awk`-text-join build — fragments are concatenated, never `source`d, so
+  shellcheck never sees them joined. Disable at the site; don't add a
+  `source` call just to fix this.
 
 ## shfmt
 
@@ -54,7 +43,8 @@ line.
 
 ## Install method constraints — hard rules, not preferences
 
-- No `curl | bash` installer scripts, ever.
+- No `curl | bash` installer scripts, ever. This governs how the scripts
+  install tools, not the repo's own bootstrap entry point.
 - No snap, no zip/tar.gz archives (tar.gz counts as an archive too).
 - No new helper mechanism in a `distro.sh` beyond what it already has — an
   existing helper can be extended with more tools, but don't add an
@@ -79,28 +69,19 @@ line.
 
 ## `__add_apt_repo` has no idempotency guard — intentional
 
-It always re-fetches and re-writes the GPG keyring. A prior version skipped
-this when the keyring already existed, and that caused a real outage when a
-vendor rotated their signing key (the stale cached keyring failed
-verification). Do not add an `[ -f "${keyring}" ] ||` guard back.
-
-## Claude Code auto-updates are off on the apt distros — intentional
-
-`Ubuntu/Etc/claude-code/managed-settings.json` and its Debian twin set
-`DISABLE_AUTOUPDATER=1`: under WSL, Claude Code misdetects a
-package-manager install as a native one and self-updates over a binary apt
-owns. Fedora has no such file on purpose — `claude` isn't in `DNF_PKGS`, so
-the updater is its only update path.
+It re-fetches and re-writes the GPG keyring on every run. Skipping that when
+the keyring already exists breaks as soon as a vendor rotates its signing
+key: the stale keyring fails verification and the install dies. Do not add
+an `[ -f "${keyring}" ] ||` guard.
 
 ## Bare-metal distros don't get live container testing by default
 
-A distro provisioned on real hardware (not WSL) generally can't be exercised
-with a straightforward `docker run` the way a WSL guest can. EndeavourOS
-(currently the only bare-metal entry) is also out of scope for cross-distro
-package-parity comparisons — it's not a work machine, though it still gets
-general maintenance/bugfixes. For a real behavioral change to a bare-metal
-distro, don't settle for reasoning about an isolated snippet — extract the
-actual function body, mock the package manager and `sudo` as shell
-functions, and run it for real in a base container matching that distro's
-package family, for both the empty- and non-empty-result cases where
-relevant.
+A distro provisioned on real hardware rather than WSL can't be exercised
+with a straightforward `docker run` the way a WSL guest can. One that isn't
+a work machine is also out of scope for cross-distro package-parity
+comparisons, though it still gets general maintenance and bugfixes. For a
+real behavioral change to a bare-metal distro, don't settle for reasoning
+about an isolated snippet — extract the actual function body, mock the
+package manager and `sudo` as shell functions, and run it for real in a base
+container matching that distro's package family, for both the empty- and
+non-empty-result cases where relevant.
