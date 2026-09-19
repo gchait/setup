@@ -32,7 +32,6 @@ $VSCODE_EXTENSIONS = @(
   "redhat.java",
   "redhat.vscode-yaml",
   "samuelcolvin.jinjahtml",
-  "saoudrizwan.claude-dev",
   "sztheory.vscode-packer-powertools",
   "tamasfe.even-better-toml",
   "timonwong.shellcheck",
