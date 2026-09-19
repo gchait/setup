@@ -1,4 +1,4 @@
-BOOTSTRAP_APT_PKGS="ca-certificates curl git gnupg"
+BOOTSTRAP_APT_PKGS="ca-certificates git gnupg"
 
 # shellcheck disable=SC2034
 APT_PKGS="
