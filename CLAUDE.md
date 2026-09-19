@@ -84,6 +84,16 @@ this when the keyring already existed, and that caused a real outage when a
 vendor rotated their signing key (the stale cached keyring failed
 verification). Do not add an `[ -f "${keyring}" ] ||` guard back.
 
+## Claude Code auto-updates are off on the apt distros — intentional
+
+`Ubuntu/Etc/claude-code/managed-settings.json` and its Debian twin set
+`DISABLE_AUTOUPDATER=1`. Under WSL, Claude Code's install-type detection
+short-circuits before it runs `dpkg -S`/`rpm -qf` — the platform reads as
+`wsl`, never `linux` — so every WSL install is classified `native` and the
+native updater runs over a binary the package manager owns. Fedora has no
+such file on purpose: its `claude` isn't in `DNF_PKGS`, so the updater is
+its only update path.
+
 ## Bare-metal distros don't get live container testing by default
 
 A distro provisioned on real hardware (not WSL) generally can't be exercised
