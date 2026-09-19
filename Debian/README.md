@@ -9,6 +9,10 @@
   ```
 
 - ```shell
+  sudo apt-get update && sudo apt-get install -y curl
+  ```
+
+- ```shell
   sh <(curl -sL guyc.at/debian.sh)
   ```
 
