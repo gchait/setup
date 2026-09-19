@@ -7,5 +7,12 @@
     "commit": "",
     "pr": "",
     "sessionUrl": false
-  }
+  },
+  "fallbackModel": [
+    "sonnet"
+  ],
+  "cleanupPeriodDays": 3650,
+  "feedbackDrafts": "quiet",
+  "spinnerTipsEnabled": false,
+  "promptSuggestionEnabled": false
 }
