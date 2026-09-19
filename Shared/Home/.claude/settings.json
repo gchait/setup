@@ -1,7 +1,8 @@
 {
   "model": "opus",
   "env": {
-    "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1"
+    "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
+    "CLAUDE_CODE_SHELL": "/bin/bash"
   },
   "attribution": {
     "commit": "",

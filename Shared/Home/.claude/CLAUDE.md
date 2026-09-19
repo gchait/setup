@@ -311,16 +311,14 @@ When validating one party's data, check it against its own evidence only — nev
 
 ## This environment
 
-### Bash runs zsh — recurring failures to avoid
+### The Bash tool's shell — recurring failures to avoid
 
-Each Bash call is a fresh, minimal-PATH shell with `nomatch` set.
+Each Bash call is a fresh, minimal-PATH shell.
 
-- Quote any glob meant for the command, not the shell — zsh expands and aborts with "no matches found" on `grep -r --include=*.yaml`, `ls **/*foo*`, `pip install pkg==`. Quote the pattern, or prefer `rg`/`git grep` with quoted pathspecs.
 - Don't quote assignment right-hand sides (`var=$(cmd)`, no word-splitting there) — quote only in argument position or where literal text has spaces.
 - PATH is minimal — project/venv tools (`ruff`, `pytest`, node bins) aren't on it. Invoke by absolute path or activate the venv in the same command.
 - Shell loops intermittently lose PATH, even after an explicit `export PATH=` in the same command — write a `python3` script instead of a shell loop for multi-step fetch/file jobs.
 - Nothing persists between Bash calls (no `cd`/`source`/exported vars) — use absolute paths or chain with `&&`. A creds script the user sourced in their terminal isn't in yours.
-- Unquoted `${VAR}` doesn't word-split in zsh, and bash arrays don't exist — use `${=VAR}` or a `name:value` list, not `declare -A`.
 
 ### Editing Confluence pages and Jira issues via MCP Atlassian tools
 
