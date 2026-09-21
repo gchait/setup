@@ -48,6 +48,7 @@ __packages_setup_common() {
     "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_${arch_ssm}/session-manager-plugin.deb"
 
   sudo ln -sf /usr/bin/batcat /usr/local/bin/bat
+  sudo ln -sf /usr/bin/fdfind /usr/local/bin/fd
   sudo apt-get autoremove -yq 2> /dev/null
 
   pip install -U --user --break-system-packages --no-warn-script-location --use-pep517 ${USER_PIP_PKGS}
