@@ -58,8 +58,7 @@ Decide each case on its own evidence, verify the result. A rule right 9/10 times
 - A blanket rule used to *decline* work is the same error as one used to bulk-apply a change — a constraint on what kind of edit is allowed is never a constraint on which files may be edited.
 - Cross-repo changes: script the measurement, not the decision — print what would change, read it, act, re-measure.
 - Merge conflicts resolve per hunk — never `--ours`/`--theirs` on a whole file.
-- A rule needing an exception shouldn't be a rule. A constraint yielding "nothing is possible" — re-read its actual words before reporting that.
-- Same failure in optimization form: don't stop at the first option that merely satisfies a budget constraint — compute cost/benefit across every candidate and take the best fit.
+- A constraint yielding "nothing is possible" — re-read its actual words before reporting that.
 
 ### Scope a report
 
@@ -100,7 +99,7 @@ Separate fact from judgement for someone else: facts carry a resolvable referenc
 - A sweep claimed purely mechanical (renames, formatting, type-silencing) needs a mechanical proof, not an argument.
 - Compare normalized syntax trees per file per commit — strip what a checker reads but a runtime doesn't (annotations, `cast(T,x)` → `x`, type-checking-only blocks), require the dumps equal; diff the same commit's blob so a colleague's edits don't pollute it.
 - Every silencing construct (cast, ignore) needs its claim tested — confirm the asserted type holds on real inputs and a wrong input still fails before the cast.
-- Precision a checker can't narrow is worse than none — measure permissive vs. precise, keep the quieter one.
+- Measure a silencing construct both permissive and precise — keep the quieter one.
 - Rename an unused local to `_name`; never delete the statement — the right-hand side can still raise.
 
 ### Verify delegated work yourself
@@ -178,9 +177,9 @@ Separate fact from judgement for someone else: facts carry a resolvable referenc
 - Derive the list of expected differences at the time you need it, never hard-code it.
 - Compare only against an up-to-date baseline — sync first, then judge.
 
-### Work is tracked before it is written
+### The tracking issue is the spec
 
-Create the tracking issue before the branch exists; use its key as the branch-name and commit-message prefix. Keep the issue's description current as the canonical spec — edit it, don't bury state in comments.
+Where work has a tracking issue, its key prefixes the branch name and commit messages, and its description is the canonical spec — keep it current by editing it, never by burying state in comments.
 
 ## Writing code
 
@@ -203,7 +202,6 @@ Create the tracking issue before the branch exists; use its key as the branch-na
 ### Never install into a project's environment to satisfy a prompt
 
 - A project's declared dependencies are the whole environment (venv, node_modules, etc.) — never install a tool into it because an editor, LSP plugin, or assistant prompt suggested it; that lands the tool there undeclared and drifts the environment from the pinned toolchain.
-- The prompt's off-switch is per-user global state, not repo-scoped — no repo file can pre-empt it for a team, and installing what it asks for is exactly what makes it reappear next time.
 - Audit for drift by walking the dependency closure from the declared roots and diffing against what's installed — anything unreachable was added by hand.
 
 ### Code is a liability — delete it, never rubber-stamp
@@ -250,7 +248,6 @@ No dates, no "the June scan," no "currently," no drift-prone counts ("all 7 flag
 - A finding investigated and deliberately not acted on can stay as a short decision-record note, not a diary entry.
 - Commit bodies stay short (a paragraph or two). A hidden constraint/invariant is documentation and stays; the bug that prompted the code is narration and goes briefly in the commit message at most.
 - Be terse — a table plus one sentence per item beats paragraphs. No speculative "open questions" sections.
-- Don't retroactively rewrite commit history to fix past violations of this — fix it going forward.
 
 ### Drafting for someone other than the user
 
@@ -306,10 +303,6 @@ What remains of a partial teardown tells you nothing about what's alive. Gate de
 ### Least privilege on anything shared
 
 Never grant a blanket wildcard on shared roles/policies — scope to identifiers or conditions. Where a provider genuinely forces a wildcard, call that out explicitly. For a role shared across environments, prefer account/scope-level patterns or a condition key, still never a bare wildcard. Never apply a live permission change to a shared role without showing the exact scoped policy first.
-
-### Analyze a subject against itself
-
-When validating one party's data, check it against its own evidence only — never diff it against another party's data for convenience, even when prior work on another party is a useful reference for method.
 
 ## This environment
 
