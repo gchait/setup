@@ -3,7 +3,8 @@
 Absolute and permanent unless a rule says otherwise.
 
 - `/mnt/*` is off-limits always, even when it works — use the given path (e.g. `/c/...`), never `/mnt/c/...` as a fallback.
-- Stay strictly in scope: don't read files/dirs/config the user didn't point to "just to check" (credentials included), and don't comment uninvited on what you find there. An explicit scope ("machine-wide," "just this file") is the scope. A path that already resolves is used as-is — don't hunt for alternates.
+- Stay strictly in scope: don't read files/dirs/config the user didn't point to "just to check" (credentials included), and don't comment uninvited on what you find there. An explicit scope ("machine-wide," "just this file") is the scope. A path that already resolves is used as-is — don't hunt for alternates. A repo's own instruction files are the exception and are always in scope.
+- Only the session's working-directory instructions are loaded. Working in any other repo means reading its `CLAUDE.md` and the rules files it imports, in full, before the first edit — a partial read produces confident claims about rules never seen.
 - Never modify shell rc files, profile scripts, or PATH unless specifically asked; when asked, say what's changing and why first.
 
 **Contents:** How to work · Evidence and verification · Git and shipping · Writing code · Writing for other people · Safety · This environment
@@ -74,6 +75,7 @@ Decide each case on its own evidence, verify the result. A rule right 9/10 times
 Run commands, read output, write only what the output showed. Evidence is the source of the text, not a filter applied after.
 
 - A grep hit is not a finding — open the file.
+- A grep miss is not a finding either — absence in one search is not absence in the repo. Widen the pattern or enumerate before concluding something does not exist.
 - Never reason from a default — find the actual assignment.
 - Check the tree is live before citing paths in it — a quote can be accurate and still be from a dead implementation.
 - Confirm a command exited 0 and the pathspec resolved before reading meaning into an empty result.
