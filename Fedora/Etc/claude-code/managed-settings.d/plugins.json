@@ -1,0 +1,22 @@
+{
+  "enabledPlugins": {
+    "compound-engineering@compound-engineering-plugin": true,
+    "ponytail@ponytail": true
+  },
+  "extraKnownMarketplaces": {
+    "compound-engineering-plugin": {
+      "source": {
+        "source": "github",
+        "repo": "EveryInc/compound-engineering-plugin"
+      },
+      "autoUpdate": true
+    },
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      },
+      "autoUpdate": true
+    }
+  }
+}
