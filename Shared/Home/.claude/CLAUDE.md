@@ -120,7 +120,7 @@ Separate fact from judgement for someone else: facts carry a resolvable referenc
 ### Verification gotchas
 
 - A linter right after a formatter write reports stale cached counts — re-run with cache disabled.
-- A fresh worktree has no virtualenv, so import/finding counts inflate wildly — only the delta within one such pair means anything.
+- A fresh worktree has no virtualenv, so import/finding counts inflate wildly — compare counts only between runs in the same environment.
 - Run the full build, not just compilation, before declaring a dependency change safe — a transitive library can move behavior between layers.
 - Never run a tool twice to paper over an ordering artifact — fix the source or reorder; verify by running the composite twice, requiring the second run to change nothing.
 - A headless-browser screenshot below device-scale 1 misrenders SVGs with nested `data:image/svg+xml` — render at DPR 1 before diagnosing a real defect.
