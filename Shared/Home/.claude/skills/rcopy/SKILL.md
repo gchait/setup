@@ -11,8 +11,12 @@ literal asterisks. Put HTML there instead: write the message as a small HTML
 fragment in the scratchpad, then hand that file to the clipboard the way the
 session's display server wants it.
 
-Keep the fragment minimal — `<b>`, `<i>`, `<a>`, `<ul>`, `<p>`, `<code>`. A
-pasted `<style>` block or class attribute is discarded by most editors.
+What survives a paste is inline formatting and line breaks — `<b>`, `<i>`,
+`<code>`, `<a>`, `<p>`. Structure does not: a message composer drops `<ul>`
+markers and renders the items as bare lines, and tables fare worse. So write a
+list as `<p>&bull; …</p>` per item, carrying the bullet as text, and reshape a
+table into those same lines rather than pasting one. A `<style>` block or class
+attribute is discarded too.
 
 ## Under WSL
 
