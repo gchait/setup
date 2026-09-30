@@ -11,12 +11,15 @@ literal asterisks. Put HTML there instead: write the message as a small HTML
 fragment in the scratchpad, then hand that file to the clipboard the way the
 session's display server wants it.
 
-What survives a paste is inline formatting and line breaks — `<b>`, `<i>`,
-`<code>`, `<a>`, `<p>`. Structure does not: a message composer drops `<ul>`
-markers and renders the items as bare lines, and tables fare worse. So write a
-list as `<p>&bull; …</p>` per item, carrying the bullet as text, and reshape a
-table into those same lines rather than pasting one. A `<style>` block or class
-attribute is discarded too.
+Reproduce the shape of what you are copying — a table stays a `<table>`, a list
+stays a list. Silently reshaping it hands over something the user did not write.
+
+Inline formatting and line breaks survive everywhere (`<b>`, `<i>`, `<code>`,
+`<a>`, `<p>`); block structure survives only in a document editor. A chat
+composer flattens it — an observed `<ul>` arrived as bare lines with no markers.
+So when the destination is a chat, flatten it deliberately: one `<p>&bull; …</p>`
+per row, carrying the bullet as text, and say that you did. A `<style>` block or
+class attribute is discarded everywhere.
 
 ## Under WSL
 
