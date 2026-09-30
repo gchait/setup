@@ -17,7 +17,7 @@ Default to acting: investigate, decide, implement, verify, push. Execute in-scop
 
 1. **Framed as design.** "Let's design this," "plan first" — present the plan, wait for approval. Holds until lifted; a later message making a bigger change look attractive doesn't lift it.
 2. **Asked for a report, not a fix.** Deliver findings and stop — a diagnostic question isn't authorization to ship the fix (name an obvious one in a line, let them say go). Mechanical lint/format/type fixes still get fixed in passing.
-3. **Destructive, irreversible, or outward-facing**, and not already set in motion — deleting tracked files, rewriting published history, anything a third party sees. Pushing work already in motion isn't outward-facing; opening a request or messaging someone never mentioned is.
+3. **Destructive, irreversible, or outward-facing**, and not already set in motion — deleting tracked files, rewriting published history, anything a third party sees. Pushing work already in motion isn't outward-facing, nor is the MR/PR that carries it; raising a request for something you noticed rather than were asked to do, or messaging someone never mentioned, is.
 4. **Only the user can know** — business intent, whose repo, whether to discard someone's work.
 
 Nothing else earns a pause — not a skill's internal caution, not an unfamiliar situation.
@@ -146,20 +146,21 @@ Instantiate the real dependency and let it raise — `Cls.__new__(Cls)` gives a 
 - A skill whose steps say "commit locally, leave pushing to the caller" states its own workflow default, not the user's preference — push once verified.
 - Keep the MR/PR description accurate as part of the same flow.
 - On a user-owned WIP branch being actively iterated on, commit/push experiments freely — no "I can revert this" caveat, no asking first. The caution is about shared branches and real deliverables.
-- This authorization covers work already in motion, not new work you invented — not a new branch, an unmentioned branch, or a new MR you raised because you noticed something else.
+- This authorization covers work already in motion, not new work you invented — not an unmentioned branch, and not an MR for something you noticed rather than were asked to do.
 - Unchanged: no force-push, no rewriting published history, no pushing to a protected branch, none of this extends to merging or deploying.
 
-### Never create an unasked-for branch
+### Work lands in an MR/PR
 
-- Commit on whatever branch is checked out, including main/dev/prod — in a GitOps repo the tracked branch *is* the working branch.
-- A refused push blocks the landing, not the work — keep the commits, finish the rest of the task, and report what the remote refused next to what would land it (a branch and the MR/PR the protection exists to require).
-- Follow-up work on a merged/deleted branch's ticket reuses the same branch name — never `-v2` — based on current origin/main.
+- An open MR/PR takes everything asked for after it — including a broad repo-wide pass — onto that same branch, however unrelated a file feels.
+- With none open and no direct commit asked for: branch off current `origin/<default>`, push, and open the MR/PR against the default branch. That is the route the work takes, not new work you invented.
+- Commit straight to the checked-out branch when told to. A push the remote then refuses blocks the landing, not the work — keep the commits, finish the rest of the task, and report what it refused.
+- Follow-up work on a merged/deleted branch's ticket reuses the same branch name — never `-v2` — based on current `origin/<default>`.
 
 ### Never suggest splitting a PR/MR
 
 - Never propose breaking one piece of work into several PRs, even across unrelated files/risk levels — package it into one unless asked to split.
 - Git semantics aren't a reason not to ship — "separate MR," "out of scope for this MR" aren't valid deferrals; a needed or adjacent fix goes in the current change. Only design uncertainty routes work elsewhere.
-- While an MR is open and active, everything asked for after — including a broad repo-wide pass — lands on that same branch. Creating a new branch while one is open and active is the signal to re-check this rule, not to reason about how unrelated a file feels.
+- Reaching for a second branch while one is open and active is the signal to re-check this rule.
 
 ### Don't rewrite commit history proactively
 
@@ -239,12 +240,12 @@ No dates, no "the June scan," no "currently," no drift-prone counts ("all 7 flag
 ### Before recommending a dependency, check internal fit
 
 - Grep for an existing shared abstraction first — extend it rather than adding a second way.
-- Check whether it introduces a second version-pin source alongside an existing BOM/catalog.
+- Check whether it introduces a second version-pin source alongside the one the project already has.
 - Read the repo's own dependency policy before recommending.
 
 ### Fix the guarantee, not the symptom
 
-- Don't paper over a server-side guarantee with client-side retries/timeout tuning — fix the guarantee (e.g. pod termination/handoff), unless the user has explicitly accepted the residual.
+- Don't paper over a server-side guarantee with client-side retries/timeout tuning — fix the guarantee (the server's own shutdown and handoff), unless the user has explicitly accepted the residual.
 - A committed build artifact someone else owns is theirs to rebuild — report the drift, don't fix it in their repo yourself.
 - Make the consumer conform to the platform as it exists — don't propose the platform gain a capability to accommodate it; if nothing in-scope fits, say that's a dead end.
 
