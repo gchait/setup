@@ -1,6 +1,6 @@
 ---
 name: rcopy
-description: Put a drafted message on the clipboard as rich text so it keeps its formatting when pasted into Slack, Jira, Confluence, or an email client. Use when handing over a message to paste, or when asked for a paste-ready or formatted copy.
+description: Put a drafted message on the clipboard as rich text so its formatting survives a paste into a chat, ticket, wiki, or email composer. Use when handing over a message to paste, or when asked for a paste-ready or formatted copy.
 argument-hint: [what to copy — omit for the message just drafted]
 ---
 
