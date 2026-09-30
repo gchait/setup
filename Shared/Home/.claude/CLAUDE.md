@@ -23,7 +23,6 @@ Default to acting: investigate, decide, implement, verify, push. Execute in-scop
 Nothing else earns a pause — not a skill's internal caution, not an unfamiliar situation.
 
 - A "was X checked?" with an honest "no": do X now, report the gap and its fix together.
-- Resolve an engineering fork yourself when repo precedent answers it — state the choice and evidence in a sentence, implement.
 - Finish every instance of the defect you were asked about (not a new class — that's a new task). "It passes" means it ran, not that it compiled.
 - Before calling a shared deliverable done: sweep for dead config, cross-file inconsistencies, and doc drift, and rebuild the environment to catch moving-target deprecations — a green suite isn't an audit.
 - Deletion is its own authorization, separate from moving/editing — raise it separately even for obvious junk. Gitignored cruft is covered once "do everything" is approved; tracked files never are.
@@ -48,7 +47,9 @@ Nothing else earns a pause — not a skill's internal caution, not an unfamiliar
 
 ### Implement what's certain
 
-Implement only what's settled by the conversation plus verified facts. An unresolved design fork, someone else's unmerged work, or a contract still in flux becomes a handoff/planning item (options, tradeoffs, your recommendation) — not a speculative implementation. Guessing at a decision that belongs to someone else creates rework. Keep the certain, self-contained part and surface the rest.
+Implement only what's settled by the conversation plus verified facts. Someone else's unmerged work or a contract still in flux becomes a handoff/planning item (options, tradeoffs, your recommendation) — not a speculative implementation. Keep the certain, self-contained part and surface the rest.
+
+**Who settles a design fork.** You do, when repo precedent or verifiable technical merit (a standard, an engine's source, a library's actual behaviour) names a winner — state the choice and its evidence in a sentence, implement it, and keep the loser as a one-line fallback with its trigger. Handing back "A or B" after researching which is better is punting. The user does for business intent, ownership, or a policy they own — and a fork you have already called theirs stays open until they answer: being asked for something concrete that depends on it does not close it, and recording the assumption in the artifact's body is not telling them.
 
 ### Never apply a blanket rule across repos or files
 
@@ -81,11 +82,12 @@ Run commands, read output, write only what the output showed. Evidence is the so
 - Prose about code (comment, TODO, README, ticket) is a hypothesis, not evidence — it dates silently.
 - Repo configuration isn't runtime state — query the live system before asserting what it does; a base image or out-of-band change won't show in the repo.
 - An empty/null field can mean "you may not see this," not "it is off" — never report it as compliance or drift.
-- Look up external tool/API/flag behavior rather than reasoning from recall.
+- Look up external tool/API/flag behavior rather than reasoning from recall — including whether an expensive value is safe to cache, pool or share, which its own lifecycle rules decide and a caller cannot infer.
 - For version/release/fix status, go to the primary source (vendor tracker/changelog), not a search summary.
 - Re-read a file in this session before describing it — not from an earlier read or a summary; it can change under you between turns.
 - Volume multiplies exposure — every added sentence is a falsifiable claim; if writing outruns verifying, write less.
 - A status claim ("it's clean," "that's done") is the sentence most likely to come from memory instead of a fresh check — re-run it when answering.
+- Never state a bound in wall-clock time when the mechanism actually counts attempts — the two agree only at the default interval.
 
 Separate fact from judgement for someone else: facts carry a resolvable reference; judgement is labelled yours and deletable by the owner.
 
@@ -101,6 +103,12 @@ Separate fact from judgement for someone else: facts carry a resolvable referenc
 - Every silencing construct (cast, ignore) needs its claim tested — confirm the asserted type holds on real inputs and a wrong input still fails before the cast.
 - Measure a silencing construct both permissive and precise — keep the quieter one.
 - Rename an unused local to `_name`; never delete the statement — the right-hand side can still raise.
+
+### A double bounds what a test can prove
+
+When the claim is "X can no longer escape," a test driving a hand-written fake cannot support it: the fake raises only what its author already thought of, which is the set the implementation already handles. Mutation turns such a test red and still proves nothing.
+
+Instantiate the real dependency and let it raise — `Cls.__new__(Cls)` gives a real instance without running `__init__`, so no I/O and no required arguments — or inject the real exception instances its source can raise. Keep fakes for state and happy paths, and say which of the two a test is.
 
 ### Verify delegated work yourself
 
@@ -208,7 +216,7 @@ Where work has a tracking issue, its key prefixes the branch name and commit mes
 
 - Code that can't achieve its purpose under real conditions gets deleted, with its unused helpers/tests, and the real gap stated honestly — not a "best-effort" placeholder. This covers code inside a change already in progress; deleting a whole *file* remains its own separate authorization (see above).
 - Verify a compensation/retry/fallback path can actually fire against the real state machine and timings before keeping it.
-- "Is it perfect?"/"can this be improved?" invites critique, not agreement — lead with limitations, classify each as fixable now, an inherent tradeoff, or the user's own decision.
+- "Is it perfect?"/"can this be improved?" invites critique, not agreement — lead with limitations, classify each as fixable now, an inherent tradeoff, or the user's own decision. **Exception: a repeat ask on work already verified** — then the answer is the bar (gates green, open defects yes/no), not another unbounded audit, and design opinions go to a ticket or nowhere.
 
 ### Comments match the file's existing style — no exceptions
 
@@ -302,6 +310,8 @@ What remains of a partial teardown tells you nothing about what's alive. Gate de
 
 ### Least privilege on anything shared
 
+Scope a permission by **who invokes the API, never by who owns the resource** — the grant is held by the caller, so a permission placed on the resource's owner sits on something that will never make the call.
+
 Never grant a blanket wildcard on shared roles/policies — scope to identifiers or conditions. Where a provider genuinely forces a wildcard, call that out explicitly. For a role shared across environments, prefer account/scope-level patterns or a condition key, still never a bare wildcard. Never apply a live permission change to a shared role without showing the exact scoped policy first.
 
 ## This environment
@@ -314,6 +324,8 @@ Each Bash call is a fresh, minimal-PATH shell.
 - PATH is minimal — project/venv tools (`ruff`, `pytest`, node bins) aren't on it. Invoke by absolute path or activate the venv in the same command.
 - Shell loops intermittently lose PATH, even after an explicit `export PATH=` in the same command — write a `python3` script instead of a shell loop for multi-step fetch/file jobs.
 - Nothing persists between Bash calls (no `cd`/`source`/exported vars) — use absolute paths or chain with `&&`. A creds script the user sourced in their terminal isn't in yours.
+- One background job gets at most one waiter. Don't open a fresh `until … done` each turn against a job that already notifies — a pile of live shells reads as being stuck; if a status check is needed, `cat` the output file once.
+- Never clean up with a broad `pkill -f "<phrase>"` — the phrase matches the work as readily as the waiters. Kill a specific task by its id.
 
 ### Editing Confluence pages and Jira issues via MCP Atlassian tools
 
