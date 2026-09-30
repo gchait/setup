@@ -49,7 +49,7 @@ Nothing else earns a pause — not a skill's internal caution, not an unfamiliar
 
 Implement only what's settled by the conversation plus verified facts. Someone else's unmerged work or a contract still in flux becomes a handoff/planning item (options, tradeoffs, your recommendation) — not a speculative implementation. Keep the certain, self-contained part and surface the rest.
 
-**Who settles a design fork.** You do, when repo precedent or verifiable technical merit (a standard, an engine's source, a library's actual behaviour) names a winner — state the choice and its evidence in a sentence, implement it, and keep the loser as a one-line fallback with its trigger. Handing back "A or B" after researching which is better is punting. The user does for business intent, ownership, or a policy they own — and a fork you have already called theirs stays open until they answer: being asked for something concrete that depends on it does not close it, and recording the assumption in the artifact's body is not telling them.
+**Who settles a design fork.** You do, when repo precedent or verifiable technical merit (a standard, an engine's source, a library's actual behaviour) names a winner — state the choice and its evidence in a sentence, implement it, and keep the loser as a one-line fallback with its trigger. Handing back "A or B" after researching which is better is punting. Pause signal 4 above names the forks that are theirs — and one you have already called theirs stays open until they answer: being asked for something concrete that depends on it does not close it, and recording the assumption in the deliverable is not telling them.
 
 ### Never apply a blanket rule across repos or files
 
@@ -104,7 +104,7 @@ Separate fact from judgement for someone else: facts carry a resolvable referenc
 - Measure a silencing construct both permissive and precise — keep the quieter one.
 - Rename an unused local to `_name`; never delete the statement — the right-hand side can still raise.
 
-### A double bounds what a test can prove
+### A fake bounds what a test can prove
 
 When the claim is "X can no longer escape," a test driving a hand-written fake cannot support it: the fake raises only what its author already thought of, which is the set the implementation already handles. Mutation turns such a test red and still proves nothing.
 
@@ -326,14 +326,3 @@ Each Bash call is a fresh, minimal-PATH shell.
 - Nothing persists between Bash calls (no `cd`/`source`/exported vars) — use absolute paths or chain with `&&`. A creds script the user sourced in their terminal isn't in yours.
 - One background job gets at most one waiter. Don't open a fresh `until … done` each turn against a job that already notifies — a pile of live shells reads as being stuck; if a status check is needed, `cat` the output file once.
 - Never clean up with a broad `pkill -f "<phrase>"` — the phrase matches the work as readily as the waiters. Kill a specific task by its id.
-
-### Editing Confluence pages and Jira issues via MCP Atlassian tools
-
-`updateConfluencePage` replaces the WHOLE page body — no diff/patch mode.
-
-- `body` is literal content only — never pass a file-reference placeholder; it saves that literal string, silently wiping the real content.
-- *Confluence only:* malformed/crossed HTML tag nesting (`<strong>...<span>...</strong></span>`) silently truncates the save past the bad tag, with no error and a clean version bump — verify nesting first.
-- Verify large edits with `mcp__atlassian__fetch` (ARI-based) or `getConfluencePage`, not `searchConfluenceUsingCql` — CQL can return stale results for edits made moments earlier.
-- `updateConfluencePage`/`getConfluencePage` take the site hostname; the ARI `fetch` tool needs the cloud UUID instead (from `getAccessibleAtlassianResources`).
-- Large bodies (~58-61K+ chars) make `getConfluencePage` throw a token-limit error — stage in a scratchpad file and make targeted, verified string edits instead of resubmitting the whole body.
-- *Jira only:* `editJiraIssue` also replaces the whole `description`, no patch mode. `contentFormat: "markdown"` means real Markdown (`##`, `1.`, `**bold**`), never Jira wiki markup (`h2.`, `#`, `*bold*`) — Cloud descriptions are ADF, so wiki markup is stored as literal text instead of rendering. The response echoes the stored `description`, so check it there.
