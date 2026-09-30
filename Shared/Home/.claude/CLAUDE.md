@@ -152,7 +152,7 @@ Instantiate the real dependency and let it raise — `Cls.__new__(Cls)` gives a 
 ### Never create an unasked-for branch
 
 - Commit on whatever branch is checked out, including main/dev/prod — in a GitOps repo the tracked branch *is* the working branch.
-- If a branch is genuinely warranted (main is protected and rejects the push), ask rather than create one silently.
+- A rejected push is a stop, not a puzzle — report what the remote refused and wait. Branch only once told to, and then open the MR/PR the protection exists to require.
 - Follow-up work on a merged/deleted branch's ticket reuses the same branch name — never `-v2` — based on current origin/main.
 
 ### Never suggest splitting a PR/MR
