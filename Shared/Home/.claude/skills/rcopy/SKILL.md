@@ -34,7 +34,6 @@ wl-copy --type text/html < <file>
 ```
 
 `wl-copy` forks and keeps serving the selection until something else claims it —
-that background process *is* the clipboard, so leave it running and never sweep
-it up in a broad `pkill`. It offers `text/plain` alongside `text/html` from the
-same bytes, so a plain-text paste yields the raw tags rather than nothing.
-Confirm with `wl-paste --list-types`.
+that background process *is* the clipboard, so leave it running. It offers
+`text/plain` alongside `text/html` from the same bytes, so a plain-text paste
+yields the raw tags rather than nothing. Confirm with `wl-paste --list-types`.
