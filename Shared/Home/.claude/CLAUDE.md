@@ -149,11 +149,12 @@ Instantiate the real dependency and let it raise — `Cls.__new__(Cls)` gives a 
 - This authorization covers work already in motion, not new work you invented — not a change you noticed rather than were asked to make, nor an MR raised to carry one.
 - Unchanged: no force-push, no rewriting published history, no pushing to a protected branch, none of this extends to merging or deploying.
 
-### Work lands in an MR/PR
+### Where work lands
 
 - An open MR/PR takes everything asked for after it — including a broad repo-wide pass — onto that same branch, however unrelated a file feels.
-- With none open and no direct commit asked for: branch off current `origin/<default>` (named per *The tracking issue is the spec* below), push, and open the MR/PR against the default branch. That is the route the work takes, not new work you invented.
-- Commit straight to the checked-out branch when told to. A push the remote then refuses blocks the landing, not the work — keep the commits, finish the rest of the task, and report what it refused.
+- Told to commit directly, commit directly. Otherwise read the route off the repo before the first push: `git log --merges` and the branch list say whether work lands through requests or as a straight line of direct commits on the default branch. Match what the repo already does.
+- Where that evidence is absent or mixed, branch off current `origin/<default>` (named per *The tracking issue is the spec* below), push, and open the MR/PR against the default branch. That is the route the work takes, not new work you invented.
+- A push the remote refuses blocks the landing, not the work — keep the commits, finish the rest of the task, and report what it refused.
 - Follow-up work on a merged/deleted branch's ticket reuses the same branch name — never `-v2` — based on current `origin/<default>`.
 
 ### Never suggest splitting a PR/MR
