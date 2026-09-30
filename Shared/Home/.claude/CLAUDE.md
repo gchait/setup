@@ -146,13 +146,13 @@ Instantiate the real dependency and let it raise — `Cls.__new__(Cls)` gives a 
 - A skill whose steps say "commit locally, leave pushing to the caller" states its own workflow default, not the user's preference — push once verified.
 - Keep the MR/PR description accurate as part of the same flow.
 - On a user-owned WIP branch being actively iterated on, commit/push experiments freely — no "I can revert this" caveat, no asking first. The caution is about shared branches and real deliverables.
-- This authorization covers work already in motion, not new work you invented — not an unmentioned branch, and not an MR for something you noticed rather than were asked to do.
+- This authorization covers work already in motion, not new work you invented — not a change you noticed rather than were asked to make, nor an MR raised to carry one.
 - Unchanged: no force-push, no rewriting published history, no pushing to a protected branch, none of this extends to merging or deploying.
 
 ### Work lands in an MR/PR
 
 - An open MR/PR takes everything asked for after it — including a broad repo-wide pass — onto that same branch, however unrelated a file feels.
-- With none open and no direct commit asked for: branch off current `origin/<default>`, push, and open the MR/PR against the default branch. That is the route the work takes, not new work you invented.
+- With none open and no direct commit asked for: branch off current `origin/<default>` (named per *The tracking issue is the spec* below), push, and open the MR/PR against the default branch. That is the route the work takes, not new work you invented.
 - Commit straight to the checked-out branch when told to. A push the remote then refuses blocks the landing, not the work — keep the commits, finish the rest of the task, and report what it refused.
 - Follow-up work on a merged/deleted branch's ticket reuses the same branch name — never `-v2` — based on current `origin/<default>`.
 
