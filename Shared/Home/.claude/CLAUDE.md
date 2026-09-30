@@ -152,7 +152,7 @@ Instantiate the real dependency and let it raise — `Cls.__new__(Cls)` gives a 
 ### Never create an unasked-for branch
 
 - Commit on whatever branch is checked out, including main/dev/prod — in a GitOps repo the tracked branch *is* the working branch.
-- A rejected push is a stop, not a puzzle — report what the remote refused and wait. Branch only once told to, and then open the MR/PR the protection exists to require.
+- A refused push blocks the landing, not the work — keep the commits, finish the rest of the task, and report what the remote refused next to what would land it (a branch and the MR/PR the protection exists to require).
 - Follow-up work on a merged/deleted branch's ticket reuses the same branch name — never `-v2` — based on current origin/main.
 
 ### Never suggest splitting a PR/MR
@@ -170,7 +170,7 @@ Instantiate the real dependency and let it raise — `Cls.__new__(Cls)` gives a 
 
 - Never pass `-c user.email=`, `--author`, or `GIT_AUTHOR_*`/`GIT_COMMITTER_*` — the repo's own config is authoritative (`git var GIT_COMMITTER_IDENT` shows it).
 - The session's `userEmail` is not the commit identity — never copy it into a git command.
-- If a git command fails for missing identity, say so and stop — configuring it is the user's decision.
+- A git command that fails for missing identity leaves the commit unmade, not the task — say so and carry on; configuring it is the user's decision.
 
 ### The user may commit in parallel
 
