@@ -28,12 +28,9 @@ win=$(wslpath -w <file>) && /c/Windows/System32/WindowsPowerShell/v1.0/powershel
   -NoProfile -Command "Get-Content -Raw -Encoding UTF8 '$win' | Set-Clipboard -AsHtml"
 ```
 
-Let `wslpath` build the UNC path into a variable and interpolate it — an
-expanded value reaches PowerShell byte for byte. Typing the path into the
-command instead costs the `\\` prefix: the shell collapses every backslash pair
-inside double quotes, so a literal needs four to arrive as two, and one that
-arrives as `\wsl.localhost\…` fails as `PathNotFound`. Check the file still
-exists before reading that error as an escaping bug.
+`wslpath` builds the path precisely so the shell never eats its backslashes. A
+`PathNotFound` here usually means the file is gone rather than the escaping
+breaking — check that it exists before chasing quotes.
 
 Windows PowerShell 5.1 at that path has `Set-Clipboard -AsHtml`. The clipboard
 then holds `HTML Format` and nothing else — pasting into a terminal or a
