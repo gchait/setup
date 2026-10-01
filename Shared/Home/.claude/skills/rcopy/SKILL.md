@@ -8,16 +8,17 @@ argument-hint: [what to copy — omit for the message just drafted]
 
 `/copy` puts plain markdown on the clipboard, which a rich editor renders as
 literal asterisks. Put HTML there instead: write the message as a small HTML
-fragment in the scratchpad, then hand that file to the clipboard the way the
-session's display server wants it.
+fragment in the scratchpad, then hand that file to the clipboard the way this
+machine takes it — `wslpath` on the PATH means the WSL route below, a set
+`$WAYLAND_DISPLAY` means the Wayland one.
 
 Reproduce the shape of what you are copying — a table stays a `<table>`, a list
 stays a list. Silently reshaping it hands over something the user did not write.
 
 Inline formatting and line breaks survive everywhere (`<b>`, `<i>`, `<code>`,
 `<a>`, `<p>`); block structure survives only in a document editor. A chat
-composer flattens it — an observed `<ul>` arrived as bare lines with no markers.
-So when the destination is a chat, flatten it deliberately: one `<p>&bull; …</p>`
+composer flattens it, dropping `<ul>` markers and leaving the items as bare
+lines. So when the destination is a chat, flatten it deliberately: one `<p>&bull; …</p>`
 per row, carrying the bullet as text, and say that you did. A `<style>` block or
 class attribute is discarded everywhere.
 
