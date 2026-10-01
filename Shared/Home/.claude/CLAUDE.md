@@ -325,6 +325,6 @@ Each Bash call is a fresh, minimal-PATH shell.
 - PATH is minimal — project/venv tools (`ruff`, `pytest`, node bins) aren't on it. Invoke by absolute path or activate the venv in the same command.
 - Shell loops intermittently lose PATH, even after an explicit `export PATH=` in the same command — write a `python3` script instead of a shell loop for multi-step fetch/file jobs.
 - Nothing persists between Bash calls (no `cd`/`source`/exported vars) — use absolute paths or chain with `&&`. A creds script the user sourced in their terminal isn't in yours.
-- Double quotes collapse backslash pairs before the command runs, so a Windows path typed into one arrives with half its separators — build it with `wslpath -w` into a variable and interpolate that, since an expanded value is never rescanned.
+- Double quotes collapse backslash pairs before the command runs, so anything carrying literal backslashes arrives with half of them — build it with a command substitution and interpolate that, since an expanded value is never rescanned.
 - One background job gets at most one waiter. Don't open a fresh `until … done` each turn against a job that already notifies — a pile of live shells reads as being stuck; if a status check is needed, `cat` the output file once.
 - Never clean up with a broad `pkill -f "<phrase>"` — the phrase matches the work as readily as the waiters. Kill a specific task by its id.
