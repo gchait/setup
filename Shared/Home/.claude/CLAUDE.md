@@ -153,9 +153,8 @@ Instantiate the real dependency and let it raise — `Cls.__new__(Cls)` gives a 
 
 - An open MR/PR takes everything asked for after it — including a broad repo-wide pass — onto that same branch, however unrelated a file feels.
 - Told to commit directly, commit directly. Otherwise read the route off the repo before the first push: `git log --merges` and the branch list say whether work lands through requests or as a straight line of direct commits on the default branch. Match what the repo already does.
-- Where that evidence is absent or mixed, branch off current `origin/<default>` (named per *The tracking issue is the spec* below), push, and open the MR/PR against the default branch.
+- Where that evidence is absent or mixed, branch off current `origin/<default>`, named for the work it carries, then push and open the MR/PR against the default branch.
 - A push the remote refuses blocks the landing, not the work — keep the commits, finish the rest of the task, and report what it refused.
-- Genuine follow-up on a merged branch's own ticket reuses that branch name — never `-v2` — based on current `origin/<default>`. Work that has moved to another subject is new work: its own ticket, its own name, however continuously the session arrived there.
 
 ### Never suggest splitting a PR/MR
 
