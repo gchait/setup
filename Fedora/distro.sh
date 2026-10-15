@@ -1,16 +1,16 @@
 BOOTSTRAP_DNF_PKGS=(adoptium-temurin-java-repository dnf-plugins-core dnf-utils git python3-dnf)
 
 DNF_PKGS=(
-  ShellCheck adwaita-cursor-theme alsa-lib alsa-lib-devel asciinema asciiquarium
-  atk awscli2 bat bind-utils clean-rpm-gpg-pubkey cmatrix containerd.io cups-libs
-  docker-buildx-plugin docker-ce docker-ce-cli docker-compose-plugin eza fastfetch
-  fd-find figlet findutils gdk-pixbuf2-devel gh glab golang gtk3 gtk3-devel gzip
-  helm htop hugo iproute iptables-legacy iptables-utils iputils jq just less libXScrnSaver
-  libXScrnSaver-devel libXcomposite libXcursor libXdamage libXext libXi libXrandr libXtst
-  lolcat make man-db maven-unbound mesa-libgbm moreutils-parallel nano ncurses nmap-ncat
-  nodejs22 nodejs22-npm nss-devel openssl packer pango postgresql python-unversioned-command
-  python3-pip qemu-user-static remove-retired-packages ripgrep rpmconf shfmt symlinks tar
-  tcpdump terraform tokei tree unzip vim-enhanced wget2 whois wireshark-cli xrandr yq zip zsh
+  ShellCheck adwaita-cursor-theme alsa-lib alsa-lib-devel asciinema asciiquarium atk awscli2
+  bat bind-utils clean-rpm-gpg-pubkey cmatrix containerd.io cups-libs docker-buildx-plugin
+  docker-ce docker-ce-cli docker-compose-plugin eza fastfetch fd-find figlet findutils
+  gdk-pixbuf2-devel gh glab golang gtk3 gtk3-devel gzip helm htop hugo iproute iptables-legacy
+  iptables-utils iputils jq just less libXScrnSaver libXScrnSaver-devel libXcomposite
+  libXcursor libXdamage libXext libXi libXrandr libXtst lolcat make man-db maven-unbound
+  mesa-libgbm moreutils-parallel nano ncurses nmap-ncat nodejs22 nodejs22-npm nss-devel
+  openssl packer pango perl-Image-ExifTool postgresql python-unversioned-command python3-pip
+  qemu-user-static remove-retired-packages ripgrep rpmconf shfmt symlinks tar tcpdump
+  terraform tokei tree unzip vim-enhanced wget2 whois wireshark-cli xrandr yq zip zsh
 )
 
 ALT_PY_VER="3.9"
