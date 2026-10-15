@@ -52,8 +52,9 @@ bassh() {
 }
 
 whoisip() {
-  local ip="${1:-$(curl -s ifconfig.me)}"
-  whois -L "${ip}" | awk -F': *' '
+  local ip="${1:-$(curl -s ifconfig.me)}" host
+  host=$(whois --verbose "${ip}" | awk '/^Using server/ { sub(/\.$/, "", $3); print $3; exit }')
+  whois -h "${host}" -L "${ip}" | awk -F': *' '
     function ip2int(ip,    a) {
       split(ip, a, ".")
       return a[1] * 16777216 + a[2] * 65536 + a[3] * 256 + a[4]
