@@ -16,18 +16,33 @@ Reproduce the shape of what you are copying — a table stays a `<table>`, a lis
 stays a list. Silently reshaping it hands over something the user did not write.
 
 Inline formatting and line breaks survive everywhere (`<b>`, `<i>`, `<code>`,
-`<a>`, `<p>`); block structure survives only in a document editor. A chat
-composer flattens it, dropping `<ul>` markers and leaving the items as bare
-lines. So when the destination is a chat, flatten it deliberately: one `<p>&bull; …</p>`
-per row, carrying the bullet as text, and say that you did. A `<style>` block or
-class attribute is discarded everywhere.
+`<a>`, `<p>`). A rich chat composer generally keeps `<ul>`, `<ol>` and
+`<table>` too, so copy lists and tables as they are. Only for a composer that
+drops list markers, flatten deliberately: one `<p>&bull; …</p>` per row,
+carrying the bullet as text, and say that you did — never rows joined by `<br>`
+inside one `<p>`.
+
+A `<style>` block or class attribute is discarded everywhere, and a chat
+composer drops paragraph margins, so consecutive `<p>`s render with no gap
+between them. Where the message needs a blank line — between paragraphs, after
+a heading, between long bullets — put an empty `<p><br></p>` there; each one
+adds one blank line. Lists and tables keep their own margin, so none goes
+before or after them.
 
 ## Under WSL
 
 ```shell
-win=$(wslpath -w <file>) && /c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe \
-  -NoProfile -Command "Get-Content -Raw -Encoding UTF8 '$win' | Set-Clipboard -AsHtml"
+win=$(wslpath -w <file>) && /c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -NoProfile -Command "
+\$h = Get-Content -Raw -Encoding UTF8 '$win'
+\$h = [regex]::Replace(\$h, '[\uD800-\uDBFF][\uDC00-\uDFFF]|[^\x00-\x7F]', { param(\$m) '&#{0};' -f [char]::ConvertToUtf32(\$m.Value, 0) })
+\$h | Set-Clipboard -AsHtml"
 ```
+
+`Set-Clipboard -AsHtml` writes the fragment in the system ANSI code page (such
+as Windows-1252), but `HTML Format` is read as UTF-8, so any non-ASCII
+character — a dash, an accent, an emoji — pastes as �. The replace turns each
+one into a numeric entity first, so only ASCII reaches it; the surrogate-pair
+branch keeps an emoji one entity rather than two broken halves.
 
 `wslpath` builds the path precisely so the shell never eats its backslashes. A
 `PathNotFound` here usually means the file is gone rather than the escaping
