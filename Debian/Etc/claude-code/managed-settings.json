@@ -1,5 +1,17 @@
 {
   "env": {
     "DISABLE_AUTOUPDATER": "1"
+  },
+  "enabledPlugins": {
+    "humanizer@humanizer": true
+  },
+  "extraKnownMarketplaces": {
+    "humanizer": {
+      "source": {
+        "source": "github",
+        "repo": "blader/humanizer"
+      },
+      "autoUpdate": true
+    }
   }
 }
