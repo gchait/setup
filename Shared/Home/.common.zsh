@@ -27,6 +27,7 @@ alias du="du -sh"
 
 alias cat="bat --paging=never --style=plain"
 alias grep="grep --color=auto"
+alias geth="curl -LIX GET"
 
 precmd() {
   echo -ne "\033]0;${PWD##*/}\007"
@@ -76,6 +77,20 @@ hashmv() {
 
 gacp() {
   git add -A && git commit -m "${*}" && git push
+}
+
+gbclean() {
+  local base b
+  git fetch -qp
+  base=$(git symbolic-ref -q refs/remotes/origin/HEAD ||
+    git for-each-ref --count=1 --format="%(refname)" refs/remotes/origin/main refs/remotes/origin/master)
+  git for-each-ref --format="%(refname) %(upstream:track) %(HEAD)" refs/heads |
+    awk '$2 == "[gone]" && $3 != "*" { print $1 }' | while read -r b; do
+    if [ "$(git rev-list --count "${b}" --not --remotes)" = "0" ] || { [ -n "${base}" ] &&
+      git cherry "${base}" "$(git commit-tree "${b}^{tree}" -p "$(git merge-base "${base}" "${b}")" -m _)" | grep -q "^-"; }; then
+      git branch -D "${b#refs/heads/}"
+    fi
+  done
 }
 
 dsh() {

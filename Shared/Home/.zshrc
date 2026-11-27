@@ -77,6 +77,10 @@ ec2() {
     --query 'Reservations[].Instances[].{id:InstanceId,ip:PrivateIpAddress,name:Tags[?Key==`Name`]|[0].Value}'
 }
 
+s3g() {
+  aws s3 ls "${@:2}" | grep -i -- "${1}"
+}
+
 autoload -Uz compinit && compinit
 zstyle ":completion:*" matcher-list "m:{a-z}={A-Za-z}"
 
