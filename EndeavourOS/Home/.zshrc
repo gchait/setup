@@ -6,6 +6,16 @@ upp() {
   sh "${HOME}/Projects/setup/EndeavourOS/prepare.sh"
 }
 
+pinggw() {
+  local gw
+  gw=$(ip r | awk '/^default/ { print $3; exit }')
+  if [ -z "${gw}" ]; then
+    >&2 echo "No default gateway."
+    return 1
+  fi
+  ping -c "${1:-100}" -i 0.2 "${gw}"
+}
+
 claudec() {
   local alt="${HOME}/.claude/settings.json.alt"
   local local_cfg="${HOME}/.claude/settings.json.local"

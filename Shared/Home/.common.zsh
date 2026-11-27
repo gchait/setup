@@ -51,6 +51,56 @@ bassh() {
   ssh -to LogLevel=QUIET "${host}" "bash -ic ${(q)${(j: :)@}}"
 }
 
+hashmv() {
+  local bytes="${1}" line hash file ext new
+  if [[ ! "${bytes}" =~ ^[0-9]+$ ]] || ((bytes < 1 || bytes > 64)); then
+    >&2 echo "Usage: hashmv <bytes 1-64> [files...]"
+    return 2
+  fi
+  shift
+  [ "${#}" -eq 0 ] && set -- *(N.)
+  if [ "${#}" -eq 0 ]; then
+    >&2 echo "No files."
+    return 1
+  fi
+
+  b2sum -l"$((bytes * 8))" -z -- "${@}" | while IFS= read -r -d '' line; do
+    hash="${line%% *}"
+    file="${line#*  }"
+    ext="${file:e}"
+    new="${hash}${ext:+.${ext}}"
+    [[ "${file}" == */* ]] && new="${file:h}/${new}"
+    [ "${file}" = "${new}" ] && continue
+    if [ -e "${new}" ]; then
+      >&2 echo "Skipping ${file}: ${new} exists."
+      continue
+    fi
+    mv -- "${file}" "${new}"
+  done
+}
+
+gacp() {
+  if [ "${#}" -eq 0 ]; then
+    >&2 echo "Missing commit message."
+    return 2
+  fi
+  git add -A && git commit -m "${*}" && git push
+}
+
+dsh() {
+  if [ -z "${1}" ]; then
+    >&2 echo "Missing image."
+    return 2
+  fi
+  local image="${1}"
+  shift
+  docker run --rm -it "${image}" "${@:-bash}"
+}
+
+shf() {
+  shfmt -l -w -i 2 -sr "${@:-.}"
+}
+
 whoisip() {
   local ip="${1:-$(curl -s ifconfig.me)}" host
   host=$(whois --verbose "${ip}" | awk '/^Using server/ { sub(/\.$/, "", $3); print $3; exit }')
