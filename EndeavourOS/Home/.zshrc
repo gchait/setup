@@ -7,13 +7,7 @@ upp() {
 }
 
 pinggw() {
-  local gw
-  gw=$(ip r | awk '/^default/ { print $3; exit }')
-  if [ -z "${gw}" ]; then
-    >&2 echo "No default gateway."
-    return 1
-  fi
-  ping -c "${1:-100}" -i 0.2 "${gw}"
+  ping -c "${1:-100}" -i 0.2 "$(ip r | awk '/^default/ { print $3; exit }')"
 }
 
 claudec() {
